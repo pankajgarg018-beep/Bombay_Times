@@ -426,26 +426,40 @@ class HomePage(BasePage):
         for sel in selectors:
             try:
                 if self.click(sel):
+                    # Wait for the Photo Stories link to become VISIBLE (not just attached)
                     try:
-                        self.page.wait_for_selector("a:has-text('Photo Stories'), a[href*='photo-stories']", timeout=4000)
+                        self.page.wait_for_selector(
+                            "a:has-text('Photo Stories'), a[href*='photo-stories']",
+                            state="visible",
+                            timeout=8000,
+                        )
+                        return True
                     except Exception:
                         pass
-                    return True
+                    # Item not visible — try next trigger selector
             except Exception:
                 continue
         return False
 
     def click_photo_stories(self):
-        # Prefer role-based link, then href fallback, then visible text
+        # Direct visibility-checked click — most reliable when menu is already open
+        for sel in [
+            "a:has-text('Photo Stories')",
+            "a[href*='/photo-stories']",
+            "a[href*='photo-stories']",
+        ]:
+            try:
+                loc = self.page.locator(sel).first
+                if loc.count() > 0 and loc.is_visible():
+                    loc.click()
+                    return True
+            except Exception:
+                continue
+        # Fallback to role/href helpers
         if self.click_role("link", "Photo Stories"):
             return True
         if self.click_href_contains("/photo-stories"):
             return True
-        try:
-            if self.click("a:has-text('Photo Stories')"):
-                return True
-        except Exception:
-            pass
         return False
 
     def click_web_stories(self):
