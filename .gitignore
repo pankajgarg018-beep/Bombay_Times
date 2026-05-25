@@ -21,3 +21,4 @@ utils/docker/dist/
 Pipfile
 Pipfile.lock
 .venv/
+.test-artifacts
