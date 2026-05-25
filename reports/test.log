@@ -1,0 +1,135 @@
+2026-05-25 16:59:32 [   DEBUG] proactor_events.py:633 - Using proactor: IocpProactor
+2026-05-25 16:59:35 [    INFO] test_bombaytimes_flow.py:11 - === START: test_entertainment_and_bollywood_flow ===
+2026-05-25 16:59:35 [    INFO] test_bombaytimes_flow.py:14 - Navigating to homepage
+2026-05-25 16:59:44 [    INFO] test_bombaytimes_flow.py:16 - Homepage URL: https://www.bombaytimes.com/
+2026-05-25 16:59:44 [    INFO] test_bombaytimes_flow.py:18 - Clicking Entertainment
+2026-05-25 16:59:45 [    INFO] test_bombaytimes_flow.py:20 - URL after Entertainment click: https://www.bombaytimes.com/entertainment
+2026-05-25 16:59:45 [    INFO] test_bombaytimes_flow.py:23 - PASS: Entertainment URL verified
+2026-05-25 16:59:45 [    INFO] test_bombaytimes_flow.py:25 - Clicking Bollywood
+2026-05-25 16:59:45 [    INFO] test_bombaytimes_flow.py:27 - URL after Bollywood click: https://www.bombaytimes.com/entertainment/bollywood
+2026-05-25 16:59:45 [    INFO] test_bombaytimes_flow.py:30 - PASS: Bollywood URL verified
+2026-05-25 16:59:45 [    INFO] test_bombaytimes_flow.py:33 - Waiting for Bollywood listing page to fully load
+2026-05-25 16:59:50 [    INFO] test_bombaytimes_flow.py:37 - Article listing (ol.sub-cat-ol) is ready
+2026-05-25 16:59:50 [   DEBUG] test_bombaytimes_flow.py:58 - Selector 'ol.sub-cat-ol li a.right-img-a' → 1 element(s)
+2026-05-25 16:59:50 [    INFO] test_bombaytimes_flow.py:60 - Clicking first article using selector: ol.sub-cat-ol li a.right-img-a
+2026-05-25 16:59:51 [    INFO] test_bombaytimes_flow.py:73 - Article page loaded: https://www.bombaytimes.com/entertainment/bollywood/who-is-akshara-singh-as-ghis-ghis-ghis-song-from-akshay-kumar-s-welcome-to-the-jungle-goes-viral-know-all-about-bhojpuri-actress/1779703650871
+2026-05-25 16:59:51 [    INFO] test_bombaytimes_flow.py:76 - Checking Trending section
+2026-05-25 16:59:51 [    INFO] test_bombaytimes_flow.py:82 - PASS: Trending section found
+2026-05-25 16:59:51 [    INFO] test_bombaytimes_flow.py:88 - Checking Related Articles section
+2026-05-25 16:59:51 [    INFO] test_bombaytimes_flow.py:95 - PASS: Related Articles section found
+2026-05-25 16:59:51 [    INFO] test_bombaytimes_flow.py:101 - Checking canonical URL
+2026-05-25 16:59:51 [    INFO] test_bombaytimes_flow.py:106 - Canonical: https://www.bombaytimes.com/entertainment/bollywood/who-is-akshara-singh-as-ghis-ghis-ghis-song-from-akshay-kumar-s-welcome-to-the-jungle-goes-viral-know-all-about-bhojpuri-actress/1779703650871  |  Page URL: https://www.bombaytimes.com/entertainment/bollywood/who-is-akshara-singh-as-ghis-ghis-ghis-song-from-akshay-kumar-s-welcome-to-the-jungle-goes-viral-know-all-about-bhojpuri-actress/1779703650871
+2026-05-25 16:59:51 [    INFO] test_bombaytimes_flow.py:109 - PASS: Canonical URL matches article URL
+2026-05-25 16:59:51 [    INFO] test_bombaytimes_flow.py:112 - Checking amphtml link
+2026-05-25 16:59:51 [    INFO] test_bombaytimes_flow.py:116 - PASS: amphtml link found: https://www.bombaytimes.com/entertainment/bollywood/who-is-akshara-singh-as-ghis-ghis-ghis-song-from-akshay-kumar-s-welcome-to-the-jungle-goes-viral-know-all-about-bhojpuri-actress/amp/1779703650871
+2026-05-25 16:59:51 [    INFO] test_bombaytimes_flow.py:122 - Navigating back to homepage (cleanup)
+2026-05-25 16:59:51 [    INFO] test_bombaytimes_flow.py:125 - URL after return: https://www.bombaytimes.com/
+2026-05-25 16:59:51 [    INFO] test_bombaytimes_flow.py:127 - PASS: Returned to homepage
+2026-05-25 16:59:51 [    INFO] test_bombaytimes_flow.py:128 - === END: test_entertainment_and_bollywood_flow ===
+2026-05-25 16:59:51 [    INFO] test_bombaytimes_flow.py:132 - === START: test_lifestyle_and_pawsome_flow ===
+2026-05-25 16:59:51 [    INFO] test_bombaytimes_flow.py:135 - Homepage: https://www.bombaytimes.com/
+2026-05-25 16:59:53 [    INFO] test_bombaytimes_flow.py:138 - After Lifestyle click: https://www.bombaytimes.com/lifestyle
+2026-05-25 16:59:53 [    INFO] test_bombaytimes_flow.py:140 - PASS: Lifestyle URL verified
+2026-05-25 16:59:53 [    INFO] test_bombaytimes_flow.py:143 - After Pawsome click: https://www.bombaytimes.com/lifestyle/pawsome
+2026-05-25 16:59:53 [    INFO] test_bombaytimes_flow.py:145 - PASS: Pawsome URL verified
+2026-05-25 16:59:54 [    INFO] test_bombaytimes_flow.py:148 - After logo click: https://www.bombaytimes.com/
+2026-05-25 16:59:54 [    INFO] test_bombaytimes_flow.py:150 - PASS: Returned to homepage
+2026-05-25 16:59:54 [    INFO] test_bombaytimes_flow.py:151 - === END: test_lifestyle_and_pawsome_flow ===
+2026-05-25 16:59:54 [    INFO] test_bombaytimes_flow.py:155 - === START: test_dining_and_reviews_flow ===
+2026-05-25 16:59:54 [    INFO] test_bombaytimes_flow.py:158 - Homepage: https://www.bombaytimes.com/
+2026-05-25 16:59:55 [    INFO] test_bombaytimes_flow.py:161 - After Dining click: https://www.bombaytimes.com/dining
+2026-05-25 16:59:55 [    INFO] test_bombaytimes_flow.py:163 - PASS: Dining URL verified
+2026-05-25 16:59:55 [    INFO] test_bombaytimes_flow.py:166 - After Reviews click: https://www.bombaytimes.com/dining/reviews
+2026-05-25 16:59:55 [    INFO] test_bombaytimes_flow.py:168 - PASS: Reviews URL verified
+2026-05-25 16:59:55 [    INFO] test_bombaytimes_flow.py:171 - After logo click: https://www.bombaytimes.com/
+2026-05-25 16:59:55 [    INFO] test_bombaytimes_flow.py:173 - PASS: Returned to homepage
+2026-05-25 16:59:55 [    INFO] test_bombaytimes_flow.py:174 - === END: test_dining_and_reviews_flow ===
+2026-05-25 16:59:55 [    INFO] test_bombaytimes_flow.py:178 - === START: test_travel_and_india_flow ===
+2026-05-25 16:59:56 [    INFO] test_bombaytimes_flow.py:181 - Homepage: https://www.bombaytimes.com/
+2026-05-25 16:59:56 [    INFO] test_bombaytimes_flow.py:184 - After Travel click: https://www.bombaytimes.com/travel
+2026-05-25 16:59:56 [    INFO] test_bombaytimes_flow.py:186 - PASS: Travel URL verified
+2026-05-25 16:59:57 [    INFO] test_bombaytimes_flow.py:189 - After India click: https://www.bombaytimes.com/travel/india
+2026-05-25 16:59:57 [    INFO] test_bombaytimes_flow.py:191 - PASS: India URL verified
+2026-05-25 16:59:57 [    INFO] test_bombaytimes_flow.py:194 - After logo click: https://www.bombaytimes.com/
+2026-05-25 16:59:57 [    INFO] test_bombaytimes_flow.py:196 - PASS: Returned to homepage
+2026-05-25 16:59:57 [    INFO] test_bombaytimes_flow.py:197 - === END: test_travel_and_india_flow ===
+2026-05-25 16:59:57 [    INFO] test_bombaytimes_flow.py:201 - === START: test_people_and_interviews_flow ===
+2026-05-25 16:59:58 [    INFO] test_bombaytimes_flow.py:204 - Homepage: https://www.bombaytimes.com/
+2026-05-25 16:59:58 [    INFO] test_bombaytimes_flow.py:207 - After People click: https://www.bombaytimes.com/people
+2026-05-25 16:59:58 [    INFO] test_bombaytimes_flow.py:209 - PASS: People URL verified
+2026-05-25 16:59:58 [    INFO] test_bombaytimes_flow.py:212 - After Interviews click: https://www.bombaytimes.com/people/interviews
+2026-05-25 16:59:58 [    INFO] test_bombaytimes_flow.py:214 - PASS: Interviews URL verified
+2026-05-25 16:59:59 [    INFO] test_bombaytimes_flow.py:217 - After logo click: https://www.bombaytimes.com/
+2026-05-25 16:59:59 [    INFO] test_bombaytimes_flow.py:219 - PASS: Returned to homepage
+2026-05-25 16:59:59 [    INFO] test_bombaytimes_flow.py:220 - === END: test_people_and_interviews_flow ===
+2026-05-25 16:59:59 [    INFO] test_bombaytimes_flow.py:224 - === START: test_specials_and_take_two_flow ===
+2026-05-25 16:59:59 [    INFO] test_bombaytimes_flow.py:227 - Homepage: https://www.bombaytimes.com/
+2026-05-25 16:59:59 [    INFO] test_bombaytimes_flow.py:230 - After Specials click: https://www.bombaytimes.com/specials
+2026-05-25 16:59:59 [    INFO] test_bombaytimes_flow.py:232 - PASS: Specials URL verified
+2026-05-25 17:00:00 [    INFO] test_bombaytimes_flow.py:235 - After Take Two click: https://www.bombaytimes.com/specials/take-two
+2026-05-25 17:00:00 [    INFO] test_bombaytimes_flow.py:237 - PASS: Take Two URL verified
+2026-05-25 17:00:00 [    INFO] test_bombaytimes_flow.py:240 - After logo click: https://www.bombaytimes.com/
+2026-05-25 17:00:00 [    INFO] test_bombaytimes_flow.py:242 - PASS: Returned to homepage
+2026-05-25 17:00:00 [    INFO] test_bombaytimes_flow.py:243 - === END: test_specials_and_take_two_flow ===
+2026-05-25 17:00:00 [    INFO] test_bombaytimes_flow.py:247 - === START: test_astro_and_trends_flow ===
+2026-05-25 17:00:01 [    INFO] test_bombaytimes_flow.py:250 - Homepage: https://www.bombaytimes.com/
+2026-05-25 17:00:01 [    INFO] test_bombaytimes_flow.py:253 - After Astro click: https://www.bombaytimes.com/astro
+2026-05-25 17:00:01 [    INFO] test_bombaytimes_flow.py:255 - PASS: Astro URL verified
+2026-05-25 17:00:09 [    INFO] test_bombaytimes_flow.py:258 - After Trends click: https://www.bombaytimes.com/astro/trends
+2026-05-25 17:00:09 [    INFO] test_bombaytimes_flow.py:260 - PASS: Trends URL verified
+2026-05-25 17:00:10 [    INFO] test_bombaytimes_flow.py:263 - After logo click: https://www.bombaytimes.com/
+2026-05-25 17:00:10 [    INFO] test_bombaytimes_flow.py:265 - PASS: Returned to homepage
+2026-05-25 17:00:10 [    INFO] test_bombaytimes_flow.py:266 - === END: test_astro_and_trends_flow ===
+2026-05-25 17:00:10 [    INFO] test_bombaytimes_flow.py:270 - === START: test_bt_picks_and_electronics_flow ===
+2026-05-25 17:00:10 [    INFO] test_bombaytimes_flow.py:273 - Homepage: https://www.bombaytimes.com/
+2026-05-25 17:00:10 [    INFO] test_bombaytimes_flow.py:276 - After BT Picks click: https://www.bombaytimes.com/bt-picks
+2026-05-25 17:00:10 [    INFO] test_bombaytimes_flow.py:278 - PASS: BT Picks URL verified
+2026-05-25 17:00:19 [    INFO] test_bombaytimes_flow.py:281 - After Electronics click: https://www.bombaytimes.com/bt-picks/electronics
+2026-05-25 17:00:19 [    INFO] test_bombaytimes_flow.py:283 - PASS: Electronics URL verified
+2026-05-25 17:00:19 [    INFO] test_bombaytimes_flow.py:286 - After logo click: https://www.bombaytimes.com/
+2026-05-25 17:00:19 [    INFO] test_bombaytimes_flow.py:288 - PASS: Returned to homepage
+2026-05-25 17:00:19 [    INFO] test_bombaytimes_flow.py:289 - === END: test_bt_picks_and_electronics_flow ===
+2026-05-25 17:00:19 [    INFO] test_bombaytimes_flow.py:293 - === START: test_intimate_diaries_flow ===
+2026-05-25 17:00:19 [    INFO] test_bombaytimes_flow.py:296 - Homepage: https://www.bombaytimes.com/
+2026-05-25 17:00:35 [    INFO] test_bombaytimes_flow.py:299 - After Intimate Diaries click: https://www.bombaytimes.com/intimate-diaries
+2026-05-25 17:00:35 [    INFO] test_bombaytimes_flow.py:301 - PASS: Intimate Diaries URL verified
+2026-05-25 17:00:36 [    INFO] test_bombaytimes_flow.py:304 - After logo click: https://www.bombaytimes.com/
+2026-05-25 17:00:36 [    INFO] test_bombaytimes_flow.py:306 - PASS: Returned to homepage
+2026-05-25 17:00:36 [    INFO] test_bombaytimes_flow.py:308 - Opening overflow menu → Photo Stories
+2026-05-25 17:00:37 [    INFO] test_bombaytimes_flow.py:313 - After Photo Stories click: https://www.bombaytimes.com/photo-stories
+2026-05-25 17:00:37 [    INFO] test_bombaytimes_flow.py:316 - PASS: Photo Stories URL verified
+2026-05-25 17:00:38 [    INFO] test_bombaytimes_flow.py:319 - After logo click: https://www.bombaytimes.com/
+2026-05-25 17:00:38 [    INFO] test_bombaytimes_flow.py:321 - PASS: Returned to homepage
+2026-05-25 17:00:38 [    INFO] test_bombaytimes_flow.py:323 - Opening overflow menu → Web Stories
+2026-05-25 17:00:39 [    INFO] test_bombaytimes_flow.py:328 - After Web Stories click: https://www.bombaytimes.com/visual-stories
+2026-05-25 17:00:39 [    INFO] test_bombaytimes_flow.py:330 - PASS: Web Stories URL verified
+2026-05-25 17:00:39 [    INFO] test_bombaytimes_flow.py:334 - PASS: Returned to homepage
+2026-05-25 17:00:39 [    INFO] test_bombaytimes_flow.py:336 - Opening overflow menu → Videos
+2026-05-25 17:00:40 [    INFO] test_bombaytimes_flow.py:341 - After Videos click: https://www.bombaytimes.com/latest-videos
+2026-05-25 17:00:40 [    INFO] test_bombaytimes_flow.py:343 - PASS: Videos URL verified
+2026-05-25 17:00:40 [    INFO] test_bombaytimes_flow.py:345 - Clicking Short Videos
+2026-05-25 17:00:48 [    INFO] test_bombaytimes_flow.py:348 - After Short Videos click: https://www.bombaytimes.com/short-videos
+2026-05-25 17:00:48 [    INFO] test_bombaytimes_flow.py:350 - PASS: Short Videos URL verified
+2026-05-25 17:00:49 [    INFO] test_bombaytimes_flow.py:354 - PASS: Returned to homepage
+2026-05-25 17:00:49 [    INFO] test_bombaytimes_flow.py:355 - === END: test_intimate_diaries_flow ===
+2026-05-25 17:00:49 [    INFO] test_bombaytimes_flow.py:359 - === START: test_google_analytics_tracking ===
+2026-05-25 17:00:49 [    INFO] test_bombaytimes_flow.py:373 - Navigating to homepage: https://www.bombaytimes.com
+2026-05-25 17:00:49 [    INFO] test_bombaytimes_flow.py:368 - GA network call captured: [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-25 17:00:49 [    INFO] test_bombaytimes_flow.py:368 - GA network call captured: [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65k1v9172439187za200zd9172439187&_p=1779708649565&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=673424305.1779708585&frm=0&pscdl=noapi&rcb=10&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938469~118689381&dp=%2F&sid=1779708584&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=468
+2026-05-25 17:00:53 [    INFO] test_bombaytimes_flow.py:378 - Page reached networkidle state
+2026-05-25 17:00:53 [    INFO] test_bombaytimes_flow.py:381 - Page URL: https://www.bombaytimes.com/
+2026-05-25 17:00:53 [    INFO] test_bombaytimes_flow.py:386 - ── GA network calls summary ──────────────────────────
+2026-05-25 17:00:53 [    INFO] test_bombaytimes_flow.py:387 - Total GA-related calls captured: 2
+2026-05-25 17:00:53 [    INFO] test_bombaytimes_flow.py:389 -   [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-25 17:00:53 [    INFO] test_bombaytimes_flow.py:389 -   [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65k1v9172439187za200zd9172439187&_p=1779708649565&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=673424305.1779708585&frm=0&pscdl=noapi&rcb=10&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938469~118689381&dp=%2F&sid=1779708584&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=468
+2026-05-25 17:00:53 [    INFO] test_bombaytimes_flow.py:390 - ──────────────────────────────────────────────────────
+2026-05-25 17:00:53 [    INFO] test_bombaytimes_flow.py:404 - PASS: 2 GA call(s) found on homepage
+2026-05-25 17:00:53 [    INFO] test_bombaytimes_flow.py:413 - PASS: All 2 GA call(s) returned successful status (200 or 204)
+2026-05-25 17:00:53 [    INFO] test_bombaytimes_flow.py:414 - === END: test_google_analytics_tracking ===
+2026-05-25 17:00:53 [    INFO] test_bombaytimes_flow.py:418 - === START: test_search_flow ===
+2026-05-25 17:00:53 [    INFO] test_bombaytimes_flow.py:421 - Homepage: https://www.bombaytimes.com/
+2026-05-25 17:00:53 [    INFO] test_bombaytimes_flow.py:423 - Opening search and searching for 'Bollywood'
+2026-05-25 17:04:13 [    INFO] test_bombaytimes_flow.py:449 - Search results inferred from URL: https://www.bombaytimes.com/searchresults?search=Bollywood
+2026-05-25 17:04:13 [    INFO] test_bombaytimes_flow.py:467 - PASS: Search results found. URL: https://www.bombaytimes.com/searchresults?search=Bollywood
+2026-05-25 17:04:13 [    INFO] test_bombaytimes_flow.py:471 - PASS: Returned to homepage
+2026-05-25 17:04:13 [    INFO] test_bombaytimes_flow.py:472 - === END: test_search_flow ===

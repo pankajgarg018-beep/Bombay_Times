@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BombayTimes – Test Report</title>
+<style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:#f0f2f5;color:#333;font-size:14px}
+
+    /* Header */
+    .hdr{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 55%,#0f3460 100%);color:#fff;padding:22px 40px;display:flex;justify-content:space-between;align-items:center}
+    .hdr-left h1{font-size:22px;font-weight:700;letter-spacing:.3px;margin-top:6px}
+    .hdr-left p{font-size:12px;color:#9fa8b5;margin-top:4px}
+    .run-pill{display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700}
+    .pill-ok{background:#28a745;color:#fff}
+    .pill-fail{background:#dc3545;color:#fff}
+    .hdr-right{text-align:right;font-size:12px;color:#9fa8b5;line-height:2}
+
+    /* Summary cards */
+    .cards{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding:24px 40px}
+    .card{background:#fff;border-radius:10px;padding:18px 12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+    .cv{font-size:30px;font-weight:700;line-height:1.1}
+    .cl{font-size:11px;color:#6c757d;text-transform:uppercase;letter-spacing:.6px;margin-top:5px}
+    .c-tot .cv{color:#495057}
+    .c-pas .cv{color:#28a745}
+    .c-fai .cv{color:#dc3545}
+    .c-ski .cv{color:#fd7e14}
+    .c-rat .cv{color:#0d6efd}
+    .c-dur .cv{font-size:20px;color:#6f42c1}
+
+    /* Progress */
+    .prog-wrap{margin:0 40px 22px;background:#fff;border-radius:8px;padding:16px 20px;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+    .prog-lbl{font-size:12px;color:#6c757d;margin-bottom:6px}
+    .prog-bar{background:#e9ecef;border-radius:20px;height:14px;overflow:hidden}
+    .prog-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#28a745,#20c997);transition:width .4s}
+
+    /* Generic section */
+    .sec{background:#fff;border-radius:10px;margin:0 40px 22px;padding:22px 24px;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+    .sec-title{font-size:15px;font-weight:700;color:#343a40;border-bottom:2px solid #f0f0f0;padding-bottom:10px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+
+    /* Environment */
+    .env-tbl{width:100%;border-collapse:collapse;font-size:13px}
+    .env-tbl tr:nth-child(even){background:#f8f9fa}
+    .env-tbl td{padding:8px 14px;border-bottom:1px solid #f0f0f0}
+    .env-key{font-weight:600;color:#495057;width:220px}
+
+    /* GA section */
+    .ga-chips{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+    .chip{background:#f8f9fa;border:1px solid #e9ecef;border-radius:8px;padding:10px 16px;min-width:160px}
+    .chip-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#6c757d;margin-bottom:3px}
+    .chip-val{font-size:13px;font-weight:600;color:#343a40;word-break:break-all}
+    .ga-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:4px}
+    .ga-tbl thead th{background:#343a40;color:#fff;padding:8px 12px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+    .ga-tbl tbody tr:nth-child(even){background:#f8f9fa}
+    .ga-tbl td{padding:7px 12px;border-bottom:1px solid #e9ecef;vertical-align:top}
+    .ga-num{width:40px;text-align:center;color:#6c757d}
+    .ga-url{font-family:'Courier New',monospace;color:#0d6efd;font-size:11px;word-break:break-all}
+    .http{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700}
+    .http-ok{background:#d4edda;color:#155724}
+    .http-err{background:#f8d7da;color:#721c24}
+    .no-data{color:#6c757d;font-style:italic;padding:10px 0;font-size:13px}
+    .sub-lbl{font-size:12px;font-weight:600;color:#495057;text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
+
+    /* Results table */
+    .res-tbl{width:100%;border-collapse:collapse;font-size:13px}
+    .res-tbl thead th{background:#343a40;color:#fff;padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+    .trow{cursor:pointer;border-left:4px solid transparent;transition:background .12s}
+    .trow:hover{background:#f8f9fa}
+    .trow-passed{border-left-color:#28a745}
+    .trow-failed{border-left-color:#dc3545}
+    .trow-skipped{border-left-color:#fd7e14}
+    .res-tbl td{padding:9px 14px;border-bottom:1px solid #e9ecef;vertical-align:middle}
+    .td-num{color:#adb5bd;width:36px;text-align:center;font-size:12px}
+    .td-name{font-weight:500}
+    .td-dur{color:#6c757d;width:80px;font-size:12px}
+    .td-ts{color:#6c757d;width:160px;font-size:11px}
+    .td-err{max-width:260px}
+    .td-exp{width:28px;text-align:center;color:#adb5bd;font-size:11px}
+    .err-prev{color:#dc3545;font-size:11px;font-family:'Courier New',monospace;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px}
+    .badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;letter-spacing:.4px}
+    .b-passed{background:#d4edda;color:#155724}
+    .b-failed{background:#f8d7da;color:#721c24}
+    .b-skipped{background:#fff3cd;color:#856404}
+
+    /* Expandable detail */
+    .drow{display:none}
+    .drow.open{display:table-row}
+    .dtd{background:#f5f6f8;padding:16px 24px}
+    .dlbl{font-size:11px;font-weight:700;color:#495057;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+    .dsec{margin-bottom:14px}
+    .log-blk{background:#1e2029;color:#abb2bf;padding:12px 16px;border-radius:6px;font-family:'Courier New',monospace;font-size:11px;max-height:320px;overflow-y:auto;white-space:pre-wrap;line-height:1.55}
+    .err-blk{background:#fff5f5;border:1px solid #f8d7da;border-radius:6px;padding:12px 16px;font-family:'Courier New',monospace;font-size:11px;color:#721c24;white-space:pre-wrap;max-height:260px;overflow-y:auto}
+    .ss-img{max-width:100%;border:1px solid #dee2e6;border-radius:6px;margin-top:8px;max-height:480px}
+
+    /* Footer */
+    .footer{text-align:center;padding:20px 40px 30px;color:#adb5bd;font-size:12px}
+    </style>
+</head>
+<body>
+
+<!-- ░░ HEADER ░░ -->
+<div class="hdr">
+  <div class="hdr-left">
+    <span class="run-pill pill-ok">✓ ALL TESTS PASSED</span>
+    <h1>BombayTimes – Playwright Test Report</h1>
+    <p>Automated UI &amp; Network Validation Suite</p>
+  </div>
+  <div class="hdr-right">
+    <div>▶ Started &nbsp;&nbsp;2026-05-25 16:59:31</div>
+    <div>■ Finished &nbsp;2026-05-25 17:04:14</div>
+    <div style="color:#ced4da">Duration: 282.5s</div>
+  </div>
+</div>
+
+<!-- ░░ SUMMARY CARDS ░░ -->
+<div class="cards">
+  <div class="card c-tot"><div class="cv">11</div><div class="cl">Total</div></div>
+  <div class="card c-pas"><div class="cv">11</div><div class="cl">Passed</div></div>
+  <div class="card c-fai"><div class="cv">0</div><div class="cl">Failed</div></div>
+  <div class="card c-ski"><div class="cv">0</div><div class="cl">Skipped</div></div>
+  <div class="card c-rat"><div class="cv">100.0%</div><div class="cl">Pass Rate</div></div>
+  <div class="card c-dur"><div class="cv">282.5s</div><div class="cl">Duration</div></div>
+</div>
+
+<!-- ░░ PROGRESS BAR ░░ -->
+<div class="prog-wrap">
+  <div class="prog-lbl">11 of 11 tests passed (100.0%)</div>
+  <div class="prog-bar"><div class="prog-fill" style="width:100.0%"></div></div>
+</div>
+
+<!-- ░░ ENVIRONMENT ░░ -->
+<div class="sec">
+  <div class="sec-title">⚙️ Environment Details</div>
+  <table class="env-tbl"><tr><td class='env-key'>Project</td><td>BombayTimes Automation</td></tr><tr><td class='env-key'>Base URL</td><td>https://www.bombaytimes.com</td></tr><tr><td class='env-key'>Browser</td><td>Chromium (headed)</td></tr><tr><td class='env-key'>OS</td><td>Windows-11-10.0.22621-SP0</td></tr><tr><td class='env-key'>Python</td><td>3.14.4</td></tr><tr><td class='env-key'>Pytest</td><td>9.0.3</td></tr><tr><td class='env-key'>Report Generated</td><td>2026-05-25 16:59:31</td></tr></table>
+</div>
+
+<!-- ░░ GA VALIDATION ░░ -->
+<div class="sec">
+  <div class="sec-title">
+    <span>📡 Google Analytics Validation</span>
+    <span class="badge b-passed">✓ PASSED</span>
+  </div>
+  <div class="ga-chips">
+    <div class="chip"><div class="chip-lbl">Homepage URL</div><div class="chip-val">https://www.bombaytimes.com</div></div>
+    <div class="chip"><div class="chip-lbl">Total GA Calls</div><div class="chip-val">2</div></div>
+    <div class="chip"><div class="chip-lbl">Validation Status</div><div class="chip-val">All GA calls validated successfully</div></div>
+    <div class="chip"><div class="chip-lbl">Keywords Matched</div><div class="chip-val">google-analytics · googletagmanager · gtag · collect</div></div>
+  </div>
+  <div class="sub-lbl">Captured GA Network Requests</div>
+  <table class='ga-tbl'><thead><tr><th>#</th><th>HTTP</th><th>Request URL</th></tr></thead><tbody><tr><td class='ga-num'>1</td><td><span class='http http-ok'>200</span></td><td class='ga-url'>https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5</td></tr><tr><td class='ga-num'>2</td><td><span class='http http-ok'>204</span></td><td class='ga-url'>https://analytics.google.com/g/collect?v=2&amp;tid=G-NNM57R6CG5&amp;gtm=45je65k1v9172439187za200zd9172439187&amp;_p=1779708649565&amp;gcd=13l3l3l3l1l1&amp;npa=0&amp;dma=0&amp;_eu=AAAAAGQ&amp;are=1&amp;cid=673424305.1779708585&amp;frm=0&amp;pscdl=noapi&amp;rcb=10&amp;sr=1280x720&amp;uaa=x86&amp;uab=64&amp;uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&amp;uam=&amp;uamb=0&amp;uap=Windows&amp;uapv=15.0.0&amp;uaw=0&amp;ul=en-us&amp;gaf=2&amp;_s=1&amp;tag_exp=0~115938466~115938469~118689381&amp;dp=%2F&amp;sid=1779708584&amp;sct=1&amp;seg=1&amp;dl=https%3A%2F%2Fwww.bombaytimes.com%2F&amp;dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&amp;_tu=QA&amp;en=page_view&amp;_c=1&amp;_ee=1&amp;ep.author_name=NA&amp;tfd=468</td></tr></tbody></table>
+</div>
+
+<!-- ░░ TEST RESULTS ░░ -->
+<div class="sec">
+  <div class="sec-title">
+    <span>📋 Test Results (11 tests)</span>
+    <span style="font-size:12px;font-weight:400;color:#6c757d">▼ Click any row to expand logs &amp; details</span>
+  </div>
+  <table class="res-tbl">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Test Case</th>
+        <th>Status</th>
+        <th>Duration</th>
+        <th>Timestamp</th>
+        <th>Error Summary</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class='trow trow-passed' onclick="toggle('d0')"><td class='td-num'>1</td><td class='td-name'>Entertainment And Bollywood Flow</td><td><span class='badge b-passed'>PASSED</span></td><td class='td-dur'>16.22s</td><td class='td-ts'>2026-05-25 16:59:51</td><td class='td-err'></td><td class='td-exp'>▼</td></tr><tr class='drow' id='d0'><td colspan='7' class='dtd'><div class='dsec'><div class='dlbl'>📋 Captured Logs</div><pre class='log-blk'>DEBUG    asyncio:proactor_events.py:633 Using proactor: IocpProactor
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:11 === START: test_entertainment_and_bollywood_flow ===
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:14 Navigating to homepage
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:16 Homepage URL: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:18 Clicking Entertainment
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:20 URL after Entertainment click: https://www.bombaytimes.com/entertainment
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:23 PASS: Entertainment URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:25 Clicking Bollywood
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:27 URL after Bollywood click: https://www.bombaytimes.com/entertainment/bollywood
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:30 PASS: Bollywood URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:33 Waiting for Bollywood listing page to fully load
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:37 Article listing (ol.sub-cat-ol) is ready
+DEBUG    test_bombaytimes_flow:test_bombaytimes_flow.py:58 Selector 'ol.sub-cat-ol li a.right-img-a' → 1 element(s)
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:60 Clicking first article using selector: ol.sub-cat-ol li a.right-img-a
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:73 Article page loaded: https://www.bombaytimes.com/entertainment/bollywood/who-is-akshara-singh-as-ghis-ghis-ghis-song-from-akshay-kumar-s-welcome-to-the-jungle-goes-viral-know-all-about-bhojpuri-actress/1779703650871
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:76 Checking Trending section
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:82 PASS: Trending section found
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:88 Checking Related Articles section
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:95 PASS: Related Articles section found
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:101 Checking canonical URL
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:106 Canonical: https://www.bombaytimes.com/entertainment/bollywood/who-is-akshara-singh-as-ghis-ghis-ghis-song-from-akshay-kumar-s-welcome-to-the-jungle-goes-viral-know-all-about-bhojpuri-actress/1779703650871  |  Page URL: https://www.bombaytimes.com/entertainment/bollywood/who-is-akshara-singh-as-ghis-ghis-ghis-song-from-akshay-kumar-s-welcome-to-the-jungle-goes-viral-know-all-about-bhojpuri-actress/1779703650871
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:109 PASS: Canonical URL matches article URL
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:112 Checking amphtml link
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:116 PASS: amphtml link found: https://www.bombaytimes.com/entertainment/bollywood/who-is-akshara-singh-as-ghis-ghis-ghis-song-from-akshay-kumar-s-welcome-to-the-jungle-goes-viral-know-all-about-bhojpuri-actress/amp/1779703650871
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:122 Navigating back to homepage (cleanup)
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:125 URL after return: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:127 PASS: Returned to homepage
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:128 === END: test_entertainment_and_bollywood_flow ===</pre></div></td></tr><tr class='trow trow-passed' onclick="toggle('d1')"><td class='td-num'>2</td><td class='td-name'>Lifestyle And Pawsome Flow</td><td><span class='badge b-passed'>PASSED</span></td><td class='td-dur'>2.71s</td><td class='td-ts'>2026-05-25 16:59:54</td><td class='td-err'></td><td class='td-exp'>▼</td></tr><tr class='drow' id='d1'><td colspan='7' class='dtd'><div class='dsec'><div class='dlbl'>📋 Captured Logs</div><pre class='log-blk'>INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:132 === START: test_lifestyle_and_pawsome_flow ===
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:135 Homepage: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:138 After Lifestyle click: https://www.bombaytimes.com/lifestyle
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:140 PASS: Lifestyle URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:143 After Pawsome click: https://www.bombaytimes.com/lifestyle/pawsome
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:145 PASS: Pawsome URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:148 After logo click: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:150 PASS: Returned to homepage
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:151 === END: test_lifestyle_and_pawsome_flow ===</pre></div></td></tr><tr class='trow trow-passed' onclick="toggle('d2')"><td class='td-num'>3</td><td class='td-name'>Dining And Reviews Flow</td><td><span class='badge b-passed'>PASSED</span></td><td class='td-dur'>1.74s</td><td class='td-ts'>2026-05-25 16:59:55</td><td class='td-err'></td><td class='td-exp'>▼</td></tr><tr class='drow' id='d2'><td colspan='7' class='dtd'><div class='dsec'><div class='dlbl'>📋 Captured Logs</div><pre class='log-blk'>INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:155 === START: test_dining_and_reviews_flow ===
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:158 Homepage: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:161 After Dining click: https://www.bombaytimes.com/dining
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:163 PASS: Dining URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:166 After Reviews click: https://www.bombaytimes.com/dining/reviews
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:168 PASS: Reviews URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:171 After logo click: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:173 PASS: Returned to homepage
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:174 === END: test_dining_and_reviews_flow ===</pre></div></td></tr><tr class='trow trow-passed' onclick="toggle('d3')"><td class='td-num'>4</td><td class='td-name'>Travel And India Flow</td><td><span class='badge b-passed'>PASSED</span></td><td class='td-dur'>1.9s</td><td class='td-ts'>2026-05-25 16:59:57</td><td class='td-err'></td><td class='td-exp'>▼</td></tr><tr class='drow' id='d3'><td colspan='7' class='dtd'><div class='dsec'><div class='dlbl'>📋 Captured Logs</div><pre class='log-blk'>INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:178 === START: test_travel_and_india_flow ===
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:181 Homepage: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:184 After Travel click: https://www.bombaytimes.com/travel
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:186 PASS: Travel URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:189 After India click: https://www.bombaytimes.com/travel/india
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:191 PASS: India URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:194 After logo click: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:196 PASS: Returned to homepage
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:197 === END: test_travel_and_india_flow ===</pre></div></td></tr><tr class='trow trow-passed' onclick="toggle('d4')"><td class='td-num'>5</td><td class='td-name'>People And Interviews Flow</td><td><span class='badge b-passed'>PASSED</span></td><td class='td-dur'>1.41s</td><td class='td-ts'>2026-05-25 16:59:59</td><td class='td-err'></td><td class='td-exp'>▼</td></tr><tr class='drow' id='d4'><td colspan='7' class='dtd'><div class='dsec'><div class='dlbl'>📋 Captured Logs</div><pre class='log-blk'>INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:201 === START: test_people_and_interviews_flow ===
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:204 Homepage: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:207 After People click: https://www.bombaytimes.com/people
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:209 PASS: People URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:212 After Interviews click: https://www.bombaytimes.com/people/interviews
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:214 PASS: Interviews URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:217 After logo click: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:219 PASS: Returned to homepage
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:220 === END: test_people_and_interviews_flow ===</pre></div></td></tr><tr class='trow trow-passed' onclick="toggle('d5')"><td class='td-num'>6</td><td class='td-name'>Specials And Take Two Flow</td><td><span class='badge b-passed'>PASSED</span></td><td class='td-dur'>1.39s</td><td class='td-ts'>2026-05-25 17:00:00</td><td class='td-err'></td><td class='td-exp'>▼</td></tr><tr class='drow' id='d5'><td colspan='7' class='dtd'><div class='dsec'><div class='dlbl'>📋 Captured Logs</div><pre class='log-blk'>INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:224 === START: test_specials_and_take_two_flow ===
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:227 Homepage: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:230 After Specials click: https://www.bombaytimes.com/specials
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:232 PASS: Specials URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:235 After Take Two click: https://www.bombaytimes.com/specials/take-two
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:237 PASS: Take Two URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:240 After logo click: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:242 PASS: Returned to homepage
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:243 === END: test_specials_and_take_two_flow ===</pre></div></td></tr><tr class='trow trow-passed' onclick="toggle('d6')"><td class='td-num'>7</td><td class='td-name'>Astro And Trends Flow</td><td><span class='badge b-passed'>PASSED</span></td><td class='td-dur'>9.5s</td><td class='td-ts'>2026-05-25 17:00:10</td><td class='td-err'></td><td class='td-exp'>▼</td></tr><tr class='drow' id='d6'><td colspan='7' class='dtd'><div class='dsec'><div class='dlbl'>📋 Captured Logs</div><pre class='log-blk'>INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:247 === START: test_astro_and_trends_flow ===
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:250 Homepage: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:253 After Astro click: https://www.bombaytimes.com/astro
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:255 PASS: Astro URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:258 After Trends click: https://www.bombaytimes.com/astro/trends
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:260 PASS: Trends URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:263 After logo click: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:265 PASS: Returned to homepage
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:266 === END: test_astro_and_trends_flow ===</pre></div></td></tr><tr class='trow trow-passed' onclick="toggle('d7')"><td class='td-num'>8</td><td class='td-name'>Bt Picks And Electronics Flow</td><td><span class='badge b-passed'>PASSED</span></td><td class='td-dur'>9.31s</td><td class='td-ts'>2026-05-25 17:00:19</td><td class='td-err'></td><td class='td-exp'>▼</td></tr><tr class='drow' id='d7'><td colspan='7' class='dtd'><div class='dsec'><div class='dlbl'>📋 Captured Logs</div><pre class='log-blk'>INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:270 === START: test_bt_picks_and_electronics_flow ===
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:273 Homepage: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:276 After BT Picks click: https://www.bombaytimes.com/bt-picks
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:278 PASS: BT Picks URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:281 After Electronics click: https://www.bombaytimes.com/bt-picks/electronics
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:283 PASS: Electronics URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:286 After logo click: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:288 PASS: Returned to homepage
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:289 === END: test_bt_picks_and_electronics_flow ===</pre></div></td></tr><tr class='trow trow-passed' onclick="toggle('d8')"><td class='td-num'>9</td><td class='td-name'>Intimate Diaries Flow</td><td><span class='badge b-passed'>PASSED</span></td><td class='td-dur'>29.64s</td><td class='td-ts'>2026-05-25 17:00:49</td><td class='td-err'></td><td class='td-exp'>▼</td></tr><tr class='drow' id='d8'><td colspan='7' class='dtd'><div class='dsec'><div class='dlbl'>📋 Captured Logs</div><pre class='log-blk'>INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:293 === START: test_intimate_diaries_flow ===
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:296 Homepage: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:299 After Intimate Diaries click: https://www.bombaytimes.com/intimate-diaries
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:301 PASS: Intimate Diaries URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:304 After logo click: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:306 PASS: Returned to homepage
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:308 Opening overflow menu → Photo Stories
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:313 After Photo Stories click: https://www.bombaytimes.com/photo-stories
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:316 PASS: Photo Stories URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:319 After logo click: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:321 PASS: Returned to homepage
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:323 Opening overflow menu → Web Stories
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:328 After Web Stories click: https://www.bombaytimes.com/visual-stories
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:330 PASS: Web Stories URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:334 PASS: Returned to homepage
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:336 Opening overflow menu → Videos
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:341 After Videos click: https://www.bombaytimes.com/latest-videos
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:343 PASS: Videos URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:345 Clicking Short Videos
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:348 After Short Videos click: https://www.bombaytimes.com/short-videos
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:350 PASS: Short Videos URL verified
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:354 PASS: Returned to homepage
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:355 === END: test_intimate_diaries_flow ===</pre></div></td></tr><tr class='trow trow-passed' onclick="toggle('d9')"><td class='td-num'>10</td><td class='td-name'>Google Analytics Tracking</td><td><span class='badge b-passed'>PASSED</span></td><td class='td-dur'>4.39s</td><td class='td-ts'>2026-05-25 17:00:53</td><td class='td-err'></td><td class='td-exp'>▼</td></tr><tr class='drow' id='d9'><td colspan='7' class='dtd'><div class='dsec'><div class='dlbl'>📋 Captured Logs</div><pre class='log-blk'>INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:359 === START: test_google_analytics_tracking ===
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:373 Navigating to homepage: https://www.bombaytimes.com
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:368 GA network call captured: [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:368 GA network call captured: [204] https://analytics.google.com/g/collect?v=2&amp;tid=G-NNM57R6CG5&amp;gtm=45je65k1v9172439187za200zd9172439187&amp;_p=1779708649565&amp;gcd=13l3l3l3l1l1&amp;npa=0&amp;dma=0&amp;_eu=AAAAAGQ&amp;are=1&amp;cid=673424305.1779708585&amp;frm=0&amp;pscdl=noapi&amp;rcb=10&amp;sr=1280x720&amp;uaa=x86&amp;uab=64&amp;uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&amp;uam=&amp;uamb=0&amp;uap=Windows&amp;uapv=15.0.0&amp;uaw=0&amp;ul=en-us&amp;gaf=2&amp;_s=1&amp;tag_exp=0~115938466~115938469~118689381&amp;dp=%2F&amp;sid=1779708584&amp;sct=1&amp;seg=1&amp;dl=https%3A%2F%2Fwww.bombaytimes.com%2F&amp;dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&amp;_tu=QA&amp;en=page_view&amp;_c=1&amp;_ee=1&amp;ep.author_name=NA&amp;tfd=468
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:378 Page reached networkidle state
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:381 Page URL: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:386 ── GA network calls summary ──────────────────────────
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:387 Total GA-related calls captured: 2
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:389   [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:389   [204] https://analytics.google.com/g/collect?v=2&amp;tid=G-NNM57R6CG5&amp;gtm=45je65k1v9172439187za200zd9172439187&amp;_p=1779708649565&amp;gcd=13l3l3l3l1l1&amp;npa=0&amp;dma=0&amp;_eu=AAAAAGQ&amp;are=1&amp;cid=673424305.1779708585&amp;frm=0&amp;pscdl=noapi&amp;rcb=10&amp;sr=1280x720&amp;uaa=x86&amp;uab=64&amp;uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&amp;uam=&amp;uamb=0&amp;uap=Windows&amp;uapv=15.0.0&amp;uaw=0&amp;ul=en-us&amp;gaf=2&amp;_s=1&amp;tag_exp=0~115938466~115938469~118689381&amp;dp=%2F&amp;sid=1779708584&amp;sct=1&amp;seg=1&amp;dl=https%3A%2F%2Fwww.bombaytimes.com%2F&amp;dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&amp;_tu=QA&amp;en=page_view&amp;_c=1&amp;_ee=1&amp;ep.author_name=NA&amp;tfd=468
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:390 ──────────────────────────────────────────────────────
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:404 PASS: 2 GA call(s) found on homepage
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:413 PASS: All 2 GA call(s) returned successful status (200 or 204)
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:414 === END: test_google_analytics_tracking ===</pre></div></td></tr><tr class='trow trow-passed' onclick="toggle('d10')"><td class='td-num'>11</td><td class='td-name'>Search Flow</td><td><span class='badge b-passed'>PASSED</span></td><td class='td-dur'>200.27s</td><td class='td-ts'>2026-05-25 17:04:13</td><td class='td-err'></td><td class='td-exp'>▼</td></tr><tr class='drow' id='d10'><td colspan='7' class='dtd'><div class='dsec'><div class='dlbl'>📋 Captured Logs</div><pre class='log-blk'>INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:418 === START: test_search_flow ===
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:421 Homepage: https://www.bombaytimes.com/
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:423 Opening search and searching for 'Bollywood'
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:449 Search results inferred from URL: https://www.bombaytimes.com/searchresults?search=Bollywood
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:467 PASS: Search results found. URL: https://www.bombaytimes.com/searchresults?search=Bollywood
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:471 PASS: Returned to homepage
+INFO     test_bombaytimes_flow:test_bombaytimes_flow.py:472 === END: test_search_flow ===</pre></div></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ░░ FOOTER ░░ -->
+<div class="footer">
+  Generated by BombayTimes Playwright Suite &nbsp;·&nbsp;
+  2026-05-25 17:04:14 &nbsp;·&nbsp;
+  pytest 9.0.3 &nbsp;·&nbsp; Python 3.14.4
+</div>
+
+<script>
+    function toggle(id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.classList.toggle('open');
+        var prev = el.previousElementSibling;
+        if (prev) {
+            var exp = prev.querySelector('.td-exp');
+            if (exp) exp.textContent = el.classList.contains('open') ? '▲' : '▼';
+        }
+    }
+    </script>
+</body>
+</html>

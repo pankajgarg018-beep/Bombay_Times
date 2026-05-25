@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m pytest tests/test_bombaytimes_flow.py -v --headed)",
+      "Bash(python -m pytest tests/test_bombaytimes_flow.py -v)",
+      "Bash(cat \"/c/Users/PANKAJ~1.GAR/AppData/Local/Temp/claude/c--Users-pankaj-garg1-OneDrive---BENNETT-COLEMAN---CO-LTD-Desktop-BT-New/3a18d131-49a3-4152-b4ac-56599aa41d28/tasks/bhhm1knqz.output\" 2>&1 | tail -40)",
+      "Read(//c/Users/PANKAJ~1.GAR/AppData/Local/Temp/claude/c--Users-pankaj-garg1-OneDrive---BENNETT-COLEMAN---CO-LTD-Desktop-BT-New/3a18d131-49a3-4152-b4ac-56599aa41d28/tasks/**)",
+      "Bash(grep '/[0-9]{13,}')",
+      "Bash(python3)",
+      "Bash(timeout 10 python3 -c ' *)"
+    ]
+  }
+}
