@@ -1,13 +1,162 @@
+import base64
+import datetime
 import logging
+import pathlib
+import time
+
 import pytest
 from playwright.sync_api import expect
 from pages.home_page import HomePage
 
 logger = logging.getLogger(__name__)
 
+# Keywords used to identify Google Analytics / GTM network calls
+_GA_KEYWORDS = ["google-analytics", "googletagmanager", "gtag", "collect"]
+
+
+# ── Per-page canonical + GA validation helper ─────────────────────────────────
+
+def _nav_and_validate(page, page_name, nav_fn, logger, store):
+    """
+    Navigate to a page via *nav_fn*, then:
+      1. Wait up to 15 s for load state.
+      2. Hold for 5 s (visual confirmation, GA listener still active).
+      3. Remove GA listener.
+      4. Validate canonical URL matches opened page URL → PASS / FAIL.
+      5. Validate ≥1 GA call fired → PASS / FAIL.
+      6. Capture screenshot on any FAIL.
+      7. Append result dict to *store*.
+
+    Any exception raised by nav_fn is re-raised after recording the failure so
+    the calling test still fails loudly.
+    """
+    ga_calls = []
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    def _on_response(resp):
+        url = resp.url.lower()
+        if any(kw in url for kw in _GA_KEYWORDS):
+            ga_calls.append({"url": resp.url, "status": resp.status})
+
+    # Attach listener BEFORE navigation so no GA calls are missed
+    page.on("response", _on_response)
+
+    opened_url = ""
+    _nav_exc = None
+
+    try:
+        nav_fn()
+        try:
+            page.wait_for_load_state("load", timeout=15000)
+        except Exception:
+            pass
+        opened_url = page.url
+        logger.info("[%s] Page loaded: %s", page_name, opened_url)
+        logger.info("[%s] Holding for 5 s (visual confirmation)...", page_name)
+        page.wait_for_timeout(5000)
+    except Exception as exc:
+        _nav_exc = exc
+        logger.error("[%s] Navigation/load error: %s", page_name, exc)
+        try:
+            opened_url = page.url
+        except Exception:
+            pass
+    finally:
+        page.remove_listener("response", _on_response)
+
+    # If navigation itself failed, record it and propagate
+    if _nav_exc is not None:
+        store.append({
+            "page_name": page_name,
+            "opened_url": opened_url,
+            "canonical_href": "",
+            "canonical_status": "FAIL",
+            "canonical_error": f"Navigation error: {_nav_exc}",
+            "ga_status": "FAIL",
+            "ga_error": f"Navigation error: {_nav_exc}",
+            "ga_calls_count": 0,
+            "screenshot_b64": None,
+            "timestamp": timestamp,
+        })
+        raise _nav_exc  # propagate so the test is marked FAILED
+
+    # ── Canonical URL validation ──────────────────────────────────────────────
+    canonical_href = ""
+    canonical_status = "FAIL"
+    canonical_error = ""
+    try:
+        canonical_link = page.locator("link[rel='canonical']")
+        if canonical_link.count() > 0:
+            canonical_href = canonical_link.first.get_attribute("href") or ""
+            if canonical_href.rstrip("/") == opened_url.rstrip("/"):
+                canonical_status = "PASS"
+                logger.info("[%s] PASS Canonical: %s", page_name, canonical_href)
+            else:
+                canonical_status = "FAIL"
+                canonical_error = f"Expected: {opened_url}  |  Got: {canonical_href}"
+                logger.warning(
+                    "[%s] FAIL Canonical: expected '%s' got '%s'",
+                    page_name, opened_url, canonical_href,
+                )
+        else:
+            canonical_status = "FAIL"
+            canonical_error = "No <link rel='canonical'> found on page"
+            logger.warning("[%s] FAIL Canonical: no canonical link on %s", page_name, opened_url)
+    except Exception as exc:
+        canonical_status = "FAIL"
+        canonical_error = str(exc)
+        logger.error("[%s] Canonical check exception: %s", page_name, exc)
+
+    # ── GA calls validation ───────────────────────────────────────────────────
+    ga_status = "FAIL"
+    ga_error = ""
+    logger.info("[%s] GA calls captured: %d", page_name, len(ga_calls))
+    if ga_calls:
+        ga_status = "PASS"
+        for c in ga_calls:
+            logger.info("[%s]   GA [%d] %s", page_name, c["status"], c["url"])
+        logger.info("[%s] PASS GA: %d call(s) fired", page_name, len(ga_calls))
+    else:
+        ga_error = "No GA calls captured during page load"
+        logger.warning("[%s] FAIL GA: no GA calls captured", page_name)
+
+    # ── Screenshot on any failure ─────────────────────────────────────────────
+    screenshot_b64 = None
+    if canonical_status == "FAIL" or ga_status == "FAIL":
+        try:
+            artifacts_dir = pathlib.Path(".test-artifacts")
+            artifacts_dir.mkdir(exist_ok=True)
+            ts = int(time.time())
+            safe_name = (
+                page_name.replace(" ", "_").replace(">", "")
+                         .replace("/", "_").replace("\\", "_")
+                         .replace(":", "").strip("_")
+            )
+            png_path = artifacts_dir / f"page_val_{safe_name}_{ts}.png"
+            page.screenshot(path=str(png_path), full_page=True)
+            screenshot_b64 = base64.b64encode(png_path.read_bytes()).decode()
+            logger.info("[%s] Screenshot saved: %s", page_name, png_path.name)
+        except Exception as exc:
+            logger.warning("[%s] Screenshot capture failed: %s", page_name, exc)
+
+    store.append({
+        "page_name": page_name,
+        "opened_url": opened_url,
+        "canonical_href": canonical_href,
+        "canonical_status": canonical_status,
+        "canonical_error": canonical_error,
+        "ga_status": ga_status,
+        "ga_error": ga_error,
+        "ga_calls_count": len(ga_calls),
+        "screenshot_b64": screenshot_b64,
+        "timestamp": timestamp,
+    })
+
+
+# ── Test cases ────────────────────────────────────────────────────────────────
 
 @pytest.mark.order(1)
-def test_entertainment_and_bollywood_flow(page):
+def test_entertainment_and_bollywood_flow(page, category_val_store):
     logger.info("=== START: test_entertainment_and_bollywood_flow ===")
     home = HomePage(page)
 
@@ -15,23 +164,24 @@ def test_entertainment_and_bollywood_flow(page):
     home.go_home()
     logger.info("Homepage URL: %s", page.url)
 
-    logger.info("Clicking Entertainment")
-    home.click_entertainment()
-    logger.info("URL after Entertainment click: %s", page.url)
+    # Entertainment category
+    logger.info("Navigating to Entertainment (canonical + GA validation)")
+    _nav_and_validate(page, "Entertainment", home.click_entertainment, logger, category_val_store)
+    logger.info("URL after Entertainment: %s", page.url)
     assert page.url.startswith("https://www.bombaytimes.com/entertainment"), \
         f"Expected entertainment URL, got: {page.url}"
     logger.info("PASS: Entertainment URL verified")
 
-    logger.info("Clicking Bollywood")
-    home.click_bollywood()
-    logger.info("URL after Bollywood click: %s", page.url)
+    # Bollywood subcategory
+    logger.info("Navigating to Bollywood (canonical + GA validation)")
+    _nav_and_validate(page, "Entertainment > Bollywood", home.click_bollywood, logger, category_val_store)
+    logger.info("URL after Bollywood: %s", page.url)
     assert page.url.startswith("https://www.bombaytimes.com/entertainment/bollywood"), \
         f"Expected bollywood URL, got: {page.url}"
     logger.info("PASS: Bollywood URL verified")
 
-    # Wait for listing to fully render
-    logger.info("Waiting for Bollywood listing page to fully load")
-    page.wait_for_load_state("load")
+    # Wait for listing to fully render (the 5 s hold in _nav_and_validate already helps)
+    logger.info("Waiting for Bollywood listing to be ready")
     try:
         page.wait_for_selector("ol.sub-cat-ol li a, a.right-img-a", timeout=10000)
         logger.info("Article listing (ol.sub-cat-ol) is ready")
@@ -98,7 +248,7 @@ def test_entertainment_and_bollywood_flow(page):
         assert has_related, "Related Articles section not found on article page"
 
         # Canonical URL
-        logger.info("Checking canonical URL")
+        logger.info("Checking canonical URL on article page")
         canonical_link = page.locator("link[rel='canonical']")
         assert canonical_link.count() > 0, "Canonical link not found"
         canonical_href = canonical_link.first.get_attribute("href")
@@ -128,19 +278,21 @@ def test_entertainment_and_bollywood_flow(page):
     logger.info("=== END: test_entertainment_and_bollywood_flow ===")
 
 
-def test_lifestyle_and_pawsome_flow(page):
+def test_lifestyle_and_pawsome_flow(page, category_val_store):
     logger.info("=== START: test_lifestyle_and_pawsome_flow ===")
     home = HomePage(page)
     home.go_home()
     logger.info("Homepage: %s", page.url)
 
-    home.click_lifestyle()
-    logger.info("After Lifestyle click: %s", page.url)
+    logger.info("Navigating to Lifestyle (canonical + GA validation)")
+    _nav_and_validate(page, "Lifestyle", home.click_lifestyle, logger, category_val_store)
+    logger.info("After Lifestyle: %s", page.url)
     assert page.url.startswith("https://www.bombaytimes.com/lifestyle")
     logger.info("PASS: Lifestyle URL verified")
 
-    home.click_pawsome()
-    logger.info("After Pawsome click: %s", page.url)
+    logger.info("Navigating to Pawsome (canonical + GA validation)")
+    _nav_and_validate(page, "Lifestyle > Pawsome", home.click_pawsome, logger, category_val_store)
+    logger.info("After Pawsome: %s", page.url)
     assert page.url.startswith("https://www.bombaytimes.com/lifestyle/pawsome")
     logger.info("PASS: Pawsome URL verified")
 
@@ -151,19 +303,21 @@ def test_lifestyle_and_pawsome_flow(page):
     logger.info("=== END: test_lifestyle_and_pawsome_flow ===")
 
 
-def test_dining_and_reviews_flow(page):
+def test_dining_and_reviews_flow(page, category_val_store):
     logger.info("=== START: test_dining_and_reviews_flow ===")
     home = HomePage(page)
     home.go_home()
     logger.info("Homepage: %s", page.url)
 
-    home.click_dining()
-    logger.info("After Dining click: %s", page.url)
+    logger.info("Navigating to Dining (canonical + GA validation)")
+    _nav_and_validate(page, "Dining", home.click_dining, logger, category_val_store)
+    logger.info("After Dining: %s", page.url)
     assert page.url.startswith("https://www.bombaytimes.com/dining")
     logger.info("PASS: Dining URL verified")
 
-    home.click_reviews()
-    logger.info("After Reviews click: %s", page.url)
+    logger.info("Navigating to Reviews (canonical + GA validation)")
+    _nav_and_validate(page, "Dining > Reviews", home.click_reviews, logger, category_val_store)
+    logger.info("After Reviews: %s", page.url)
     assert page.url.startswith("https://www.bombaytimes.com/dining/reviews")
     logger.info("PASS: Reviews URL verified")
 
@@ -174,19 +328,21 @@ def test_dining_and_reviews_flow(page):
     logger.info("=== END: test_dining_and_reviews_flow ===")
 
 
-def test_travel_and_india_flow(page):
+def test_travel_and_india_flow(page, category_val_store):
     logger.info("=== START: test_travel_and_india_flow ===")
     home = HomePage(page)
     home.go_home()
     logger.info("Homepage: %s", page.url)
 
-    home.click_travel()
-    logger.info("After Travel click: %s", page.url)
+    logger.info("Navigating to Travel (canonical + GA validation)")
+    _nav_and_validate(page, "Travel", home.click_travel, logger, category_val_store)
+    logger.info("After Travel: %s", page.url)
     assert page.url.startswith("https://www.bombaytimes.com/travel")
     logger.info("PASS: Travel URL verified")
 
-    home.click_india()
-    logger.info("After India click: %s", page.url)
+    logger.info("Navigating to India (canonical + GA validation)")
+    _nav_and_validate(page, "Travel > India", home.click_india, logger, category_val_store)
+    logger.info("After India: %s", page.url)
     assert page.url.startswith("https://www.bombaytimes.com/travel/india")
     logger.info("PASS: India URL verified")
 
@@ -197,19 +353,21 @@ def test_travel_and_india_flow(page):
     logger.info("=== END: test_travel_and_india_flow ===")
 
 
-def test_people_and_interviews_flow(page):
+def test_people_and_interviews_flow(page, category_val_store):
     logger.info("=== START: test_people_and_interviews_flow ===")
     home = HomePage(page)
     home.go_home()
     logger.info("Homepage: %s", page.url)
 
-    home.click_people()
-    logger.info("After People click: %s", page.url)
+    logger.info("Navigating to People (canonical + GA validation)")
+    _nav_and_validate(page, "People", home.click_people, logger, category_val_store)
+    logger.info("After People: %s", page.url)
     assert page.url.startswith("https://www.bombaytimes.com/people")
     logger.info("PASS: People URL verified")
 
-    home.click_interviews()
-    logger.info("After Interviews click: %s", page.url)
+    logger.info("Navigating to Interviews (canonical + GA validation)")
+    _nav_and_validate(page, "People > Interviews", home.click_interviews, logger, category_val_store)
+    logger.info("After Interviews: %s", page.url)
     assert page.url.startswith("https://www.bombaytimes.com/people/interviews")
     logger.info("PASS: Interviews URL verified")
 
@@ -220,19 +378,21 @@ def test_people_and_interviews_flow(page):
     logger.info("=== END: test_people_and_interviews_flow ===")
 
 
-def test_specials_and_take_two_flow(page):
+def test_specials_and_take_two_flow(page, category_val_store):
     logger.info("=== START: test_specials_and_take_two_flow ===")
     home = HomePage(page)
     home.go_home()
     logger.info("Homepage: %s", page.url)
 
-    home.click_specials()
-    logger.info("After Specials click: %s", page.url)
+    logger.info("Navigating to Specials (canonical + GA validation)")
+    _nav_and_validate(page, "Specials", home.click_specials, logger, category_val_store)
+    logger.info("After Specials: %s", page.url)
     assert page.url.startswith("https://www.bombaytimes.com/specials")
     logger.info("PASS: Specials URL verified")
 
-    home.click_take_two()
-    logger.info("After Take Two click: %s", page.url)
+    logger.info("Navigating to Take Two (canonical + GA validation)")
+    _nav_and_validate(page, "Specials > Take Two", home.click_take_two, logger, category_val_store)
+    logger.info("After Take Two: %s", page.url)
     assert page.url.startswith("https://www.bombaytimes.com/specials/take-two")
     logger.info("PASS: Take Two URL verified")
 
@@ -243,19 +403,21 @@ def test_specials_and_take_two_flow(page):
     logger.info("=== END: test_specials_and_take_two_flow ===")
 
 
-def test_astro_and_trends_flow(page):
+def test_astro_and_trends_flow(page, category_val_store):
     logger.info("=== START: test_astro_and_trends_flow ===")
     home = HomePage(page)
     home.go_home()
     logger.info("Homepage: %s", page.url)
 
-    home.click_astro()
-    logger.info("After Astro click: %s", page.url)
+    logger.info("Navigating to Astro (canonical + GA validation)")
+    _nav_and_validate(page, "Astro", home.click_astro, logger, category_val_store)
+    logger.info("After Astro: %s", page.url)
     assert page.url.startswith("https://www.bombaytimes.com/astro")
     logger.info("PASS: Astro URL verified")
 
-    home.click_trends()
-    logger.info("After Trends click: %s", page.url)
+    logger.info("Navigating to Trends (canonical + GA validation)")
+    _nav_and_validate(page, "Astro > Trends", home.click_trends, logger, category_val_store)
+    logger.info("After Trends: %s", page.url)
     assert page.url.startswith("https://www.bombaytimes.com/astro/trends")
     logger.info("PASS: Trends URL verified")
 
@@ -266,19 +428,21 @@ def test_astro_and_trends_flow(page):
     logger.info("=== END: test_astro_and_trends_flow ===")
 
 
-def test_bt_picks_and_electronics_flow(page):
+def test_bt_picks_and_electronics_flow(page, category_val_store):
     logger.info("=== START: test_bt_picks_and_electronics_flow ===")
     home = HomePage(page)
     home.go_home()
     logger.info("Homepage: %s", page.url)
 
-    home.click_bt_picks()
-    logger.info("After BT Picks click: %s", page.url)
+    logger.info("Navigating to BT Picks (canonical + GA validation)")
+    _nav_and_validate(page, "BT Picks", home.click_bt_picks, logger, category_val_store)
+    logger.info("After BT Picks: %s", page.url)
     assert page.url.startswith("https://www.bombaytimes.com/bt-picks")
     logger.info("PASS: BT Picks URL verified")
 
-    home.click_electronics()
-    logger.info("After Electronics click: %s", page.url)
+    logger.info("Navigating to Electronics (canonical + GA validation)")
+    _nav_and_validate(page, "BT Picks > Electronics", home.click_electronics, logger, category_val_store)
+    logger.info("After Electronics: %s", page.url)
     assert page.url.startswith("https://www.bombaytimes.com/bt-picks/electronics")
     logger.info("PASS: Electronics URL verified")
 
@@ -289,14 +453,16 @@ def test_bt_picks_and_electronics_flow(page):
     logger.info("=== END: test_bt_picks_and_electronics_flow ===")
 
 
-def test_intimate_diaries_flow(page):
+def test_intimate_diaries_flow(page, category_val_store):
     logger.info("=== START: test_intimate_diaries_flow ===")
     home = HomePage(page)
     home.go_home()
     logger.info("Homepage: %s", page.url)
 
-    home.click_intimate_diaries()
-    logger.info("After Intimate Diaries click: %s", page.url)
+    # ── Intimate Diaries ──────────────────────────────────────────────────────
+    logger.info("Navigating to Intimate Diaries (canonical + GA validation)")
+    _nav_and_validate(page, "Intimate Diaries", home.click_intimate_diaries, logger, category_val_store)
+    logger.info("After Intimate Diaries: %s", page.url)
     assert page.url.startswith("https://www.bombaytimes.com/intimate-diaries")
     logger.info("PASS: Intimate Diaries URL verified")
 
@@ -305,12 +471,13 @@ def test_intimate_diaries_flow(page):
     assert page.url.startswith("https://www.bombaytimes.com/")
     logger.info("PASS: Returned to homepage")
 
-    logger.info("Opening overflow menu → Photo Stories")
+    # ── Photo Stories (overflow menu) ─────────────────────────────────────────
+    logger.info("Opening overflow menu for Photo Stories")
     opened = home.open_overflow_menu()
     assert opened, "Overflow menu did not open"
-    clicked = home.click_photo_stories()
-    assert clicked, "Failed to click Photo Stories from overflow menu"
-    logger.info("After Photo Stories click: %s", page.url)
+    logger.info("Navigating to Photo Stories (canonical + GA validation)")
+    _nav_and_validate(page, "Photo Stories", home.click_photo_stories, logger, category_val_store)
+    logger.info("After Photo Stories: %s", page.url)
     assert page.url.startswith("https://www.bombaytimes.com/photo-stories"), \
         f"Unexpected URL after clicking Photo Stories: {page.url}"
     logger.info("PASS: Photo Stories URL verified")
@@ -320,12 +487,13 @@ def test_intimate_diaries_flow(page):
     assert page.url.startswith("https://www.bombaytimes.com/")
     logger.info("PASS: Returned to homepage")
 
-    logger.info("Opening overflow menu → Web Stories")
+    # ── Web Stories (overflow menu) ───────────────────────────────────────────
+    logger.info("Opening overflow menu for Web Stories")
     opened = home.open_overflow_menu()
     assert opened, "Overflow menu did not open for Web Stories"
-    clicked = home.click_web_stories()
-    assert clicked, "Failed to click Web Stories from overflow menu"
-    logger.info("After Web Stories click: %s", page.url)
+    logger.info("Navigating to Web Stories (canonical + GA validation)")
+    _nav_and_validate(page, "Web Stories", home.click_web_stories, logger, category_val_store)
+    logger.info("After Web Stories: %s", page.url)
     expect(page).to_have_url("https://www.bombaytimes.com/visual-stories", timeout=10000)
     logger.info("PASS: Web Stories URL verified")
 
@@ -333,19 +501,20 @@ def test_intimate_diaries_flow(page):
     expect(page).to_have_url("https://www.bombaytimes.com/", timeout=10000)
     logger.info("PASS: Returned to homepage")
 
-    logger.info("Opening overflow menu → Videos")
+    # ── Latest Videos (overflow menu) ─────────────────────────────────────────
+    logger.info("Opening overflow menu for Videos")
     opened = home.open_overflow_menu()
     assert opened, "Overflow menu did not open for Videos"
-    clicked = home.click_videos()
-    assert clicked, "Failed to click Videos from overflow menu"
-    logger.info("After Videos click: %s", page.url)
+    logger.info("Navigating to Latest Videos (canonical + GA validation)")
+    _nav_and_validate(page, "Latest Videos", home.click_videos, logger, category_val_store)
+    logger.info("After Videos: %s", page.url)
     expect(page).to_have_url("https://www.bombaytimes.com/latest-videos", timeout=10000)
-    logger.info("PASS: Videos URL verified")
+    logger.info("PASS: Latest Videos URL verified")
 
-    logger.info("Clicking Short Videos")
-    clicked = home.click_short_videos()
-    assert clicked, "Failed to click Short Videos on Videos page"
-    logger.info("After Short Videos click: %s", page.url)
+    # ── Short Videos ──────────────────────────────────────────────────────────
+    logger.info("Navigating to Short Videos (canonical + GA validation)")
+    _nav_and_validate(page, "Short Videos", home.click_short_videos, logger, category_val_store)
+    logger.info("After Short Videos: %s", page.url)
     expect(page).to_have_url("https://www.bombaytimes.com/short-videos", timeout=10000)
     logger.info("PASS: Short Videos URL verified")
 

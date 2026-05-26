@@ -19,7 +19,8 @@ def _esc(text: str) -> str:
 
 
 # ── Session-level data stores ─────────────────────────────────────────────────
-_ga_store_key = pytest.StashKey()
+_ga_store_key  = pytest.StashKey()
+_cat_store_key = pytest.StashKey()
 
 _session: dict = {
     "tests": [],
@@ -62,6 +63,18 @@ def ga_report_store(request):
         "failed_calls": [],
     }
     request.session.stash[_ga_store_key] = store
+    return store
+
+
+@pytest.fixture(scope="session")
+def category_val_store(request):
+    """Session fixture that stores per-page canonical & GA validation results.
+
+    Each test that calls _nav_and_validate() appends a result dict here.
+    conftest reads it in pytest_sessionfinish to build the HTML report section.
+    """
+    store = []
+    request.session.stash[_cat_store_key] = store
     return store
 
 
@@ -170,6 +183,8 @@ def pytest_sessionfinish(session, exitstatus):
         "failed_calls": [],
     })
 
+    cat_data = session.stash.get(_cat_store_key, [])
+
     _write_report(
         tests=tests,
         passed=passed,
@@ -179,12 +194,14 @@ def pytest_sessionfinish(session, exitstatus):
         start_time=start_time,
         end_time=end_time,
         ga=ga_data,
+        cat_pages=cat_data,
     )
 
 
 # ── Custom HTML report generator ──────────────────────────────────────────────
 
-def _write_report(tests, passed, failed, skipped, duration, start_time, end_time, ga):
+def _write_report(tests, passed, failed, skipped, duration, start_time, end_time, ga, cat_pages=None):
+    cat_pages = cat_pages or []
     total = len(tests)
     pass_rate = round((passed / total * 100) if total else 0, 1)
     start_str = start_time.strftime("%Y-%m-%d %H:%M:%S")
@@ -341,6 +358,81 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
     else:
         ga_calls_html = "<div class='no-data'>No GA network calls were captured.</div>"
 
+    # ── Category / subcategory page validation section ────────────────────────
+    cat_total    = len(cat_pages)
+    cat_can_pass = sum(1 for p in cat_pages if p.get("canonical_status") == "PASS")
+    cat_can_fail = sum(1 for p in cat_pages if p.get("canonical_status") == "FAIL")
+    cat_ga_pass  = sum(1 for p in cat_pages if p.get("ga_status") == "PASS")
+    cat_ga_fail  = sum(1 for p in cat_pages if p.get("ga_status") == "FAIL")
+
+    if cat_pages:
+        cat_rows_html = ""
+        for i, p in enumerate(cat_pages):
+            can_ok  = p.get("canonical_status") == "PASS"
+            ga_ok   = p.get("ga_status") == "PASS"
+            row_ok  = can_ok and ga_ok
+            can_cls = "b-passed" if can_ok else "b-failed"
+            ga_cls  = "b-passed" if ga_ok  else "b-failed"
+            row_can_badge = f"<span class='badge {can_cls}'>{p.get('canonical_status','—')}</span>"
+            row_ga_badge  = f"<span class='badge {ga_cls}'>{p.get('ga_status','—')}</span>"
+
+            # Combine any error messages
+            err_parts = []
+            if p.get("canonical_error"):
+                err_parts.append(_esc(p["canonical_error"]))
+            if p.get("ga_error"):
+                err_parts.append(_esc(p["ga_error"]))
+            err_cell = "<br>".join(err_parts) if err_parts else ""
+
+            # Screenshot toggle
+            ss = p.get("screenshot_b64")
+            detail_id = f"cv{i}"
+            expand_td = ""
+            ss_row    = ""
+            if ss:
+                expand_td = f"<td class='td-exp' style='cursor:pointer'>&#x25BC;</td>"
+                ss_row = (
+                    f"<tr class='drow' id='{detail_id}'>"
+                    f"<td colspan='9' class='dtd'>"
+                    f"<div class='dsec'>"
+                    f"<div class='dlbl'>Screenshot (captured on FAIL)</div>"
+                    f"<img src='data:image/png;base64,{ss}' class='ss-img'>"
+                    f"</div></td></tr>"
+                )
+            else:
+                expand_td = "<td></td>"
+
+            row_cls   = "trow-passed" if row_ok else "trow-failed"
+            click_attr = f" onclick=\"toggle('{detail_id}')\" style='cursor:pointer'" if ss else ""
+
+            cat_rows_html += (
+                f"<tr class='trow {row_cls}'{click_attr}>"
+                f"<td class='td-num'>{i + 1}</td>"
+                f"<td class='td-name'>{_esc(p.get('page_name', ''))}</td>"
+                f"<td style='font-family:\"Courier New\",monospace;font-size:11px;word-break:break-all;max-width:200px'>"
+                f"{_esc(p.get('opened_url', ''))}</td>"
+                f"<td style='font-family:\"Courier New\",monospace;font-size:11px;word-break:break-all;max-width:200px'>"
+                f"{_esc(p.get('canonical_href', ''))}</td>"
+                f"<td>{row_can_badge}</td>"
+                f"<td>{row_ga_badge}</td>"
+                f"<td style='color:#dc3545;font-size:11px'>{err_cell}</td>"
+                f"<td class='td-ts'>{_esc(p.get('timestamp', ''))}</td>"
+                f"{expand_td}"
+                f"</tr>"
+            )
+            cat_rows_html += ss_row
+
+        cat_section_body = (
+            "<table class='res-tbl' style='font-size:12px'>"
+            "<thead><tr>"
+            "<th>#</th><th>Page Name</th><th>Opened URL</th><th>Canonical URL</th>"
+            "<th>Canonical</th><th>GA</th><th>Error / Note</th><th>Timestamp</th><th></th>"
+            "</tr></thead>"
+            f"<tbody>{cat_rows_html}</tbody></table>"
+        )
+    else:
+        cat_section_body = "<div class='no-data'>No category page validations were recorded.</div>"
+
     # ── Test result rows ──────────────────────────────────────────────────────
     rows_html = ""
     for i, t in enumerate(tests):
@@ -462,6 +554,22 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
   </div>
   <div class="sub-lbl">Captured GA Network Requests</div>
   {ga_calls_html}
+</div>
+
+<!-- ░░ CATEGORY & SUBCATEGORY VALIDATION ░░ -->
+<div class="sec">
+  <div class="sec-title">
+    <span>&#128193; Category &amp; Subcategory Page Validation</span>
+    <span style="font-size:12px;font-weight:400;color:#6c757d">{cat_total} page(s) checked &nbsp;&#183;&nbsp; &#9660; click row for screenshot</span>
+  </div>
+  <div class="ga-chips">
+    <div class="chip"><div class="chip-lbl">Total Pages</div><div class="chip-val">{cat_total}</div></div>
+    <div class="chip"><div class="chip-lbl">Canonical PASS</div><div class="chip-val" style="color:#28a745">{cat_can_pass}</div></div>
+    <div class="chip"><div class="chip-lbl">Canonical FAIL</div><div class="chip-val" style="color:#dc3545">{cat_can_fail}</div></div>
+    <div class="chip"><div class="chip-lbl">GA PASS</div><div class="chip-val" style="color:#28a745">{cat_ga_pass}</div></div>
+    <div class="chip"><div class="chip-lbl">GA FAIL</div><div class="chip-val" style="color:#dc3545">{cat_ga_fail}</div></div>
+  </div>
+  {cat_section_body}
 </div>
 
 <!-- ░░ TEST RESULTS ░░ -->
