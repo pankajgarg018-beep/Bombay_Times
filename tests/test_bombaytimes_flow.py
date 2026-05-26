@@ -188,39 +188,44 @@ def test_entertainment_and_bollywood_flow(page, category_val_store):
     except Exception:
         logger.warning("Timed out waiting for ol.sub-cat-ol — will attempt selectors anyway")
 
-    try:
-        # BombayTimes listing: <ol class="sub-cat-ol"><li><a class="right-img-a" href="...">
-        article_selectors = [
-            "ol.sub-cat-ol li a.right-img-a",
-            "ol.sub-cat-ol li a",
-            "a.right-img-a",
-            "a.newsItem[href*='/entertainment/bollywood']",
-            "a.newsItem",
-            "a[href*='/entertainment/bollywood/']",
-            "figure a[href*='/entertainment']",
-            "article a",
-        ]
-        clicked = False
-        for sel in article_selectors:
+    # ── Click function for first Bollywood article ───────────────────────────────
+    _article_selectors = [
+        "ol.sub-cat-ol li a.right-img-a",
+        "ol.sub-cat-ol li a",
+        "a.right-img-a",
+        "a.newsItem[href*='/entertainment/bollywood']",
+        "a.newsItem",
+        "a[href*='/entertainment/bollywood/']",
+        "figure a[href*='/entertainment']",
+        "article a",
+    ]
+
+    def _click_bollywood_article():
+        for sel in _article_selectors:
             try:
                 loc = page.locator(sel).first
                 count = loc.count()
-                logger.debug("Selector '%s' → %d element(s)", sel, count)
+                logger.debug("Article selector '%s' → %d element(s)", sel, count)
                 if count > 0:
                     logger.info("Clicking first article using selector: %s", sel)
                     loc.click()
-                    clicked = True
-                    break
+                    return
             except Exception as exc:
-                logger.debug("Selector '%s' raised: %s", sel, exc)
+                logger.debug("Article selector '%s' raised: %s", sel, exc)
                 continue
+        logger.error("No article selector matched on Bollywood listing page")
+        pytest.fail("Could not find any article to click on Bollywood listing page")
 
-        if not clicked:
-            logger.error("No article selector matched on Bollywood listing page")
-            pytest.fail("Could not find any article to click on Bollywood listing page")
-
-        page.wait_for_load_state("load")
-        logger.info("Article page loaded: %s", page.url)
+    try:
+        # Navigate to article detail: 5-second hold + canonical + GA validation recorded in store
+        logger.info("Navigating to Bollywood article detail (5 s hold + canonical + GA validation)")
+        _nav_and_validate(
+            page, "Bollywood Article (Detail)",
+            _click_bollywood_article,
+            logger, category_val_store,
+        )
+        article_url = page.url
+        logger.info("Bollywood article detail page: %s", article_url)
 
         # Trending section
         logger.info("Checking Trending section")
@@ -231,7 +236,7 @@ def test_entertainment_and_bollywood_flow(page, category_val_store):
         if has_trending:
             logger.info("PASS: Trending section found")
         else:
-            logger.error("FAIL: Trending section NOT found on %s", page.url)
+            logger.error("FAIL: Trending section NOT found on %s", article_url)
         assert has_trending, "Trending section not found on article page"
 
         # Related Articles section
@@ -244,18 +249,19 @@ def test_entertainment_and_bollywood_flow(page, category_val_store):
         if has_related:
             logger.info("PASS: Related Articles section found")
         else:
-            logger.error("FAIL: Related Articles section NOT found on %s", page.url)
+            logger.error("FAIL: Related Articles section NOT found on %s", article_url)
         assert has_related, "Related Articles section not found on article page"
 
-        # Canonical URL
-        logger.info("Checking canonical URL on article page")
+        # Canonical URL (re-verify; _nav_and_validate already recorded status in the store)
+        logger.info("Re-verifying canonical URL on article page")
         canonical_link = page.locator("link[rel='canonical']")
         assert canonical_link.count() > 0, "Canonical link not found"
         canonical_href = canonical_link.first.get_attribute("href")
         assert canonical_href, "Canonical href is empty"
-        logger.info("Canonical: %s  |  Page URL: %s", canonical_href, page.url)
-        assert canonical_href.rstrip("/") == page.url.rstrip("/"), \
-            f"Canonical '{canonical_href}' does not match article URL '{page.url}'"
+        logger.info("Current URL:   %s", article_url)
+        logger.info("Canonical URL: %s", canonical_href)
+        assert canonical_href.rstrip("/") == article_url.rstrip("/"), \
+            f"Canonical '{canonical_href}' does not match article URL '{article_url}'"
         logger.info("PASS: Canonical URL matches article URL")
 
         # amphtml
@@ -265,7 +271,7 @@ def test_entertainment_and_bollywood_flow(page, category_val_store):
         if amp_count > 0:
             logger.info("PASS: amphtml link found: %s", amp.first.get_attribute("href"))
         else:
-            logger.error("FAIL: amphtml link NOT found on %s", page.url)
+            logger.error("FAIL: amphtml link NOT found on %s", article_url)
         assert amp_count > 0, "amphtml link not present on article page"
 
     finally:
@@ -524,6 +530,94 @@ def test_intimate_diaries_flow(page, category_val_store):
     logger.info("=== END: test_intimate_diaries_flow ===")
 
 
+def test_photo_story_detail_flow(page, category_val_store):
+    """
+    1. Navigate directly to Photo Stories listing → 5 s hold + canonical + GA.
+    2. Click the FIRST available photo story card.
+    3. Validate the detail page: 5 s hold + canonical + GA (recorded via _nav_and_validate).
+    """
+    logger.info("=== START: test_photo_story_detail_flow ===")
+    home = HomePage(page)
+    home.go_home()
+    logger.info("Homepage: %s", page.url)
+
+    # ── Step 1: Photo Stories listing page ───────────────────────────────────
+    logger.info("Navigating to Photo Stories listing (5 s hold + canonical + GA validation)")
+    _nav_and_validate(
+        page,
+        "Photo Stories Listing",
+        lambda: home.goto("/photo-stories"),
+        logger,
+        category_val_store,
+    )
+    logger.info("Photo Stories listing URL: %s", page.url)
+    assert "photo-stories" in page.url, \
+        f"Expected photo-stories URL, got: {page.url}"
+    logger.info("PASS: Photo Stories listing URL verified")
+
+    # ── Step 2: Wait for listing articles to render ───────────────────────────
+    logger.info("Waiting for photo story article cards to render...")
+    try:
+        page.wait_for_selector(
+            "ol.sub-cat-ol li a, a.right-img-a, a[href*='/photo-stories/']",
+            timeout=10000,
+        )
+        logger.info("Photo story cards are ready")
+    except Exception:
+        logger.warning("Timeout waiting for photo story cards — proceeding anyway")
+
+    # ── Step 3: Build click function for first photo story card ───────────────
+    _photo_selectors = [
+        "ol.sub-cat-ol li a.right-img-a",
+        "ol.sub-cat-ol li a",
+        "a.right-img-a",
+        "a[href*='/photo-stories/']",
+        ".story-card a",
+        ".photo-story a",
+        "article a",
+        "figure a",
+        "a.newsItem",
+    ]
+
+    def _click_first_photo_story():
+        for sel in _photo_selectors:
+            try:
+                loc = page.locator(sel).first
+                count = loc.count()
+                logger.debug("Photo selector '%s' → %d element(s)", sel, count)
+                if count > 0:
+                    logger.info("Clicking first photo story using selector: %s", sel)
+                    loc.click()
+                    return
+            except Exception as exc:
+                logger.debug("Photo selector '%s' raised: %s", sel, exc)
+                continue
+        logger.error("No photo story selector matched on listing page")
+        pytest.fail("Could not find any photo story card to click on the listing page")
+
+    # ── Step 4: Photo Story detail page → 5 s hold + canonical + GA ──────────
+    try:
+        logger.info("Clicking first photo story and validating detail page")
+        _nav_and_validate(
+            page,
+            "Photo Story Detail",
+            _click_first_photo_story,
+            logger,
+            category_val_store,
+        )
+        logger.info("Photo Story detail page validated: %s", page.url)
+        logger.info("PASS: Photo Story detail flow complete")
+
+    finally:
+        logger.info("Navigating back to homepage (cleanup)")
+        home.goto("")
+
+    logger.info("URL after return: %s", page.url)
+    assert page.url.startswith("https://www.bombaytimes.com/")
+    logger.info("PASS: Returned to homepage")
+    logger.info("=== END: test_photo_story_detail_flow ===")
+
+
 def test_google_analytics_tracking(page, ga_report_store):
     logger.info("=== START: test_google_analytics_tracking ===")
 
@@ -584,55 +678,70 @@ def test_google_analytics_tracking(page, ga_report_store):
 
 
 def test_search_flow(page):
+    """Optimised search test with per-step timing logs.
+
+    Step 1 — Open search bar       → measured with time.time()
+    Step 2 — Type keyword          → measured with time.time()
+    Step 3 — Wait for results page → URL-pattern wait (no selector loops)
+    """
     logger.info("=== START: test_search_flow ===")
     home = HomePage(page)
     home.go_home()
     logger.info("Homepage: %s", page.url)
 
-    logger.info("Opening search and searching for 'Bollywood'")
-    home.open_search()
+    # ── Step 1: Open the search bar ───────────────────────────────────────────
+    logger.info("[Search] Step 1: Opening search bar...")
+    _t0 = time.time()
+    opened = home.open_search()
+    _t1 = time.time()
+    logger.info(
+        "[Search] Step 1 complete — search bar %s | elapsed: %.2f s",
+        "opened" if opened else "NOT found (will attempt type anyway)",
+        _t1 - _t0,
+    )
+
+    # ── Step 2: Type keyword ──────────────────────────────────────────────────
+    logger.info("[Search] Step 2: Typing keyword 'Bollywood'...")
+    _t2 = time.time()
     home.perform_search("Bollywood")
+    _t3 = time.time()
+    logger.info(
+        "[Search] Step 2 complete — keyword filled + Enter pressed | elapsed: %.2f s",
+        _t3 - _t2,
+    )
 
-    def has_search_results() -> bool:
-        try:
-            page.wait_for_timeout(1000)
-            selectors = [
-                "div.search-results",
-                "ul.search-list",
-                "div.search-list",
-                "article",
-                ".story-card",
-                ".card",
-                ".listing",
-                "a[href*='/search']",
-            ]
-            for sel in selectors:
-                try:
-                    page.wait_for_selector(sel, timeout=2000)
-                    logger.info("Search results found via selector: %s", sel)
-                    return True
-                except Exception:
-                    continue
+    # ── Step 3: Wait for search results page ──────────────────────────────────
+    # bombaytimes redirects to /searchresults?search=<kw> — match on URL pattern.
+    # No selector loops, no hardcoded sleep, no network-response gate.
+    logger.info("[Search] Step 3: Waiting for search results URL...")
+    _t4 = time.time()
+    results_found = False
+    try:
+        page.wait_for_url("**/searchresults**", timeout=10000)
+        results_found = True
+    except Exception:
+        # Fallback: accept any URL that contains 'search' in the path/query
+        current_url = page.url.lower()
+        if "search" in current_url or "?s=" in current_url or "q=" in current_url:
+            results_found = True
+            logger.info("[Search] Step 3: URL pattern fallback matched: %s", page.url)
+    _t5 = time.time()
+    logger.info(
+        "[Search] Step 3 complete — results %s | elapsed: %.2f s",
+        "FOUND" if results_found else "NOT FOUND",
+        _t5 - _t4,
+    )
 
-            if "search" in page.url or "?s=" in page.url or "q=" in page.url:
-                logger.info("Search results inferred from URL: %s", page.url)
-                return True
+    total_elapsed = _t5 - _t0
+    logger.info(
+        "[Search] TOTAL elapsed — open: %.2f s | type: %.2f s | results: %.2f s | TOTAL: %.2f s",
+        _t1 - _t0, _t3 - _t2, _t5 - _t4, total_elapsed,
+    )
 
-            content = page.content()
-            if "Bollywood" in content:
-                logger.info("Search results inferred from page content")
-                return True
-        except Exception as exc:
-            logger.warning("Error while checking search results: %s", exc)
-        return False
-
-    if not has_search_results():
-        logger.warning("Search results not found on first attempt — retrying")
-        home.go_home()
-        home.open_search()
-        home.perform_search("Bollywood")
-        assert has_search_results(), "Search results not found after retry"
-
+    assert results_found, (
+        f"Search results page not reached after typing 'Bollywood'. "
+        f"Current URL: {page.url}"
+    )
     logger.info("PASS: Search results found. URL: %s", page.url)
 
     home.click_logo()
