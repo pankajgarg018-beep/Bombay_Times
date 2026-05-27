@@ -1,4 +1,4 @@
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page
 from .base_page import BasePage
 from locators.home_locators import HomeLocators
 
@@ -152,12 +152,24 @@ class HomePage(BasePage):
 
     # --- Intimate Diaries ---
     def click_intimate_diaries(self):
-        if self.click_role("button", "Intimate Diaries"):
-            return
-        if self.click_role("link", "Intimate Diaries"):
-            return
-        if not self.click_href_contains("/intimate-diaries"):
-            self.goto("/intimate-diaries")
+        """Navigate to Intimate Diaries without burning 8 s + 8 s role-check timeouts.
+
+        Uses instant count()-based visibility check first; falls back to direct
+        URL navigation immediately rather than cycling through slow role lookups.
+        """
+        for sel in [
+            "a[href*='/intimate-diaries']",
+            "a[href*='intimate-diaries']",
+        ]:
+            try:
+                loc = self.page.locator(sel).first
+                if loc.count() > 0 and loc.is_visible():
+                    loc.click(timeout=3000)
+                    return
+            except Exception:
+                pass
+        # Direct navigation — skips all slow role/href fallback chains
+        self.goto("/intimate-diaries")
 
     # --- Search flow ---
     def open_search(self):
@@ -267,8 +279,25 @@ class HomePage(BasePage):
             self.click_href_contains("/")
 
     def open_overflow_menu(self):
-        """Open the three-dot / overflow menu contained in `div.b-none`."""
-        selectors = [
+        """Open the three-dot / overflow menu contained in `div.b-none`.
+
+        Strategy:
+        1. Wait once for the primary trigger (div.b-none) to be visible — this
+           replaces the old pattern of 6 × BasePage.click() calls each burning
+           up to 10 000 ms.  One focused wait of ≤ 5 s is both faster on success
+           and cheaper on failure.
+        2. Iterate the trigger selector list with instant count() checks.
+        3. After a successful click, confirm the menu opened by waiting for any
+           known overflow link (Photo Stories OR Festival) to become visible.
+        """
+        # Single up-front wait — ensures the header has rendered after any prior
+        # navigation before we start checking for the overflow trigger element.
+        try:
+            self.page.wait_for_selector("div.b-none", state="visible", timeout=5000)
+        except Exception:
+            pass  # not found or slow — proceed anyway; loop below handles it
+
+        trigger_selectors = [
             "div.b-none",
             "div.b-none button",
             "div.b-none .more",
@@ -276,22 +305,50 @@ class HomePage(BasePage):
             "button[aria-label*='menu']",
             "button[class*='more']",
         ]
-        for sel in selectors:
+        # Any of these links appearing proves the menu is open
+        _menu_ready = (
+            "a:has-text('Photo Stories'), a[href*='photo-stories'], "
+            "a:has-text('Festival'), a[href*='/festival']"
+        )
+        for sel in trigger_selectors:
             try:
-                if self.click(sel):
-                    # Wait for the Photo Stories link to become VISIBLE (not just attached)
-                    try:
-                        self.page.wait_for_selector(
-                            "a:has-text('Photo Stories'), a[href*='photo-stories']",
-                            state="visible",
-                            timeout=8000,
-                        )
-                        return True
-                    except Exception:
-                        pass
-                    # Item not visible — try next trigger selector
+                loc = self.page.locator(sel).first
+                if loc.count() == 0:
+                    continue  # instant skip — no timeout
+                loc.click(timeout=3000)
+                try:
+                    self.page.wait_for_selector(
+                        _menu_ready, state="visible", timeout=5000,
+                    )
+                    return True
+                except Exception:
+                    pass  # click may have landed but menu confirm timed out — try next
             except Exception:
                 continue
+        return False
+
+    def click_festival(self):
+        """Click Festival link — present in the overflow (3-dot) menu.
+
+        Uses the same visibility-checked pattern as click_photo_stories.
+        """
+        for sel in [
+            "a:has-text('Festival')",
+            "a[href*='/festival']",
+            "a[href*='festival']",
+        ]:
+            try:
+                loc = self.page.locator(sel).first
+                if loc.count() > 0 and loc.is_visible():
+                    loc.click()
+                    return True
+            except Exception:
+                continue
+        # Role/href fallbacks (short timeouts via base helpers)
+        if self.click_role("link", "Festival"):
+            return True
+        if self.click_href_contains("/festival"):
+            return True
         return False
 
     def click_photo_stories(self):

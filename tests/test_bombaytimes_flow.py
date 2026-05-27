@@ -16,7 +16,7 @@ _GA_KEYWORDS = ["google-analytics", "googletagmanager", "gtag", "collect"]
 
 # ── Per-page canonical + GA validation helper ─────────────────────────────────
 
-def _nav_and_validate(page, page_name, nav_fn, logger, store):
+def _nav_and_validate(page, page_name, nav_fn, logger, store, log_timing=False):
     """
     Navigate to a page via *nav_fn*, then:
       1. Wait up to 15 s for load state.
@@ -27,11 +27,15 @@ def _nav_and_validate(page, page_name, nav_fn, logger, store):
       6. Capture screenshot on any FAIL.
       7. Append result dict to *store*.
 
+    Set *log_timing=True* to emit per-step execution timings (click, load,
+    canonical, GA) — useful for diagnosing slow pages.
+
     Any exception raised by nav_fn is re-raised after recording the failure so
     the calling test still fails loudly.
     """
     ga_calls = []
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    _tm: dict = {}   # timing checkpoints (only used when log_timing=True)
 
     def _on_response(resp):
         url = resp.url.lower()
@@ -45,11 +49,26 @@ def _nav_and_validate(page, page_name, nav_fn, logger, store):
     _nav_exc = None
 
     try:
+        if log_timing:
+            _tm["click_start"] = time.time()
         nav_fn()
+        if log_timing:
+            _tm["click_done"] = time.time()
+            logger.info(
+                "[%s] ⏱ Step 1 – Click/nav completed: %.2f s",
+                page_name, _tm["click_done"] - _tm["click_start"],
+            )
+            _tm["load_start"] = time.time()
         try:
             page.wait_for_load_state("load", timeout=15000)
         except Exception:
             pass
+        if log_timing:
+            _tm["load_done"] = time.time()
+            logger.info(
+                "[%s] ⏱ Step 2 – Page load state reached: %.2f s",
+                page_name, _tm["load_done"] - _tm["load_start"],
+            )
         opened_url = page.url
         logger.info("[%s] Page loaded: %s", page_name, opened_url)
         logger.info("[%s] Holding for 5 s (visual confirmation)...", page_name)
@@ -81,6 +100,8 @@ def _nav_and_validate(page, page_name, nav_fn, logger, store):
         raise _nav_exc  # propagate so the test is marked FAILED
 
     # ── Canonical URL validation ──────────────────────────────────────────────
+    if log_timing:
+        _tm["can_start"] = time.time()
     canonical_href = ""
     canonical_status = "FAIL"
     canonical_error = ""
@@ -106,8 +127,16 @@ def _nav_and_validate(page, page_name, nav_fn, logger, store):
         canonical_status = "FAIL"
         canonical_error = str(exc)
         logger.error("[%s] Canonical check exception: %s", page_name, exc)
+    if log_timing:
+        _tm["can_done"] = time.time()
+        logger.info(
+            "[%s] ⏱ Step 3 – Canonical validation: %.3f s | Result: %s",
+            page_name, _tm["can_done"] - _tm["can_start"], canonical_status,
+        )
 
     # ── GA calls validation ───────────────────────────────────────────────────
+    if log_timing:
+        _tm["ga_start"] = time.time()
     ga_status = "FAIL"
     ga_error = ""
     logger.info("[%s] GA calls captured: %d", page_name, len(ga_calls))
@@ -119,6 +148,23 @@ def _nav_and_validate(page, page_name, nav_fn, logger, store):
     else:
         ga_error = "No GA calls captured during page load"
         logger.warning("[%s] FAIL GA: no GA calls captured", page_name)
+    if log_timing:
+        _tm["ga_done"] = time.time()
+        logger.info(
+            "[%s] ⏱ Step 4 – GA validation: %.3f s | Calls: %d | Result: %s",
+            page_name, _tm["ga_done"] - _tm["ga_start"], len(ga_calls), ga_status,
+        )
+        _total = _tm["ga_done"] - _tm["click_start"]
+        logger.info(
+            "[%s] ⏱ TOTAL (excl. 5 s hold) — click: %.2f s | load: %.2f s | "
+            "canonical: %.3f s | GA: %.3f s | TOTAL: %.2f s",
+            page_name,
+            _tm["click_done"] - _tm["click_start"],
+            _tm["load_done"]  - _tm["load_start"],
+            _tm["can_done"]   - _tm["can_start"],
+            _tm["ga_done"]    - _tm["ga_start"],
+            _total - 5.0,   # subtract the intentional 5 s visual hold
+        )
 
     # ── Screenshot on any failure ─────────────────────────────────────────────
     screenshot_b64 = None
@@ -180,107 +226,6 @@ def test_entertainment_and_bollywood_flow(page, category_val_store):
         f"Expected bollywood URL, got: {page.url}"
     logger.info("PASS: Bollywood URL verified")
 
-    # Wait for listing to fully render (the 5 s hold in _nav_and_validate already helps)
-    logger.info("Waiting for Bollywood listing to be ready")
-    try:
-        page.wait_for_selector("ol.sub-cat-ol li a, a.right-img-a", timeout=10000)
-        logger.info("Article listing (ol.sub-cat-ol) is ready")
-    except Exception:
-        logger.warning("Timed out waiting for ol.sub-cat-ol — will attempt selectors anyway")
-
-    # ── Click function for first Bollywood article ───────────────────────────────
-    _article_selectors = [
-        "ol.sub-cat-ol li a.right-img-a",
-        "ol.sub-cat-ol li a",
-        "a.right-img-a",
-        "a.newsItem[href*='/entertainment/bollywood']",
-        "a.newsItem",
-        "a[href*='/entertainment/bollywood/']",
-        "figure a[href*='/entertainment']",
-        "article a",
-    ]
-
-    def _click_bollywood_article():
-        for sel in _article_selectors:
-            try:
-                loc = page.locator(sel).first
-                count = loc.count()
-                logger.debug("Article selector '%s' → %d element(s)", sel, count)
-                if count > 0:
-                    logger.info("Clicking first article using selector: %s", sel)
-                    loc.click()
-                    return
-            except Exception as exc:
-                logger.debug("Article selector '%s' raised: %s", sel, exc)
-                continue
-        logger.error("No article selector matched on Bollywood listing page")
-        pytest.fail("Could not find any article to click on Bollywood listing page")
-
-    try:
-        # Navigate to article detail: 5-second hold + canonical + GA validation recorded in store
-        logger.info("Navigating to Bollywood article detail (5 s hold + canonical + GA validation)")
-        _nav_and_validate(
-            page, "Bollywood Article (Detail)",
-            _click_bollywood_article,
-            logger, category_val_store,
-        )
-        article_url = page.url
-        logger.info("Bollywood article detail page: %s", article_url)
-
-        # Trending section
-        logger.info("Checking Trending section")
-        has_trending = (
-            page.locator(".trending, .trendingBlock, .trending-tag, [class*='trending']").count() > 0
-            or page.get_by_text("Trending").count() > 0
-        )
-        if has_trending:
-            logger.info("PASS: Trending section found")
-        else:
-            logger.error("FAIL: Trending section NOT found on %s", article_url)
-        assert has_trending, "Trending section not found on article page"
-
-        # Related Articles section
-        logger.info("Checking Related Articles section")
-        has_related = (
-            page.locator(".related, .related-articles, [class*='related']").count() > 0
-            or page.get_by_text("Related Articles").count() > 0
-            or page.get_by_text("Related").count() > 0
-        )
-        if has_related:
-            logger.info("PASS: Related Articles section found")
-        else:
-            logger.error("FAIL: Related Articles section NOT found on %s", article_url)
-        assert has_related, "Related Articles section not found on article page"
-
-        # Canonical URL (re-verify; _nav_and_validate already recorded status in the store)
-        logger.info("Re-verifying canonical URL on article page")
-        canonical_link = page.locator("link[rel='canonical']")
-        assert canonical_link.count() > 0, "Canonical link not found"
-        canonical_href = canonical_link.first.get_attribute("href")
-        assert canonical_href, "Canonical href is empty"
-        logger.info("Current URL:   %s", article_url)
-        logger.info("Canonical URL: %s", canonical_href)
-        assert canonical_href.rstrip("/") == article_url.rstrip("/"), \
-            f"Canonical '{canonical_href}' does not match article URL '{article_url}'"
-        logger.info("PASS: Canonical URL matches article URL")
-
-        # amphtml
-        logger.info("Checking amphtml link")
-        amp = page.locator("link[rel='amphtml']")
-        amp_count = amp.count()
-        if amp_count > 0:
-            logger.info("PASS: amphtml link found: %s", amp.first.get_attribute("href"))
-        else:
-            logger.error("FAIL: amphtml link NOT found on %s", article_url)
-        assert amp_count > 0, "amphtml link not present on article page"
-
-    finally:
-        logger.info("Navigating back to homepage (cleanup)")
-        home.goto("")
-
-    logger.info("URL after return: %s", page.url)
-    assert page.url.startswith("https://www.bombaytimes.com/")
-    logger.info("PASS: Returned to homepage")
     logger.info("=== END: test_entertainment_and_bollywood_flow ===")
 
 
@@ -465,11 +410,18 @@ def test_intimate_diaries_flow(page, category_val_store):
     home.go_home()
     logger.info("Homepage: %s", page.url)
 
-    # ── Intimate Diaries ──────────────────────────────────────────────────────
-    logger.info("Navigating to Intimate Diaries (canonical + GA validation)")
-    _nav_and_validate(page, "Intimate Diaries", home.click_intimate_diaries, logger, category_val_store)
+    # ── Intimate Diaries — with per-step timing ───────────────────────────────
+    logger.info("=== [Intimate Diaries] Performance timing enabled ===")
+    logger.info("[Intimate Diaries] Navigating (canonical + GA validation + timing logs)")
+    _nav_and_validate(
+        page, "Intimate Diaries",
+        home.click_intimate_diaries,
+        logger, category_val_store,
+        log_timing=True,        # ← emit click / load / canonical / GA timings
+    )
     logger.info("After Intimate Diaries: %s", page.url)
-    assert page.url.startswith("https://www.bombaytimes.com/intimate-diaries")
+    assert page.url.startswith("https://www.bombaytimes.com/intimate-diaries"), \
+        f"Expected intimate-diaries URL, got: {page.url}"
     logger.info("PASS: Intimate Diaries URL verified")
 
     home.click_logo()
@@ -477,10 +429,30 @@ def test_intimate_diaries_flow(page, category_val_store):
     assert page.url.startswith("https://www.bombaytimes.com/")
     logger.info("PASS: Returned to homepage")
 
+    # ── Festival (overflow menu) — executes BEFORE Photo Stories ─────────────
+    logger.info("Opening overflow menu for Festival")
+    _t0 = time.time()
+    opened = home.open_overflow_menu()
+    logger.info("Overflow menu open attempt: %.2f s | opened: %s", time.time() - _t0, opened)
+    assert opened, "Overflow menu did not open for Festival"
+    logger.info("Navigating to Festival (canonical + GA validation)")
+    _nav_and_validate(page, "Festival", home.click_festival, logger, category_val_store)
+    logger.info("After Festival: %s", page.url)
+    assert page.url.startswith("https://www.bombaytimes.com/festival"), \
+        f"Unexpected URL after clicking Festival: {page.url}"
+    logger.info("PASS: Festival URL verified")
+
+    home.click_logo()
+    logger.info("After logo click: %s", page.url)
+    assert page.url.startswith("https://www.bombaytimes.com/")
+    logger.info("PASS: Returned to homepage after Festival")
+
     # ── Photo Stories (overflow menu) ─────────────────────────────────────────
     logger.info("Opening overflow menu for Photo Stories")
+    _t0 = time.time()
     opened = home.open_overflow_menu()
-    assert opened, "Overflow menu did not open"
+    logger.info("Overflow menu open attempt: %.2f s | opened: %s", time.time() - _t0, opened)
+    assert opened, "Overflow menu did not open for Photo Stories"
     logger.info("Navigating to Photo Stories (canonical + GA validation)")
     _nav_and_validate(page, "Photo Stories", home.click_photo_stories, logger, category_val_store)
     logger.info("After Photo Stories: %s", page.url)
@@ -495,7 +467,9 @@ def test_intimate_diaries_flow(page, category_val_store):
 
     # ── Web Stories (overflow menu) ───────────────────────────────────────────
     logger.info("Opening overflow menu for Web Stories")
+    _t0 = time.time()
     opened = home.open_overflow_menu()
+    logger.info("Overflow menu open attempt: %.2f s | opened: %s", time.time() - _t0, opened)
     assert opened, "Overflow menu did not open for Web Stories"
     logger.info("Navigating to Web Stories (canonical + GA validation)")
     _nav_and_validate(page, "Web Stories", home.click_web_stories, logger, category_val_store)
@@ -509,7 +483,9 @@ def test_intimate_diaries_flow(page, category_val_store):
 
     # ── Latest Videos (overflow menu) ─────────────────────────────────────────
     logger.info("Opening overflow menu for Videos")
+    _t0 = time.time()
     opened = home.open_overflow_menu()
+    logger.info("Overflow menu open attempt: %.2f s | opened: %s", time.time() - _t0, opened)
     assert opened, "Overflow menu did not open for Videos"
     logger.info("Navigating to Latest Videos (canonical + GA validation)")
     _nav_and_validate(page, "Latest Videos", home.click_videos, logger, category_val_store)
@@ -528,6 +504,130 @@ def test_intimate_diaries_flow(page, category_val_store):
     expect(page).to_have_url("https://www.bombaytimes.com/", timeout=10000)
     logger.info("PASS: Returned to homepage")
     logger.info("=== END: test_intimate_diaries_flow ===")
+
+
+def test_bollywood_article_detail_flow(page, category_val_store):
+    """
+    Runs AFTER all category/subcategory pages.
+    1. Navigate directly to Bollywood listing.
+    2. Click the FIRST available article.
+    3. Validate the detail page: 5 s hold + canonical + GA (recorded via _nav_and_validate).
+    4. Also check Trending, Related, and amphtml presence.
+    """
+    logger.info("=== START: test_bollywood_article_detail_flow ===")
+    home = HomePage(page)
+    home.go_home()
+    logger.info("Homepage: %s", page.url)
+
+    # Navigate directly to Bollywood listing
+    logger.info("Navigating directly to Bollywood listing: /entertainment/bollywood")
+    home.goto("/entertainment/bollywood")
+    try:
+        page.wait_for_load_state("load", timeout=15000)
+    except Exception:
+        pass
+    logger.info("Bollywood listing URL: %s", page.url)
+
+    # Wait for articles to render
+    logger.info("Waiting for Bollywood article cards to render...")
+    try:
+        page.wait_for_selector("ol.sub-cat-ol li a, a.right-img-a", timeout=10000)
+        logger.info("Article listing is ready")
+    except Exception:
+        logger.warning("Timed out waiting for listing — will attempt selectors anyway")
+
+    _article_selectors = [
+        "ol.sub-cat-ol li a.right-img-a",
+        "ol.sub-cat-ol li a",
+        "a.right-img-a",
+        "a.newsItem[href*='/entertainment/bollywood']",
+        "a.newsItem",
+        "a[href*='/entertainment/bollywood/']",
+        "figure a[href*='/entertainment']",
+        "article a",
+    ]
+
+    def _click_bollywood_article():
+        for sel in _article_selectors:
+            try:
+                loc = page.locator(sel).first
+                count = loc.count()
+                logger.debug("Article selector '%s' → %d element(s)", sel, count)
+                if count > 0:
+                    logger.info("Clicking first article using selector: %s", sel)
+                    loc.click()
+                    return
+            except Exception as exc:
+                logger.debug("Article selector '%s' raised: %s", sel, exc)
+                continue
+        logger.error("No article selector matched on Bollywood listing page")
+        pytest.fail("Could not find any article to click on Bollywood listing page")
+
+    try:
+        logger.info("Navigating to Bollywood article detail (5 s hold + canonical + GA validation)")
+        _nav_and_validate(
+            page, "Bollywood Article (Detail)",
+            _click_bollywood_article,
+            logger, category_val_store,
+        )
+        article_url = page.url
+        logger.info("Bollywood article detail page: %s", article_url)
+
+        # Trending section
+        logger.info("Checking Trending section")
+        has_trending = (
+            page.locator(".trending, .trendingBlock, .trending-tag, [class*='trending']").count() > 0
+            or page.get_by_text("Trending").count() > 0
+        )
+        if has_trending:
+            logger.info("PASS: Trending section found")
+        else:
+            logger.warning("FAIL: Trending section NOT found on %s", article_url)
+        assert has_trending, "Trending section not found on article page"
+
+        # Related Articles section
+        logger.info("Checking Related Articles section")
+        has_related = (
+            page.locator(".related, .related-articles, [class*='related']").count() > 0
+            or page.get_by_text("Related Articles").count() > 0
+            or page.get_by_text("Related").count() > 0
+        )
+        if has_related:
+            logger.info("PASS: Related Articles section found")
+        else:
+            logger.warning("FAIL: Related Articles section NOT found on %s", article_url)
+        assert has_related, "Related Articles section not found on article page"
+
+        # Canonical URL (re-verify; _nav_and_validate already recorded status in store)
+        logger.info("Re-verifying canonical URL on article page")
+        canonical_link = page.locator("link[rel='canonical']")
+        assert canonical_link.count() > 0, "Canonical link not found on article page"
+        canonical_href = canonical_link.first.get_attribute("href")
+        assert canonical_href, "Canonical href is empty"
+        logger.info("Current URL:   %s", article_url)
+        logger.info("Canonical URL: %s", canonical_href)
+        assert canonical_href.rstrip("/") == article_url.rstrip("/"), \
+            f"Canonical '{canonical_href}' does not match article URL '{article_url}'"
+        logger.info("PASS: Canonical URL matches article URL")
+
+        # amphtml
+        logger.info("Checking amphtml link")
+        amp = page.locator("link[rel='amphtml']")
+        amp_count = amp.count()
+        if amp_count > 0:
+            logger.info("PASS: amphtml link found: %s", amp.first.get_attribute("href"))
+        else:
+            logger.warning("FAIL: amphtml link NOT found on %s", article_url)
+        assert amp_count > 0, "amphtml link not present on article page"
+
+    finally:
+        logger.info("Navigating back to homepage (cleanup)")
+        home.goto("")
+
+    logger.info("URL after return: %s", page.url)
+    assert page.url.startswith("https://www.bombaytimes.com/")
+    logger.info("PASS: Returned to homepage")
+    logger.info("=== END: test_bollywood_article_detail_flow ===")
 
 
 def test_photo_story_detail_flow(page, category_val_store):
@@ -616,6 +716,189 @@ def test_photo_story_detail_flow(page, category_val_store):
     assert page.url.startswith("https://www.bombaytimes.com/")
     logger.info("PASS: Returned to homepage")
     logger.info("=== END: test_photo_story_detail_flow ===")
+
+
+def test_visual_story_detail_flow(page, category_val_store):
+    """
+    Runs AFTER Photo Stories Detail.
+    1. Navigate directly to Visual Stories listing: /visual-stories
+    2. Click the FIRST visual story card.
+    3. Validate the detail page: 5 s hold + canonical + GA (recorded via _nav_and_validate).
+       Canonical URL MUST exactly match current page URL → FAIL if mismatch.
+    """
+    logger.info("=== START: test_visual_story_detail_flow ===")
+    home = HomePage(page)
+    home.go_home()
+    logger.info("Homepage: %s", page.url)
+
+    # ── Step 1: Navigate to Visual Stories listing ─────────────────────────────
+    logger.info("Navigating to Visual Stories listing: https://www.bombaytimes.com/visual-stories")
+    home.goto("/visual-stories")
+    try:
+        page.wait_for_load_state("load", timeout=15000)
+    except Exception:
+        pass
+    logger.info("Visual Stories listing URL: %s", page.url)
+    assert "visual-stories" in page.url, \
+        f"Expected visual-stories listing URL, got: {page.url}"
+    logger.info("PASS: Visual Stories listing page opened")
+
+    # ── Step 2: Wait for story cards to render ─────────────────────────────────
+    logger.info("Waiting for Visual Story cards to render...")
+    try:
+        page.wait_for_selector(
+            "ol.sub-cat-ol li a, a.right-img-a, "
+            "a[href*='/visual-stories/'], .story-card a, article a, figure a",
+            timeout=10000,
+        )
+        logger.info("Visual Story cards are ready")
+    except Exception:
+        logger.warning("Timeout waiting for visual story cards — proceeding anyway")
+
+    # ── Step 3: Click function for first visual story ──────────────────────────
+    _visual_selectors = [
+        "ol.sub-cat-ol li a.right-img-a",
+        "ol.sub-cat-ol li a",
+        "a.right-img-a",
+        "a[href*='/visual-stories/']",
+        ".story-card a",
+        ".visual-story a",
+        "article a",
+        "figure a",
+        "a.newsItem",
+    ]
+
+    def _click_first_visual_story():
+        for sel in _visual_selectors:
+            try:
+                loc = page.locator(sel).first
+                count = loc.count()
+                logger.debug("Visual selector '%s' → %d element(s)", sel, count)
+                if count > 0:
+                    logger.info("Clicking first visual story using selector: %s", sel)
+                    loc.click()
+                    return
+            except Exception as exc:
+                logger.debug("Visual selector '%s' raised: %s", sel, exc)
+                continue
+        logger.error("No visual story selector matched on listing page")
+        pytest.fail("Could not find any visual story card to click on the listing page")
+
+    # ── Step 4: Detail page — 5 s hold + canonical + GA ───────────────────────
+    try:
+        logger.info("Clicking first visual story and validating detail page")
+        _nav_and_validate(
+            page,
+            "Visual Story Detail",
+            _click_first_visual_story,
+            logger,
+            category_val_store,
+        )
+        logger.info("Visual Story detail page URL: %s", page.url)
+        logger.info("PASS: Visual Story detail page — canonical & GA validated")
+
+    finally:
+        logger.info("Navigating back to homepage (cleanup)")
+        home.goto("")
+
+    logger.info("URL after return: %s", page.url)
+    assert page.url.startswith("https://www.bombaytimes.com/")
+    logger.info("PASS: Returned to homepage")
+    logger.info("=== END: test_visual_story_detail_flow ===")
+
+
+def test_latest_video_detail_flow(page, category_val_store):
+    """
+    Runs AFTER Visual Story Detail.
+    1. Navigate directly to Latest Videos listing: /latest-videos
+    2. Click the FIRST video card.
+    3. Validate the detail page: 5 s hold + canonical + GA (recorded via _nav_and_validate).
+       Canonical URL MUST exactly match current page URL → FAIL if mismatch.
+    """
+    logger.info("=== START: test_latest_video_detail_flow ===")
+    home = HomePage(page)
+    home.go_home()
+    logger.info("Homepage: %s", page.url)
+
+    # ── Step 1: Navigate to Latest Videos listing ──────────────────────────────
+    logger.info("Navigating to Latest Videos listing: https://www.bombaytimes.com/latest-videos")
+    home.goto("/latest-videos")
+    try:
+        page.wait_for_load_state("load", timeout=15000)
+    except Exception:
+        pass
+    logger.info("Latest Videos listing URL: %s", page.url)
+    assert "latest-videos" in page.url, \
+        f"Expected latest-videos listing URL, got: {page.url}"
+    logger.info("PASS: Latest Videos listing page opened")
+
+    # ── Step 2: Allow JavaScript components to fully render ────────────────────
+    # /latest-videos uses hidden carousels (href-style class); networkidle + a
+    # brief extra pause ensures all deferred scripts have run.
+    logger.info("Waiting for /latest-videos JavaScript components to render...")
+    try:
+        page.wait_for_load_state("networkidle", timeout=15000)
+    except Exception:
+        pass
+    page.wait_for_timeout(2000)   # brief extra settle for carousel init
+
+    # ── Step 3: Extract first video URL via JavaScript (bypasses visibility) ───
+    # The video items live in a hidden container; Playwright's visibility checks
+    # reject them. We use JavaScript querySelector to find the href directly,
+    # then navigate to it — functionally identical to clicking the card.
+    _js_selectors = [
+        "a.href-style[href*='/short-videos/']",       # confirmed by DOM inspection
+        "a.videoplay-icon[href*='/short-videos/']",   # companion play-icon link
+        "a[href*='/short-videos/']",                  # any short-video link
+        "a.href-style",                               # any href-style link
+        "a.newsItem[href*='/entertainment/']",        # sidebar article fallback
+        "a.newsItem",                                 # last-resort any newsItem
+    ]
+
+    def _click_first_video():
+        """Extract the first video URL via JS then navigate to it directly."""
+        for sel in _js_selectors:
+            try:
+                # Escape selector for JS string (CSS attr-selector uses quotes)
+                safe_sel = sel.replace("'", "\\'")
+                href = page.evaluate(f"""
+                    () => {{
+                        const el = document.querySelector('{safe_sel}');
+                        return (el && el.href) ? el.href : null;
+                    }}
+                """)
+                if href and "bombaytimes.com" in href and href != page.url:
+                    logger.info("JS-extracted video URL via selector '%s': %s", sel, href)
+                    page.goto(href)   # direct navigation — triggers GA, no visibility gate
+                    return
+                if href:
+                    logger.debug("JS selector '%s' → href ignored (same page or off-domain): %s", sel, href)
+            except Exception as exc:
+                logger.debug("JS selector '%s' raised: %s", sel, exc)
+        logger.error("No video link found on listing page via JavaScript extraction")
+        pytest.fail("Could not find any video link on the /latest-videos listing page")
+
+    # ── Step 4: Detail page — 5 s hold + canonical + GA ───────────────────────
+    try:
+        logger.info("Clicking first video and validating detail page")
+        _nav_and_validate(
+            page,
+            "Latest Video Detail",
+            _click_first_video,
+            logger,
+            category_val_store,
+        )
+        logger.info("Latest Video detail page URL: %s", page.url)
+        logger.info("PASS: Latest Video detail page — canonical & GA validated")
+
+    finally:
+        logger.info("Navigating back to homepage (cleanup)")
+        home.goto("")
+
+    logger.info("URL after return: %s", page.url)
+    assert page.url.startswith("https://www.bombaytimes.com/")
+    logger.info("PASS: Returned to homepage")
+    logger.info("=== END: test_latest_video_detail_flow ===")
 
 
 def test_google_analytics_tracking(page, ga_report_store):

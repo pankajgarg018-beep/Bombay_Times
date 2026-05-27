@@ -556,10 +556,10 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
   {ga_calls_html}
 </div>
 
-<!-- ░░ CATEGORY & SUBCATEGORY VALIDATION ░░ -->
+<!-- ░░ PAGE-LEVEL CANONICAL & GA VALIDATION ░░ -->
 <div class="sec">
   <div class="sec-title">
-    <span>&#128193; Category &amp; Subcategory Page Validation</span>
+    <span>&#128193; Page-Level Canonical &amp; GA Validation</span>
     <span style="font-size:12px;font-weight:400;color:#6c757d">{cat_total} page(s) checked &nbsp;&#183;&nbsp; &#9660; click row for screenshot</span>
   </div>
   <div class="ga-chips">
