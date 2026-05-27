@@ -901,6 +901,304 @@ def test_latest_video_detail_flow(page, category_val_store):
     logger.info("=== END: test_latest_video_detail_flow ===")
 
 
+def test_bt_picks_detail_flow(page, category_val_store):
+    """
+    Runs AFTER Latest Video Detail.
+    1. Navigate to BT Picks Electronics listing: /bt-picks/electronics
+    2. Scroll to 'Top Pick From The Editors This Week' section and click first article.
+    3. Validate the detail page: 5 s hold + canonical + GA (recorded via _nav_and_validate).
+       Canonical URL MUST exactly match current page URL.
+    """
+    logger.info("=== START: test_bt_picks_detail_flow ===")
+    home = HomePage(page)
+    home.go_home()
+    logger.info("Homepage: %s", page.url)
+
+    # ── Step 1: Navigate to BT Picks Electronics listing ──────────────────────
+    logger.info("Navigating to BT Picks Electronics: https://www.bombaytimes.com/bt-picks/electronics")
+    home.goto("/bt-picks/electronics")
+    try:
+        page.wait_for_load_state("load", timeout=15000)
+    except Exception:
+        pass
+    logger.info("BT Picks Electronics listing URL: %s", page.url)
+    assert "bt-picks/electronics" in page.url, \
+        f"Expected bt-picks/electronics listing URL, got: {page.url}"
+    logger.info("PASS: BT Picks Electronics listing page opened")
+
+    # ── Step 2: Allow JavaScript components to fully render ────────────────────
+    logger.info("Waiting for BT Picks Electronics JavaScript components to render...")
+    try:
+        page.wait_for_load_state("networkidle", timeout=15000)
+    except Exception:
+        pass
+    page.wait_for_timeout(2000)
+
+    # ── Step 3: Extract first article URL via JavaScript ───────────────────────
+    # Diagnostic confirmed: H1.category-pagetitle = "Top Pick From The Editors This Week"
+    # and a[href*='/bt-picks/electronics/'] returns 3 items on the listing page.
+    _bt_js_selectors = [
+        "a[href*='/bt-picks/electronics/']",   # confirmed by DOM inspection
+        "a.newsItem[href*='/bt-picks/']",
+        "a[href*='/bt-picks/']",
+        "a.href-style[href*='/bt-picks/']",
+        "a.right-img-a",
+    ]
+
+    def _click_first_bt_picks():
+        """Scroll to Top-Pick section then extract first article URL via JS."""
+        # Scroll to the 'Top Pick From' heading so it's in viewport
+        try:
+            page.evaluate("""
+                () => {
+                    const allEls = [...document.querySelectorAll('*')];
+                    const heading = allEls.find(el =>
+                        el.innerText && el.innerText.trim().includes('Top Pick From')
+                        && el.children.length < 5
+                    );
+                    if (heading) {
+                        heading.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            """)
+            page.wait_for_timeout(800)
+        except Exception:
+            pass
+
+        # Extract the first article link via JS
+        for sel in _bt_js_selectors:
+            try:
+                safe_sel = sel.replace("'", "\\'")
+                href = page.evaluate(f"""
+                    () => {{
+                        const el = document.querySelector('{safe_sel}');
+                        return (el && el.href) ? el.href : null;
+                    }}
+                """)
+                if href and "bombaytimes.com" in href and href != page.url:
+                    logger.info("JS-extracted BT Picks URL via selector '%s': %s", sel, href)
+                    page.goto(href)
+                    return
+                if href:
+                    logger.debug("JS selector '%s' - href ignored (same page or off-domain): %s", sel, href)
+            except Exception as exc:
+                logger.debug("JS selector '%s' raised: %s", sel, exc)
+        logger.error("No BT Picks article link found via JavaScript extraction")
+        pytest.fail("Could not find any BT Picks article link on the /bt-picks/electronics listing page")
+
+    # ── Step 4: Detail page — 5 s hold + canonical + GA ───────────────────────
+    try:
+        logger.info("Clicking first BT Picks article and validating detail page")
+        _nav_and_validate(
+            page,
+            "BT Picks Detail",
+            _click_first_bt_picks,
+            logger,
+            category_val_store,
+        )
+        logger.info("BT Picks detail page URL: %s", page.url)
+        logger.info("PASS: BT Picks detail page - canonical & GA validated")
+
+    finally:
+        logger.info("Navigating back to homepage (cleanup)")
+        home.goto("")
+
+    logger.info("URL after return: %s", page.url)
+    assert page.url.startswith("https://www.bombaytimes.com/")
+    logger.info("PASS: Returned to homepage")
+    logger.info("=== END: test_bt_picks_detail_flow ===")
+
+
+def test_intimate_diaries_detail_flow(page, category_val_store):
+    """
+    Runs AFTER BT Picks Detail.
+    1. Navigate to Intimate Diaries listing: /intimate-diaries
+    2. Locate first article near the 'Tanisha Rao' author section and click it.
+    3. Validate the detail page: 5 s hold + canonical + GA (recorded via _nav_and_validate).
+       Canonical URL MUST exactly match current page URL.
+    """
+    logger.info("=== START: test_intimate_diaries_detail_flow ===")
+    home = HomePage(page)
+    home.go_home()
+    logger.info("Homepage: %s", page.url)
+
+    # ── Step 1: Navigate to Intimate Diaries listing ───────────────────────────
+    logger.info("Navigating to Intimate Diaries: https://www.bombaytimes.com/intimate-diaries")
+    home.goto("/intimate-diaries")
+    try:
+        page.wait_for_load_state("load", timeout=15000)
+    except Exception:
+        pass
+    logger.info("Intimate Diaries listing URL: %s", page.url)
+    assert "intimate-diaries" in page.url, \
+        f"Expected intimate-diaries listing URL, got: {page.url}"
+    logger.info("PASS: Intimate Diaries listing page opened")
+
+    # ── Step 2: Allow JavaScript components to fully render ────────────────────
+    logger.info("Waiting for Intimate Diaries JavaScript components to render...")
+    try:
+        page.wait_for_load_state("networkidle", timeout=15000)
+    except Exception:
+        pass
+    page.wait_for_timeout(2000)
+
+    # ── Step 3: Extract first article URL via JavaScript ───────────────────────
+    # Diagnostic confirmed: H2 = "Tanisha Rao" is present, and
+    # a[href*='/intimate-diaries/'] returns 31 links on the listing page.
+    def _click_first_intimate_diaries():
+        """Find article near Tanisha Rao section then navigate to it via JS."""
+        href = page.evaluate("""
+            () => {
+                // Strategy 1: Find Tanisha Rao heading and traverse up for article links
+                const allEls = [...document.querySelectorAll(
+                    'h1,h2,h3,h4,h5,h6,strong,span,div,p'
+                )];
+                const authorEl = allEls.find(el =>
+                    el.innerText && el.innerText.trim() === 'Tanisha Rao'
+                    && el.children.length < 3
+                );
+                if (authorEl) {
+                    let container = authorEl;
+                    for (let i = 0; i < 8; i++) {
+                        const links = [...container.querySelectorAll(
+                            'a[href*="/intimate-diaries/"]'
+                        )].filter(a => a.href && !a.href.endsWith('/intimate-diaries/'));
+                        if (links.length > 0) {
+                            return links[0].href;
+                        }
+                        container = container.parentElement;
+                        if (!container) break;
+                    }
+                }
+                // Strategy 2: First intimate-diaries article link on page (fallback)
+                const links = [...document.querySelectorAll(
+                    'a[href*="/intimate-diaries/"]'
+                )].filter(a => a.href && !a.href.endsWith('/intimate-diaries/'));
+                return links.length > 0 ? links[0].href : null;
+            }
+        """)
+        if href and "bombaytimes.com" in href and href != page.url:
+            logger.info("JS-extracted Intimate Diaries URL: %s", href)
+            page.goto(href)
+            return
+        if href:
+            logger.debug("JS extraction returned href but same page or off-domain: %s", href)
+        logger.error("No Intimate Diaries article link found via JavaScript extraction")
+        pytest.fail("Could not find any Intimate Diaries article link on the listing page")
+
+    # ── Step 4: Detail page — 5 s hold + canonical + GA ───────────────────────
+    try:
+        logger.info("Clicking first Intimate Diaries article and validating detail page")
+        _nav_and_validate(
+            page,
+            "Intimate Diaries Detail",
+            _click_first_intimate_diaries,
+            logger,
+            category_val_store,
+        )
+        logger.info("Intimate Diaries detail page URL: %s", page.url)
+        logger.info("PASS: Intimate Diaries detail page - canonical & GA validated")
+
+    finally:
+        logger.info("Navigating back to homepage (cleanup)")
+        home.goto("")
+
+    logger.info("URL after return: %s", page.url)
+    assert page.url.startswith("https://www.bombaytimes.com/")
+    logger.info("PASS: Returned to homepage")
+    logger.info("=== END: test_intimate_diaries_detail_flow ===")
+
+
+def test_astro_trends_detail_flow(page, category_val_store):
+    """
+    Runs AFTER Intimate Diaries Detail.
+    1. Navigate to Astro Trends subcategory listing: /astro/trends
+    2. Click the first article available on the listing page.
+    3. Validate the detail page: 5 s hold + canonical + GA (recorded via _nav_and_validate).
+       Canonical URL MUST exactly match current page URL.
+    """
+    logger.info("=== START: test_astro_trends_detail_flow ===")
+    home = HomePage(page)
+    home.go_home()
+    logger.info("Homepage: %s", page.url)
+
+    # ── Step 1: Navigate to Astro Trends subcategory listing ──────────────────
+    logger.info("Navigating to Astro Trends: https://www.bombaytimes.com/astro/trends")
+    home.goto("/astro/trends")
+    try:
+        page.wait_for_load_state("load", timeout=15000)
+    except Exception:
+        pass
+    logger.info("Astro Trends listing URL: %s", page.url)
+    assert "astro/trends" in page.url, \
+        f"Expected astro/trends listing URL, got: {page.url}"
+    logger.info("PASS: Astro Trends listing page opened")
+
+    # ── Step 2: Allow JavaScript components to fully render ────────────────────
+    logger.info("Waiting for Astro Trends JavaScript components to render...")
+    try:
+        page.wait_for_load_state("networkidle", timeout=15000)
+    except Exception:
+        pass
+    page.wait_for_timeout(2000)
+
+    # ── Step 3: Extract first article URL via JavaScript ───────────────────────
+    # Try ordered selectors — JS extraction bypasses visibility gates on deferred
+    # content and is consistent with the pattern used in the other detail flows.
+    _astro_js_selectors = [
+        "ol.sub-cat-ol li a.right-img-a",        # image link in subcategory list
+        "ol.sub-cat-ol li a",                     # any link in subcategory list
+        "a.right-img-a[href*='/astro/']",         # right-image anchor for astro
+        "a.newsItem[href*='/astro/']",            # generic news item for astro
+        "a[href*='/astro/trends/']",              # any trends article link
+        "a[href*='/astro/']",                     # any astro article link
+    ]
+
+    def _click_first_astro():
+        """Extract the first Astro Trends article URL via JS then navigate to it."""
+        for sel in _astro_js_selectors:
+            try:
+                safe_sel = sel.replace("'", "\\'")
+                href = page.evaluate(f"""
+                    () => {{
+                        const el = document.querySelector('{safe_sel}');
+                        return (el && el.href) ? el.href : null;
+                    }}
+                """)
+                if href and "bombaytimes.com" in href and href != page.url:
+                    logger.info("JS-extracted Astro Trends URL via selector '%s': %s", sel, href)
+                    page.goto(href)
+                    return
+                if href:
+                    logger.debug("JS selector '%s' - href ignored (same page or off-domain): %s", sel, href)
+            except Exception as exc:
+                logger.debug("JS selector '%s' raised: %s", sel, exc)
+        logger.error("No Astro Trends article link found via JavaScript extraction")
+        pytest.fail("Could not find any article link on the /astro/trends listing page")
+
+    # ── Step 4: Detail page — 5 s hold + canonical + GA ───────────────────────
+    try:
+        logger.info("Clicking first Astro Trends article and validating detail page")
+        _nav_and_validate(
+            page,
+            "Astro Trends Detail",
+            _click_first_astro,
+            logger,
+            category_val_store,
+        )
+        logger.info("Astro Trends detail page URL: %s", page.url)
+        logger.info("PASS: Astro Trends detail page - canonical & GA validated")
+
+    finally:
+        logger.info("Navigating back to homepage (cleanup)")
+        home.goto("")
+
+    logger.info("URL after return: %s", page.url)
+    assert page.url.startswith("https://www.bombaytimes.com/")
+    logger.info("PASS: Returned to homepage")
+    logger.info("=== END: test_astro_trends_detail_flow ===")
+
+
 def test_google_analytics_tracking(page, ga_report_store):
     logger.info("=== START: test_google_analytics_tracking ===")
 

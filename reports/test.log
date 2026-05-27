@@ -1,452 +1,498 @@
-2026-05-27 12:13:48 [   DEBUG] proactor_events.py:633 - Using proactor: IocpProactor
-2026-05-27 12:13:48 [    INFO] test_bombaytimes_flow.py:206 - === START: test_entertainment_and_bollywood_flow ===
-2026-05-27 12:13:48 [    INFO] test_bombaytimes_flow.py:209 - Navigating to homepage
-2026-05-27 12:13:49 [    INFO] test_bombaytimes_flow.py:211 - Homepage URL: https://www.bombaytimes.com/
-2026-05-27 12:13:49 [    INFO] test_bombaytimes_flow.py:214 - Navigating to Entertainment (canonical + GA validation)
-2026-05-27 12:13:50 [    INFO] test_bombaytimes_flow.py:73 - [Entertainment] Page loaded: https://www.bombaytimes.com/entertainment
-2026-05-27 12:13:50 [    INFO] test_bombaytimes_flow.py:74 - [Entertainment] Holding for 5 s (visual confirmation)...
-2026-05-27 12:13:55 [    INFO] test_bombaytimes_flow.py:114 - [Entertainment] PASS Canonical: https://www.bombaytimes.com/entertainment
-2026-05-27 12:13:55 [    INFO] test_bombaytimes_flow.py:142 - [Entertainment] GA calls captured: 3
-2026-05-27 12:13:55 [    INFO] test_bombaytimes_flow.py:146 - [Entertainment]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:13:55 [    INFO] test_bombaytimes_flow.py:146 - [Entertainment]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864230279&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGA&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=7&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938465~115938468~118228214~119034493&dp=%2Fentertainment&sid=1779864230&sct=1&seg=0&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20Entertainment%20News%2C%20Celebrity%20Photos%2C%20Gossips%20and%20more&_tu=QA&en=page_view&_fv=1&_nsi=1&_ss=1&_c=1&_ee=1&ep.author_name=NA&tfd=783
-2026-05-27 12:13:55 [    INFO] test_bombaytimes_flow.py:146 - [Entertainment]   GA [204] https://stats.g.doubleclick.net/g/collect?v=2&tid=G-NNM57R6CG5&cid=354392294.1779864231&gtm=45je65m1v9172439187za200zd9172439187&rcb=7&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=0~115938465~115938468~118228214~119034493
-2026-05-27 12:13:55 [    INFO] test_bombaytimes_flow.py:147 - [Entertainment] PASS GA: 3 call(s) fired
-2026-05-27 12:13:55 [    INFO] test_bombaytimes_flow.py:216 - URL after Entertainment: https://www.bombaytimes.com/entertainment
-2026-05-27 12:13:55 [    INFO] test_bombaytimes_flow.py:219 - PASS: Entertainment URL verified
-2026-05-27 12:13:55 [    INFO] test_bombaytimes_flow.py:222 - Navigating to Bollywood (canonical + GA validation)
-2026-05-27 12:13:55 [    INFO] test_bombaytimes_flow.py:73 - [Entertainment > Bollywood] Page loaded: https://www.bombaytimes.com/entertainment/bollywood
-2026-05-27 12:13:55 [    INFO] test_bombaytimes_flow.py:74 - [Entertainment > Bollywood] Holding for 5 s (visual confirmation)...
-2026-05-27 12:14:00 [    INFO] test_bombaytimes_flow.py:114 - [Entertainment > Bollywood] PASS Canonical: https://www.bombaytimes.com/entertainment/bollywood
-2026-05-27 12:14:00 [    INFO] test_bombaytimes_flow.py:142 - [Entertainment > Bollywood] GA calls captured: 2
-2026-05-27 12:14:00 [    INFO] test_bombaytimes_flow.py:146 - [Entertainment > Bollywood]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:14:00 [    INFO] test_bombaytimes_flow.py:146 - [Entertainment > Bollywood]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864235652&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=7&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938465~115938469~118228215~119034493~119169249&dp=%2Fentertainment%2Fbollywood&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment%2Fbollywood&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment&dt=Latest%20Bollywood%20News%2C%20Movie%20Reviews%2C%20Events%20%26%20More&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=271
-2026-05-27 12:14:00 [    INFO] test_bombaytimes_flow.py:147 - [Entertainment > Bollywood] PASS GA: 2 call(s) fired
-2026-05-27 12:14:00 [    INFO] test_bombaytimes_flow.py:224 - URL after Bollywood: https://www.bombaytimes.com/entertainment/bollywood
-2026-05-27 12:14:00 [    INFO] test_bombaytimes_flow.py:227 - PASS: Bollywood URL verified
-2026-05-27 12:14:00 [    INFO] test_bombaytimes_flow.py:229 - === END: test_entertainment_and_bollywood_flow ===
-2026-05-27 12:14:00 [    INFO] test_bombaytimes_flow.py:233 - === START: test_lifestyle_and_pawsome_flow ===
-2026-05-27 12:14:00 [    INFO] test_bombaytimes_flow.py:236 - Homepage: https://www.bombaytimes.com/
-2026-05-27 12:14:00 [    INFO] test_bombaytimes_flow.py:238 - Navigating to Lifestyle (canonical + GA validation)
-2026-05-27 12:14:01 [    INFO] test_bombaytimes_flow.py:73 - [Lifestyle] Page loaded: https://www.bombaytimes.com/lifestyle
-2026-05-27 12:14:01 [    INFO] test_bombaytimes_flow.py:74 - [Lifestyle] Holding for 5 s (visual confirmation)...
-2026-05-27 12:14:06 [    INFO] test_bombaytimes_flow.py:114 - [Lifestyle] PASS Canonical: https://www.bombaytimes.com/lifestyle
-2026-05-27 12:14:06 [    INFO] test_bombaytimes_flow.py:142 - [Lifestyle] GA calls captured: 5
-2026-05-27 12:14:06 [    INFO] test_bombaytimes_flow.py:146 - [Lifestyle]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:14:06 [    INFO] test_bombaytimes_flow.py:146 - [Lifestyle]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864240868&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=0&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938469~118689382&dp=%2F&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=251
-2026-05-27 12:14:06 [    INFO] test_bombaytimes_flow.py:146 - [Lifestyle]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:14:06 [    INFO] test_bombaytimes_flow.py:146 - [Lifestyle]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864241183&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=0&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938468~118228214~118689382~119034493&dp=%2Flifestyle&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Flifestyle&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20Lifestyle%20News%2C%20Hot%20Trends%2C%20Celebrity%20Style%20and%20More&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=272
-2026-05-27 12:14:06 [    INFO] test_bombaytimes_flow.py:146 - [Lifestyle]   GA [204] https://www.googletagmanager.com/td?id=G-NNM57R6CG5&v=3&t=t&pid=115314466&gtm=45je65m1v9172439187za200zd9172439187&seq=1&exp=0~115938466~115938468~118228214~118689382~119034493&dl=www.bombaytimes.com%2Flifestyle&tdp=G-NNM57R6CG5;172439187;0;0;0&frm=0&rtg=172439187&slo=20&hlo=22&lst=3&bt=0&ct=3&z=0
-2026-05-27 12:14:06 [    INFO] test_bombaytimes_flow.py:147 - [Lifestyle] PASS GA: 5 call(s) fired
-2026-05-27 12:14:06 [    INFO] test_bombaytimes_flow.py:240 - After Lifestyle: https://www.bombaytimes.com/lifestyle
-2026-05-27 12:14:06 [    INFO] test_bombaytimes_flow.py:242 - PASS: Lifestyle URL verified
-2026-05-27 12:14:06 [    INFO] test_bombaytimes_flow.py:244 - Navigating to Pawsome (canonical + GA validation)
-2026-05-27 12:14:06 [    INFO] test_bombaytimes_flow.py:73 - [Lifestyle > Pawsome] Page loaded: https://www.bombaytimes.com/lifestyle/pawsome
-2026-05-27 12:14:06 [    INFO] test_bombaytimes_flow.py:74 - [Lifestyle > Pawsome] Holding for 5 s (visual confirmation)...
-2026-05-27 12:14:11 [    INFO] test_bombaytimes_flow.py:114 - [Lifestyle > Pawsome] PASS Canonical: https://www.bombaytimes.com/lifestyle/pawsome
-2026-05-27 12:14:11 [    INFO] test_bombaytimes_flow.py:142 - [Lifestyle > Pawsome] GA calls captured: 2
-2026-05-27 12:14:11 [    INFO] test_bombaytimes_flow.py:146 - [Lifestyle > Pawsome]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:14:11 [    INFO] test_bombaytimes_flow.py:146 - [Lifestyle > Pawsome]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864246515&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=2&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616985~115938466~115938469~119034491&dp=%2Flifestyle%2Fpawsome&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Flifestyle%2Fpawsome&dr=https%3A%2F%2Fwww.bombaytimes.com%2Flifestyle&dt=Fun%20facts%2C%20Tips%20And%20Much%20More%20About%20Animals&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=316
-2026-05-27 12:14:11 [    INFO] test_bombaytimes_flow.py:147 - [Lifestyle > Pawsome] PASS GA: 2 call(s) fired
-2026-05-27 12:14:11 [    INFO] test_bombaytimes_flow.py:246 - After Pawsome: https://www.bombaytimes.com/lifestyle/pawsome
-2026-05-27 12:14:11 [    INFO] test_bombaytimes_flow.py:248 - PASS: Pawsome URL verified
-2026-05-27 12:14:11 [    INFO] test_bombaytimes_flow.py:251 - After logo click: https://www.bombaytimes.com/
-2026-05-27 12:14:11 [    INFO] test_bombaytimes_flow.py:253 - PASS: Returned to homepage
-2026-05-27 12:14:11 [    INFO] test_bombaytimes_flow.py:254 - === END: test_lifestyle_and_pawsome_flow ===
-2026-05-27 12:14:11 [    INFO] test_bombaytimes_flow.py:258 - === START: test_dining_and_reviews_flow ===
-2026-05-27 12:14:11 [    INFO] test_bombaytimes_flow.py:261 - Homepage: https://www.bombaytimes.com/
-2026-05-27 12:14:11 [    INFO] test_bombaytimes_flow.py:263 - Navigating to Dining (canonical + GA validation)
-2026-05-27 12:14:12 [    INFO] test_bombaytimes_flow.py:73 - [Dining] Page loaded: https://www.bombaytimes.com/dining
-2026-05-27 12:14:12 [    INFO] test_bombaytimes_flow.py:74 - [Dining] Holding for 5 s (visual confirmation)...
-2026-05-27 12:14:17 [    INFO] test_bombaytimes_flow.py:114 - [Dining] PASS Canonical: https://www.bombaytimes.com/dining
-2026-05-27 12:14:17 [    INFO] test_bombaytimes_flow.py:142 - [Dining] GA calls captured: 4
-2026-05-27 12:14:17 [    INFO] test_bombaytimes_flow.py:146 - [Dining]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:14:17 [    INFO] test_bombaytimes_flow.py:146 - [Dining]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864251857&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=6&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938465~115938469~118228215~118694324&dp=%2F&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=256
-2026-05-27 12:14:17 [    INFO] test_bombaytimes_flow.py:146 - [Dining]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:14:17 [    INFO] test_bombaytimes_flow.py:146 - [Dining]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864252273&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=18&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938468~118694324~119034493~119169248&dp=%2Fdining&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fdining&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=News%20%26%20Updates%20on%20Food%20%26%20Night%20Life%2C%20Restaurant%20Reviews%20and%20More&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=358
-2026-05-27 12:14:17 [    INFO] test_bombaytimes_flow.py:147 - [Dining] PASS GA: 4 call(s) fired
-2026-05-27 12:14:17 [    INFO] test_bombaytimes_flow.py:265 - After Dining: https://www.bombaytimes.com/dining
-2026-05-27 12:14:17 [    INFO] test_bombaytimes_flow.py:267 - PASS: Dining URL verified
-2026-05-27 12:14:17 [    INFO] test_bombaytimes_flow.py:269 - Navigating to Reviews (canonical + GA validation)
-2026-05-27 12:14:17 [    INFO] test_bombaytimes_flow.py:73 - [Dining > Reviews] Page loaded: https://www.bombaytimes.com/dining/reviews
-2026-05-27 12:14:17 [    INFO] test_bombaytimes_flow.py:74 - [Dining > Reviews] Holding for 5 s (visual confirmation)...
-2026-05-27 12:14:22 [    INFO] test_bombaytimes_flow.py:114 - [Dining > Reviews] PASS Canonical: https://www.bombaytimes.com/dining/reviews
-2026-05-27 12:14:22 [    INFO] test_bombaytimes_flow.py:142 - [Dining > Reviews] GA calls captured: 2
-2026-05-27 12:14:22 [    INFO] test_bombaytimes_flow.py:146 - [Dining > Reviews]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:14:22 [    INFO] test_bombaytimes_flow.py:146 - [Dining > Reviews]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864257623&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=19&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616985~115938466~115938469~118694324&dp=%2Fdining%2Freviews&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fdining%2Freviews&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fdining&dt=Latest%20Restaurant%20%26%20Food%20Reviews%20%7C%20Dining%20News&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=309
-2026-05-27 12:14:22 [    INFO] test_bombaytimes_flow.py:147 - [Dining > Reviews] PASS GA: 2 call(s) fired
-2026-05-27 12:14:22 [    INFO] test_bombaytimes_flow.py:271 - After Reviews: https://www.bombaytimes.com/dining/reviews
-2026-05-27 12:14:22 [    INFO] test_bombaytimes_flow.py:273 - PASS: Reviews URL verified
-2026-05-27 12:14:22 [    INFO] test_bombaytimes_flow.py:276 - After logo click: https://www.bombaytimes.com/
-2026-05-27 12:14:22 [    INFO] test_bombaytimes_flow.py:278 - PASS: Returned to homepage
-2026-05-27 12:14:22 [    INFO] test_bombaytimes_flow.py:279 - === END: test_dining_and_reviews_flow ===
-2026-05-27 12:14:22 [    INFO] test_bombaytimes_flow.py:283 - === START: test_travel_and_india_flow ===
-2026-05-27 12:14:22 [    INFO] test_bombaytimes_flow.py:286 - Homepage: https://www.bombaytimes.com/
-2026-05-27 12:14:22 [    INFO] test_bombaytimes_flow.py:288 - Navigating to Travel (canonical + GA validation)
-2026-05-27 12:14:23 [    INFO] test_bombaytimes_flow.py:73 - [Travel] Page loaded: https://www.bombaytimes.com/travel
-2026-05-27 12:14:23 [    INFO] test_bombaytimes_flow.py:74 - [Travel] Holding for 5 s (visual confirmation)...
-2026-05-27 12:14:28 [    INFO] test_bombaytimes_flow.py:114 - [Travel] PASS Canonical: https://www.bombaytimes.com/travel
-2026-05-27 12:14:28 [    INFO] test_bombaytimes_flow.py:142 - [Travel] GA calls captured: 3
-2026-05-27 12:14:28 [    INFO] test_bombaytimes_flow.py:146 - [Travel]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:14:28 [    INFO] test_bombaytimes_flow.py:146 - [Travel]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:14:28 [    INFO] test_bombaytimes_flow.py:146 - [Travel]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864263248&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=18&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616985~115938466~115938468&dp=%2Ftravel&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Ftravel&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=India%20%26%20International%20Travel%20Guide%20%E2%80%93%20Places%20to%20Visit%2C%20Hotels&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=254
-2026-05-27 12:14:28 [    INFO] test_bombaytimes_flow.py:147 - [Travel] PASS GA: 3 call(s) fired
-2026-05-27 12:14:28 [    INFO] test_bombaytimes_flow.py:290 - After Travel: https://www.bombaytimes.com/travel
-2026-05-27 12:14:28 [    INFO] test_bombaytimes_flow.py:292 - PASS: Travel URL verified
-2026-05-27 12:14:28 [    INFO] test_bombaytimes_flow.py:294 - Navigating to India (canonical + GA validation)
-2026-05-27 12:14:28 [    INFO] test_bombaytimes_flow.py:73 - [Travel > India] Page loaded: https://www.bombaytimes.com/travel/india
-2026-05-27 12:14:28 [    INFO] test_bombaytimes_flow.py:74 - [Travel > India] Holding for 5 s (visual confirmation)...
-2026-05-27 12:14:33 [    INFO] test_bombaytimes_flow.py:114 - [Travel > India] PASS Canonical: https://www.bombaytimes.com/travel/india
-2026-05-27 12:14:33 [    INFO] test_bombaytimes_flow.py:142 - [Travel > India] GA calls captured: 2
-2026-05-27 12:14:33 [    INFO] test_bombaytimes_flow.py:146 - [Travel > India]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:14:33 [    INFO] test_bombaytimes_flow.py:146 - [Travel > India]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864268518&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=2&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616985~115938466~115938468&dp=%2Ftravel%2Findia&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Ftravel%2Findia&dr=https%3A%2F%2Fwww.bombaytimes.com%2Ftravel&dt=India%20Travel%20Guide%20with%20Tips%20and%20Ideas&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=270
-2026-05-27 12:14:33 [    INFO] test_bombaytimes_flow.py:147 - [Travel > India] PASS GA: 2 call(s) fired
-2026-05-27 12:14:33 [    INFO] test_bombaytimes_flow.py:296 - After India: https://www.bombaytimes.com/travel/india
-2026-05-27 12:14:33 [    INFO] test_bombaytimes_flow.py:298 - PASS: India URL verified
-2026-05-27 12:14:33 [    INFO] test_bombaytimes_flow.py:301 - After logo click: https://www.bombaytimes.com/
-2026-05-27 12:14:33 [    INFO] test_bombaytimes_flow.py:303 - PASS: Returned to homepage
-2026-05-27 12:14:33 [    INFO] test_bombaytimes_flow.py:304 - === END: test_travel_and_india_flow ===
-2026-05-27 12:14:33 [    INFO] test_bombaytimes_flow.py:308 - === START: test_people_and_interviews_flow ===
-2026-05-27 12:14:33 [    INFO] test_bombaytimes_flow.py:311 - Homepage: https://www.bombaytimes.com/
-2026-05-27 12:14:33 [    INFO] test_bombaytimes_flow.py:313 - Navigating to People (canonical + GA validation)
-2026-05-27 12:14:34 [    INFO] test_bombaytimes_flow.py:73 - [People] Page loaded: https://www.bombaytimes.com/people
-2026-05-27 12:14:34 [    INFO] test_bombaytimes_flow.py:74 - [People] Holding for 5 s (visual confirmation)...
-2026-05-27 12:14:39 [    INFO] test_bombaytimes_flow.py:114 - [People] PASS Canonical: https://www.bombaytimes.com/people
-2026-05-27 12:14:39 [    INFO] test_bombaytimes_flow.py:142 - [People] GA calls captured: 4
-2026-05-27 12:14:39 [    INFO] test_bombaytimes_flow.py:146 - [People]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:14:39 [    INFO] test_bombaytimes_flow.py:146 - [People]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864273834&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=0&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938466~115938469~119034493&dp=%2F&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=240
-2026-05-27 12:14:39 [    INFO] test_bombaytimes_flow.py:146 - [People]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:14:39 [    INFO] test_bombaytimes_flow.py:146 - [People]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864274152&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=17&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938465~115938469~118128922~119169247&dp=%2Fpeople&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fpeople&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20Celebrity%20News%20%26%20Exclusive%20Interviews&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=273
-2026-05-27 12:14:39 [    INFO] test_bombaytimes_flow.py:147 - [People] PASS GA: 4 call(s) fired
-2026-05-27 12:14:39 [    INFO] test_bombaytimes_flow.py:315 - After People: https://www.bombaytimes.com/people
-2026-05-27 12:14:39 [    INFO] test_bombaytimes_flow.py:317 - PASS: People URL verified
-2026-05-27 12:14:39 [    INFO] test_bombaytimes_flow.py:319 - Navigating to Interviews (canonical + GA validation)
-2026-05-27 12:14:39 [    INFO] test_bombaytimes_flow.py:73 - [People > Interviews] Page loaded: https://www.bombaytimes.com/people/interviews
-2026-05-27 12:14:39 [    INFO] test_bombaytimes_flow.py:74 - [People > Interviews] Holding for 5 s (visual confirmation)...
-2026-05-27 12:14:44 [    INFO] test_bombaytimes_flow.py:114 - [People > Interviews] PASS Canonical: https://www.bombaytimes.com/people/interviews
-2026-05-27 12:14:44 [    INFO] test_bombaytimes_flow.py:142 - [People > Interviews] GA calls captured: 2
-2026-05-27 12:14:44 [    INFO] test_bombaytimes_flow.py:146 - [People > Interviews]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:14:44 [    INFO] test_bombaytimes_flow.py:146 - [People > Interviews]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864279443&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=10&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938465~115938469~118694324&dp=%2Fpeople%2Finterviews&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fpeople%2Finterviews&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fpeople&dt=Interviews%20of%20Celebrities%20and%20Famous%20People&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=245
-2026-05-27 12:14:44 [    INFO] test_bombaytimes_flow.py:147 - [People > Interviews] PASS GA: 2 call(s) fired
-2026-05-27 12:14:44 [    INFO] test_bombaytimes_flow.py:321 - After Interviews: https://www.bombaytimes.com/people/interviews
-2026-05-27 12:14:44 [    INFO] test_bombaytimes_flow.py:323 - PASS: Interviews URL verified
-2026-05-27 12:14:44 [    INFO] test_bombaytimes_flow.py:326 - After logo click: https://www.bombaytimes.com/
-2026-05-27 12:14:44 [    INFO] test_bombaytimes_flow.py:328 - PASS: Returned to homepage
-2026-05-27 12:14:44 [    INFO] test_bombaytimes_flow.py:329 - === END: test_people_and_interviews_flow ===
-2026-05-27 12:14:44 [    INFO] test_bombaytimes_flow.py:333 - === START: test_specials_and_take_two_flow ===
-2026-05-27 12:14:44 [    INFO] test_bombaytimes_flow.py:336 - Homepage: https://www.bombaytimes.com/
-2026-05-27 12:14:44 [    INFO] test_bombaytimes_flow.py:338 - Navigating to Specials (canonical + GA validation)
-2026-05-27 12:14:45 [    INFO] test_bombaytimes_flow.py:73 - [Specials] Page loaded: https://www.bombaytimes.com/specials
-2026-05-27 12:14:45 [    INFO] test_bombaytimes_flow.py:74 - [Specials] Holding for 5 s (visual confirmation)...
-2026-05-27 12:14:50 [    INFO] test_bombaytimes_flow.py:114 - [Specials] PASS Canonical: https://www.bombaytimes.com/specials
-2026-05-27 12:14:50 [    INFO] test_bombaytimes_flow.py:142 - [Specials] GA calls captured: 5
-2026-05-27 12:14:50 [    INFO] test_bombaytimes_flow.py:146 - [Specials]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:14:50 [    INFO] test_bombaytimes_flow.py:146 - [Specials]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864284817&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=8&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938466~115938468&dp=%2F&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=258
-2026-05-27 12:14:50 [    INFO] test_bombaytimes_flow.py:146 - [Specials]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:14:50 [    INFO] test_bombaytimes_flow.py:146 - [Specials]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864285238&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=5&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938468~118228214&dp=%2Fspecials&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fspecials&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Special%20Campaigns%2FInitiatives%20By%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=374
-2026-05-27 12:14:50 [    INFO] test_bombaytimes_flow.py:146 - [Specials]   GA [204] https://www.googletagmanager.com/td?id=G-NNM57R6CG5&v=3&t=t&pid=1219205113&gtm=45je65m1v9172439187za200zd9172439187&seq=1&exp=0~115938466~115938468~118228214&dl=www.bombaytimes.com%2Fspecials&tdp=G-NNM57R6CG5;172439187;0;0;0&frm=0&rtg=172439187&slo=20&hlo=22&lst=3&bt=0&ct=3&z=0
-2026-05-27 12:14:50 [    INFO] test_bombaytimes_flow.py:147 - [Specials] PASS GA: 5 call(s) fired
-2026-05-27 12:14:50 [    INFO] test_bombaytimes_flow.py:340 - After Specials: https://www.bombaytimes.com/specials
-2026-05-27 12:14:50 [    INFO] test_bombaytimes_flow.py:342 - PASS: Specials URL verified
-2026-05-27 12:14:50 [    INFO] test_bombaytimes_flow.py:344 - Navigating to Take Two (canonical + GA validation)
-2026-05-27 12:14:50 [    INFO] test_bombaytimes_flow.py:73 - [Specials > Take Two] Page loaded: https://www.bombaytimes.com/specials/take-two
-2026-05-27 12:14:50 [    INFO] test_bombaytimes_flow.py:74 - [Specials > Take Two] Holding for 5 s (visual confirmation)...
-2026-05-27 12:14:55 [    INFO] test_bombaytimes_flow.py:114 - [Specials > Take Two] PASS Canonical: https://www.bombaytimes.com/specials/take-two
-2026-05-27 12:14:55 [    INFO] test_bombaytimes_flow.py:142 - [Specials > Take Two] GA calls captured: 2
-2026-05-27 12:14:55 [    INFO] test_bombaytimes_flow.py:146 - [Specials > Take Two]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:14:55 [    INFO] test_bombaytimes_flow.py:146 - [Specials > Take Two]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864290503&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=8&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616985~115938466~115938469&dp=%2Fspecials%2Ftake-two&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fspecials%2Ftake-two&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fspecials&dt=A%20Valentine%27s%20Day%20special%20campaign%20with%20celebrities%20sharing%20their%20stories%20of%20love&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=243
-2026-05-27 12:14:55 [    INFO] test_bombaytimes_flow.py:147 - [Specials > Take Two] PASS GA: 2 call(s) fired
-2026-05-27 12:14:55 [    INFO] test_bombaytimes_flow.py:346 - After Take Two: https://www.bombaytimes.com/specials/take-two
-2026-05-27 12:14:55 [    INFO] test_bombaytimes_flow.py:348 - PASS: Take Two URL verified
-2026-05-27 12:14:55 [    INFO] test_bombaytimes_flow.py:351 - After logo click: https://www.bombaytimes.com/
-2026-05-27 12:14:55 [    INFO] test_bombaytimes_flow.py:353 - PASS: Returned to homepage
-2026-05-27 12:14:55 [    INFO] test_bombaytimes_flow.py:354 - === END: test_specials_and_take_two_flow ===
-2026-05-27 12:14:55 [    INFO] test_bombaytimes_flow.py:358 - === START: test_astro_and_trends_flow ===
-2026-05-27 12:14:55 [    INFO] test_bombaytimes_flow.py:361 - Homepage: https://www.bombaytimes.com/
-2026-05-27 12:14:55 [    INFO] test_bombaytimes_flow.py:363 - Navigating to Astro (canonical + GA validation)
-2026-05-27 12:14:56 [    INFO] test_bombaytimes_flow.py:73 - [Astro] Page loaded: https://www.bombaytimes.com/astro
-2026-05-27 12:14:56 [    INFO] test_bombaytimes_flow.py:74 - [Astro] Holding for 5 s (visual confirmation)...
-2026-05-27 12:15:01 [    INFO] test_bombaytimes_flow.py:114 - [Astro] PASS Canonical: https://www.bombaytimes.com/astro
-2026-05-27 12:15:01 [    INFO] test_bombaytimes_flow.py:142 - [Astro] GA calls captured: 4
-2026-05-27 12:15:01 [    INFO] test_bombaytimes_flow.py:146 - [Astro]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:15:01 [    INFO] test_bombaytimes_flow.py:146 - [Astro]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864295804&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=1&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938469~119034492~119169249&dp=%2F&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=207
-2026-05-27 12:15:01 [    INFO] test_bombaytimes_flow.py:146 - [Astro]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:15:01 [    INFO] test_bombaytimes_flow.py:146 - [Astro]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864296247&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=14&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938468~119169249&dp=%2Fastro&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fastro&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Your%20Astrology%20Guide%20With%20Predictions%2C%20Manifestation%20Portals%2C%20Tips&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=405
-2026-05-27 12:15:01 [    INFO] test_bombaytimes_flow.py:147 - [Astro] PASS GA: 4 call(s) fired
-2026-05-27 12:15:01 [    INFO] test_bombaytimes_flow.py:365 - After Astro: https://www.bombaytimes.com/astro
-2026-05-27 12:15:01 [    INFO] test_bombaytimes_flow.py:367 - PASS: Astro URL verified
-2026-05-27 12:15:01 [    INFO] test_bombaytimes_flow.py:369 - Navigating to Trends (canonical + GA validation)
-2026-05-27 12:15:09 [    INFO] test_bombaytimes_flow.py:73 - [Astro > Trends] Page loaded: https://www.bombaytimes.com/astro/trends
-2026-05-27 12:15:09 [    INFO] test_bombaytimes_flow.py:74 - [Astro > Trends] Holding for 5 s (visual confirmation)...
-2026-05-27 12:15:14 [    INFO] test_bombaytimes_flow.py:114 - [Astro > Trends] PASS Canonical: https://www.bombaytimes.com/astro/trends
-2026-05-27 12:15:14 [    INFO] test_bombaytimes_flow.py:142 - [Astro > Trends] GA calls captured: 2
-2026-05-27 12:15:14 [    INFO] test_bombaytimes_flow.py:146 - [Astro > Trends]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:15:14 [    INFO] test_bombaytimes_flow.py:146 - [Astro > Trends]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864309585&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=4&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938469~119034491~119169249&dp=%2Fastro%2Ftrends&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fastro%2Ftrends&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fastro&dt=All%20Astrology%20Related%20Trends%20For%20The%20Believer%20In%20You&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=278
-2026-05-27 12:15:14 [    INFO] test_bombaytimes_flow.py:147 - [Astro > Trends] PASS GA: 2 call(s) fired
-2026-05-27 12:15:14 [    INFO] test_bombaytimes_flow.py:371 - After Trends: https://www.bombaytimes.com/astro/trends
-2026-05-27 12:15:14 [    INFO] test_bombaytimes_flow.py:373 - PASS: Trends URL verified
-2026-05-27 12:15:14 [    INFO] test_bombaytimes_flow.py:376 - After logo click: https://www.bombaytimes.com/
-2026-05-27 12:15:14 [    INFO] test_bombaytimes_flow.py:378 - PASS: Returned to homepage
-2026-05-27 12:15:14 [    INFO] test_bombaytimes_flow.py:379 - === END: test_astro_and_trends_flow ===
-2026-05-27 12:15:14 [    INFO] test_bombaytimes_flow.py:383 - === START: test_bt_picks_and_electronics_flow ===
-2026-05-27 12:15:14 [    INFO] test_bombaytimes_flow.py:386 - Homepage: https://www.bombaytimes.com/
-2026-05-27 12:15:14 [    INFO] test_bombaytimes_flow.py:388 - Navigating to BT Picks (canonical + GA validation)
-2026-05-27 12:15:15 [    INFO] test_bombaytimes_flow.py:73 - [BT Picks] Page loaded: https://www.bombaytimes.com/bt-picks
-2026-05-27 12:15:15 [    INFO] test_bombaytimes_flow.py:74 - [BT Picks] Holding for 5 s (visual confirmation)...
-2026-05-27 12:15:20 [    INFO] test_bombaytimes_flow.py:114 - [BT Picks] PASS Canonical: https://www.bombaytimes.com/bt-picks
-2026-05-27 12:15:20 [    INFO] test_bombaytimes_flow.py:142 - [BT Picks] GA calls captured: 3
-2026-05-27 12:15:20 [    INFO] test_bombaytimes_flow.py:146 - [BT Picks]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:15:20 [    INFO] test_bombaytimes_flow.py:146 - [BT Picks]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:15:20 [    INFO] test_bombaytimes_flow.py:146 - [BT Picks]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864315290&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=1&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938465~115938469~119027222~119168155&dp=%2Fbt-picks&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fbt-picks&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Bombay%20Times%20Picks%3A%20All%20Inclusive%20Reviews%20On%20Latest%20Launches&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=331
-2026-05-27 12:15:20 [    INFO] test_bombaytimes_flow.py:147 - [BT Picks] PASS GA: 3 call(s) fired
-2026-05-27 12:15:20 [    INFO] test_bombaytimes_flow.py:390 - After BT Picks: https://www.bombaytimes.com/bt-picks
-2026-05-27 12:15:20 [    INFO] test_bombaytimes_flow.py:392 - PASS: BT Picks URL verified
-2026-05-27 12:15:20 [    INFO] test_bombaytimes_flow.py:394 - Navigating to Electronics (canonical + GA validation)
-2026-05-27 12:15:28 [    INFO] test_bombaytimes_flow.py:73 - [BT Picks > Electronics] Page loaded: https://www.bombaytimes.com/bt-picks/electronics
-2026-05-27 12:15:28 [    INFO] test_bombaytimes_flow.py:74 - [BT Picks > Electronics] Holding for 5 s (visual confirmation)...
-2026-05-27 12:15:33 [    INFO] test_bombaytimes_flow.py:114 - [BT Picks > Electronics] PASS Canonical: https://www.bombaytimes.com/bt-picks/electronics
-2026-05-27 12:15:33 [    INFO] test_bombaytimes_flow.py:142 - [BT Picks > Electronics] GA calls captured: 2
-2026-05-27 12:15:33 [    INFO] test_bombaytimes_flow.py:146 - [BT Picks > Electronics]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:15:33 [    INFO] test_bombaytimes_flow.py:146 - [BT Picks > Electronics]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864328573&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=8&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938466~115938469~119034491&dp=%2Fbt-picks%2Felectronics&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fbt-picks%2Felectronics&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fbt-picks&dt=Detailed%20reviews%20and%20best%20deals%20on%20Electronics&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=223
-2026-05-27 12:15:33 [    INFO] test_bombaytimes_flow.py:147 - [BT Picks > Electronics] PASS GA: 2 call(s) fired
-2026-05-27 12:15:33 [    INFO] test_bombaytimes_flow.py:396 - After Electronics: https://www.bombaytimes.com/bt-picks/electronics
-2026-05-27 12:15:33 [    INFO] test_bombaytimes_flow.py:398 - PASS: Electronics URL verified
-2026-05-27 12:15:33 [    INFO] test_bombaytimes_flow.py:401 - After logo click: https://www.bombaytimes.com/
-2026-05-27 12:15:33 [    INFO] test_bombaytimes_flow.py:403 - PASS: Returned to homepage
-2026-05-27 12:15:33 [    INFO] test_bombaytimes_flow.py:404 - === END: test_bt_picks_and_electronics_flow ===
-2026-05-27 12:15:33 [    INFO] test_bombaytimes_flow.py:408 - === START: test_intimate_diaries_flow ===
-2026-05-27 12:15:33 [    INFO] test_bombaytimes_flow.py:411 - Homepage: https://www.bombaytimes.com/
-2026-05-27 12:15:33 [    INFO] test_bombaytimes_flow.py:414 - === [Intimate Diaries] Performance timing enabled ===
-2026-05-27 12:15:33 [    INFO] test_bombaytimes_flow.py:415 - [Intimate Diaries] Navigating (canonical + GA validation + timing logs)
-2026-05-27 12:15:41 [    INFO] test_bombaytimes_flow.py:57 - [Intimate Diaries] ⏱ Step 1 – Click/nav completed: 7.58 s
-2026-05-27 12:15:41 [    INFO] test_bombaytimes_flow.py:68 - [Intimate Diaries] ⏱ Step 2 – Page load state reached: 0.00 s
-2026-05-27 12:15:41 [    INFO] test_bombaytimes_flow.py:73 - [Intimate Diaries] Page loaded: https://www.bombaytimes.com/intimate-diaries
-2026-05-27 12:15:41 [    INFO] test_bombaytimes_flow.py:74 - [Intimate Diaries] Holding for 5 s (visual confirmation)...
-2026-05-27 12:15:46 [    INFO] test_bombaytimes_flow.py:114 - [Intimate Diaries] PASS Canonical: https://www.bombaytimes.com/intimate-diaries
-2026-05-27 12:15:46 [    INFO] test_bombaytimes_flow.py:132 - [Intimate Diaries] ⏱ Step 3 – Canonical validation: 0.028 s | Result: PASS
-2026-05-27 12:15:46 [    INFO] test_bombaytimes_flow.py:142 - [Intimate Diaries] GA calls captured: 4
-2026-05-27 12:15:46 [    INFO] test_bombaytimes_flow.py:146 - [Intimate Diaries]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:15:46 [    INFO] test_bombaytimes_flow.py:146 - [Intimate Diaries]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864333898&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=14&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938465~115938469~119034493~119169247&dp=%2F&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=232
-2026-05-27 12:15:46 [    INFO] test_bombaytimes_flow.py:146 - [Intimate Diaries]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:15:46 [    INFO] test_bombaytimes_flow.py:146 - [Intimate Diaries]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864341416&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=10&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938468~118689382&dp=%2Fintimate-diaries&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fintimate-diaries&dt=BT%20Intimate%20Diaries%20%E2%80%93%20Your%20Weekly%20Guide%20to%20Sex%2C%20Love%20%26%20Relationships&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=1487
-2026-05-27 12:15:46 [    INFO] test_bombaytimes_flow.py:147 - [Intimate Diaries] PASS GA: 4 call(s) fired
-2026-05-27 12:15:46 [    INFO] test_bombaytimes_flow.py:153 - [Intimate Diaries] ⏱ Step 4 – GA validation: 0.001 s | Calls: 4 | Result: PASS
-2026-05-27 12:15:46 [    INFO] test_bombaytimes_flow.py:158 - [Intimate Diaries] ⏱ TOTAL (excl. 5 s hold) — click: 7.58 s | load: 0.00 s | canonical: 0.028 s | GA: 0.001 s | TOTAL: 7.64 s
-2026-05-27 12:15:46 [    INFO] test_bombaytimes_flow.py:422 - After Intimate Diaries: https://www.bombaytimes.com/intimate-diaries
-2026-05-27 12:15:46 [    INFO] test_bombaytimes_flow.py:425 - PASS: Intimate Diaries URL verified
-2026-05-27 12:15:46 [    INFO] test_bombaytimes_flow.py:428 - After logo click: https://www.bombaytimes.com/
-2026-05-27 12:15:46 [    INFO] test_bombaytimes_flow.py:430 - PASS: Returned to homepage
-2026-05-27 12:15:46 [    INFO] test_bombaytimes_flow.py:433 - Opening overflow menu for Festival
-2026-05-27 12:15:46 [    INFO] test_bombaytimes_flow.py:436 - Overflow menu open attempt: 0.26 s | opened: True
-2026-05-27 12:15:46 [    INFO] test_bombaytimes_flow.py:438 - Navigating to Festival (canonical + GA validation)
-2026-05-27 12:15:47 [    INFO] test_bombaytimes_flow.py:73 - [Festival] Page loaded: https://www.bombaytimes.com/festivals
-2026-05-27 12:15:47 [    INFO] test_bombaytimes_flow.py:74 - [Festival] Holding for 5 s (visual confirmation)...
-2026-05-27 12:15:52 [    INFO] test_bombaytimes_flow.py:114 - [Festival] PASS Canonical: https://www.bombaytimes.com/festivals
-2026-05-27 12:15:52 [    INFO] test_bombaytimes_flow.py:142 - [Festival] GA calls captured: 3
-2026-05-27 12:15:52 [    INFO] test_bombaytimes_flow.py:146 - [Festival]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864346729&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=15&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938468~119034492&dp=%2F&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2F&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fintimate-diaries&dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=231
-2026-05-27 12:15:52 [    INFO] test_bombaytimes_flow.py:146 - [Festival]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:15:52 [    INFO] test_bombaytimes_flow.py:146 - [Festival]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864347221&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=11&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938465~115938468~118228215&dp=%2Ffestivals&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Ffestivals&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Festivals%20%26%20Celebrations%20in%20India%20and%20Around%20the%20World%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=339
-2026-05-27 12:15:52 [    INFO] test_bombaytimes_flow.py:147 - [Festival] PASS GA: 3 call(s) fired
-2026-05-27 12:15:52 [    INFO] test_bombaytimes_flow.py:440 - After Festival: https://www.bombaytimes.com/festivals
-2026-05-27 12:15:52 [    INFO] test_bombaytimes_flow.py:443 - PASS: Festival URL verified
-2026-05-27 12:15:52 [    INFO] test_bombaytimes_flow.py:446 - After logo click: https://www.bombaytimes.com/
-2026-05-27 12:15:52 [    INFO] test_bombaytimes_flow.py:448 - PASS: Returned to homepage after Festival
-2026-05-27 12:15:52 [    INFO] test_bombaytimes_flow.py:451 - Opening overflow menu for Photo Stories
-2026-05-27 12:15:52 [    INFO] test_bombaytimes_flow.py:454 - Overflow menu open attempt: 0.25 s | opened: True
-2026-05-27 12:15:52 [    INFO] test_bombaytimes_flow.py:456 - Navigating to Photo Stories (canonical + GA validation)
-2026-05-27 12:15:53 [    INFO] test_bombaytimes_flow.py:73 - [Photo Stories] Page loaded: https://www.bombaytimes.com/photo-stories
-2026-05-27 12:15:53 [    INFO] test_bombaytimes_flow.py:74 - [Photo Stories] Holding for 5 s (visual confirmation)...
-2026-05-27 12:15:58 [    INFO] test_bombaytimes_flow.py:114 - [Photo Stories] PASS Canonical: https://www.bombaytimes.com/photo-stories
-2026-05-27 12:15:58 [    INFO] test_bombaytimes_flow.py:142 - [Photo Stories] GA calls captured: 3
-2026-05-27 12:15:58 [    INFO] test_bombaytimes_flow.py:146 - [Photo Stories]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864352486&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=17&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938469~118689382&dp=%2F&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2F&dr=https%3A%2F%2Fwww.bombaytimes.com%2Ffestivals&dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=239
-2026-05-27 12:15:58 [    INFO] test_bombaytimes_flow.py:146 - [Photo Stories]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:15:58 [    INFO] test_bombaytimes_flow.py:146 - [Photo Stories]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864353218&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=17&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938465~115938468&dp=%2Fphoto-stories&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fphoto-stories&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Photo%20Stories&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=573
-2026-05-27 12:15:58 [    INFO] test_bombaytimes_flow.py:147 - [Photo Stories] PASS GA: 3 call(s) fired
-2026-05-27 12:15:58 [    INFO] test_bombaytimes_flow.py:458 - After Photo Stories: https://www.bombaytimes.com/photo-stories
-2026-05-27 12:15:58 [    INFO] test_bombaytimes_flow.py:461 - PASS: Photo Stories URL verified
-2026-05-27 12:15:58 [    INFO] test_bombaytimes_flow.py:464 - After logo click: https://www.bombaytimes.com/
-2026-05-27 12:15:58 [    INFO] test_bombaytimes_flow.py:466 - PASS: Returned to homepage
-2026-05-27 12:15:58 [    INFO] test_bombaytimes_flow.py:469 - Opening overflow menu for Web Stories
-2026-05-27 12:15:58 [    INFO] test_bombaytimes_flow.py:472 - Overflow menu open attempt: 0.28 s | opened: True
-2026-05-27 12:15:58 [    INFO] test_bombaytimes_flow.py:474 - Navigating to Web Stories (canonical + GA validation)
-2026-05-27 12:15:59 [    INFO] test_bombaytimes_flow.py:73 - [Web Stories] Page loaded: https://www.bombaytimes.com/visual-stories
-2026-05-27 12:15:59 [    INFO] test_bombaytimes_flow.py:74 - [Web Stories] Holding for 5 s (visual confirmation)...
-2026-05-27 12:16:04 [    INFO] test_bombaytimes_flow.py:114 - [Web Stories] PASS Canonical: https://www.bombaytimes.com/visual-stories
-2026-05-27 12:16:04 [    INFO] test_bombaytimes_flow.py:142 - [Web Stories] GA calls captured: 3
-2026-05-27 12:16:04 [    INFO] test_bombaytimes_flow.py:146 - [Web Stories]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864358511&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=9&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938465~115938469&dp=%2F&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2F&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fphoto-stories&dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=266
-2026-05-27 12:16:04 [    INFO] test_bombaytimes_flow.py:146 - [Web Stories]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:16:04 [    INFO] test_bombaytimes_flow.py:146 - [Web Stories]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864359326&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=8&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938465~115938469~118689381&dp=%2Fvisual-stories&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fvisual-stories&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Entertainment%20Web%20Stories%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=634
-2026-05-27 12:16:04 [    INFO] test_bombaytimes_flow.py:147 - [Web Stories] PASS GA: 3 call(s) fired
-2026-05-27 12:16:04 [    INFO] test_bombaytimes_flow.py:476 - After Web Stories: https://www.bombaytimes.com/visual-stories
-2026-05-27 12:16:04 [    INFO] test_bombaytimes_flow.py:478 - PASS: Web Stories URL verified
-2026-05-27 12:16:04 [    INFO] test_bombaytimes_flow.py:482 - PASS: Returned to homepage
-2026-05-27 12:16:04 [    INFO] test_bombaytimes_flow.py:485 - Opening overflow menu for Videos
-2026-05-27 12:16:04 [    INFO] test_bombaytimes_flow.py:488 - Overflow menu open attempt: 0.27 s | opened: True
-2026-05-27 12:16:04 [    INFO] test_bombaytimes_flow.py:490 - Navigating to Latest Videos (canonical + GA validation)
-2026-05-27 12:16:05 [    INFO] test_bombaytimes_flow.py:73 - [Latest Videos] Page loaded: https://www.bombaytimes.com/latest-videos
-2026-05-27 12:16:05 [    INFO] test_bombaytimes_flow.py:74 - [Latest Videos] Holding for 5 s (visual confirmation)...
-2026-05-27 12:16:10 [    INFO] test_bombaytimes_flow.py:114 - [Latest Videos] PASS Canonical: https://www.bombaytimes.com/latest-videos
-2026-05-27 12:16:10 [    INFO] test_bombaytimes_flow.py:142 - [Latest Videos] GA calls captured: 3
-2026-05-27 12:16:10 [    INFO] test_bombaytimes_flow.py:146 - [Latest Videos]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864364651&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=7&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616985~115938466~115938469&dp=%2F&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2F&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fvisual-stories&dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=228
-2026-05-27 12:16:10 [    INFO] test_bombaytimes_flow.py:146 - [Latest Videos]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:16:10 [    INFO] test_bombaytimes_flow.py:146 - [Latest Videos]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864365117&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=7&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616985~115938466~115938468~119168155&dp=%2Flatest-videos&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Flatest-videos&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=videos&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=258
-2026-05-27 12:16:10 [    INFO] test_bombaytimes_flow.py:147 - [Latest Videos] PASS GA: 3 call(s) fired
-2026-05-27 12:16:10 [    INFO] test_bombaytimes_flow.py:492 - After Videos: https://www.bombaytimes.com/latest-videos
-2026-05-27 12:16:10 [    INFO] test_bombaytimes_flow.py:494 - PASS: Latest Videos URL verified
-2026-05-27 12:16:10 [    INFO] test_bombaytimes_flow.py:497 - Navigating to Short Videos (canonical + GA validation)
-2026-05-27 12:16:18 [    INFO] test_bombaytimes_flow.py:73 - [Short Videos] Page loaded: https://www.bombaytimes.com/short-videos
-2026-05-27 12:16:18 [    INFO] test_bombaytimes_flow.py:74 - [Short Videos] Holding for 5 s (visual confirmation)...
-2026-05-27 12:16:23 [    INFO] test_bombaytimes_flow.py:114 - [Short Videos] PASS Canonical: https://www.bombaytimes.com/short-videos
-2026-05-27 12:16:23 [    INFO] test_bombaytimes_flow.py:142 - [Short Videos] GA calls captured: 2
-2026-05-27 12:16:23 [    INFO] test_bombaytimes_flow.py:146 - [Short Videos]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:16:23 [    INFO] test_bombaytimes_flow.py:146 - [Short Videos]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864378455&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=4&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938465~115938469~119169248&dp=%2Fshort-videos&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fshort-videos&dr=https%3A%2F%2Fwww.bombaytimes.com%2Flatest-videos&dt=Videos&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=241
-2026-05-27 12:16:23 [    INFO] test_bombaytimes_flow.py:147 - [Short Videos] PASS GA: 2 call(s) fired
-2026-05-27 12:16:23 [    INFO] test_bombaytimes_flow.py:499 - After Short Videos: https://www.bombaytimes.com/short-videos
-2026-05-27 12:16:23 [    INFO] test_bombaytimes_flow.py:501 - PASS: Short Videos URL verified
-2026-05-27 12:16:23 [    INFO] test_bombaytimes_flow.py:505 - PASS: Returned to homepage
-2026-05-27 12:16:23 [    INFO] test_bombaytimes_flow.py:506 - === END: test_intimate_diaries_flow ===
-2026-05-27 12:16:23 [    INFO] test_bombaytimes_flow.py:517 - === START: test_bollywood_article_detail_flow ===
-2026-05-27 12:16:23 [    INFO] test_bombaytimes_flow.py:520 - Homepage: https://www.bombaytimes.com/
-2026-05-27 12:16:23 [    INFO] test_bombaytimes_flow.py:523 - Navigating directly to Bollywood listing: /entertainment/bollywood
-2026-05-27 12:16:23 [    INFO] test_bombaytimes_flow.py:529 - Bollywood listing URL: https://www.bombaytimes.com/entertainment/bollywood
-2026-05-27 12:16:23 [    INFO] test_bombaytimes_flow.py:532 - Waiting for Bollywood article cards to render...
-2026-05-27 12:16:23 [    INFO] test_bombaytimes_flow.py:535 - Article listing is ready
-2026-05-27 12:16:23 [    INFO] test_bombaytimes_flow.py:567 - Navigating to Bollywood article detail (5 s hold + canonical + GA validation)
-2026-05-27 12:16:23 [   DEBUG] test_bombaytimes_flow.py:555 - Article selector 'ol.sub-cat-ol li a.right-img-a' → 1 element(s)
-2026-05-27 12:16:23 [    INFO] test_bombaytimes_flow.py:557 - Clicking first article using selector: ol.sub-cat-ol li a.right-img-a
-2026-05-27 12:16:24 [    INFO] test_bombaytimes_flow.py:73 - [Bollywood Article (Detail)] Page loaded: https://www.bombaytimes.com/entertainment/bollywood/box-office-collection-update-chand-mera-dil-day-5-drishyam-3-day-5-karuppu-day-12-and-pati-patni-aur-woh-do-day-12-earnings-report/1779855281764
-2026-05-27 12:16:24 [    INFO] test_bombaytimes_flow.py:74 - [Bollywood Article (Detail)] Holding for 5 s (visual confirmation)...
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:114 - [Bollywood Article (Detail)] PASS Canonical: https://www.bombaytimes.com/entertainment/bollywood/box-office-collection-update-chand-mera-dil-day-5-drishyam-3-day-5-karuppu-day-12-and-pati-patni-aur-woh-do-day-12-earnings-report/1779855281764
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:142 - [Bollywood Article (Detail)] GA calls captured: 13
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:146 - [Bollywood Article (Detail)]   GA [200] https://www.googletagmanager.com/a?id=G-NNM57R6CG5&v=3&t=t&pid=289752794&gtm=45je65m1v9172439187za200zd9172439187&cv=1&rv=65m1&tc=17&tag_exp=0~115616986~115938465~115938469~119027223&es=1&e=gtm.dom&eid=3&h=Ag&z=0
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:146 - [Bollywood Article (Detail)]   GA [200] https://www.googletagmanager.com/a?id=G-NNM57R6CG5&v=3&t=t&pid=289752794&gtm=45je65m1v9172439187za200zd9172439187&cv=1&rv=65m1&tc=17&tag_exp=0~115616986~115938465~115938469~119027223&es=1&e=gtm.init&eid=2&h=Ag&tr=1ogt1pdatav2.1ccdgafirst.1setproductsettings.1ogtgooglesignals.1ccdgaregscope.1ccdemdownload.1ccdemform.1ccdemoutboundclick.1ccdempageview.1ccdemscroll.1ccdemsitesearch.1ccdemvideo.1ccdconversionmarking.1ogteventcreate.1ccdautoredact.1ccdgalast&ti=2ogt1pdatav2.2ccdgafirst.2setproductsettings.2ogtgooglesignals.2ccdgaregscope.2ccdemdownload.2ccdemform.2ccdemoutboundclick.2ccdempageview.2ccdemscroll.2ccdemsitesearch.2ccdemvideo.2ccdconversionmarking.2ogteventcreate.2ccdautoredact.2ccdgalast&z=0
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:146 - [Bollywood Article (Detail)]   GA [200] https://www.googletagmanager.com/a?id=G-NNM57R6CG5&v=3&t=t&pid=289752794&gtm=45je65m1v9172439187za200zd9172439187&cv=1&rv=65m1&tc=17&tag_exp=0~115616986~115938465~115938469~119027223&es=1&e=gtm.load&eid=11&h=Ag&z=0
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:146 - [Bollywood Article (Detail)]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864383901&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=6&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938465~115938469~119027223&dp=%2Fentertainment%2Fbollywood&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment%2Fbollywood&dt=Latest%20Bollywood%20News%2C%20Movie%20Reviews%2C%20Events%20%26%20More&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=214
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:146 - [Bollywood Article (Detail)]   GA [200] https://www.googletagmanager.com/a?id=G-NNM57R6CG5&v=3&t=t&pid=289752794&gtm=45je65m1v9172439187za200zd9172439187&cv=1&rv=65m1&tc=17&tag_exp=0~115616986~115938465~115938469~119027223&e=gtm.init&eid=2&h=Ag&tr=5ogt1pdatav2.5ccdgafirst.5setproductsettings.5ogtgooglesignals.5ccdgaregscope.5ccdemdownload.5ccdemform.5ccdemoutboundclick.5ccdempageview.5ccdemscroll.5ccdemsitesearch.5ccdemvideo.5ccdconversionmarking.5ogteventcreate.5ccdautoredact.5ccdgalast&ti=2ogt1pdatav2.2ccdgafirst.2setproductsettings.2ogtgooglesignals.2ccdgaregscope.2ccdemdownload.2ccdemform.2ccdemoutboundclick.2ccdempageview.2ccdemscroll.2ccdemsitesearch.2ccdemvideo.2ccdconversionmarking.2ogteventcreate.2ccdautoredact.2ccdgalast&z=0
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:146 - [Bollywood Article (Detail)]   GA [200] https://www.googletagmanager.com/a?id=G-NNM57R6CG5&v=3&t=t&pid=289752794&gtm=45je65m1v9172439187za200zd9172439187&cv=1&rv=65m1&tc=17&tag_exp=0~115616986~115938465~115938469~119027223&es=1&e=gtm.js&eid=12&h=Ag&tr=1gct&ti=2gct&z=0
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:146 - [Bollywood Article (Detail)]   GA [200] https://www.bombaytimes.com/entertainment/bollywood/box-office-collection-update-chand-mera-dil-day-5-drishyam-3-day-5-karuppu-day-12-and-pati-patni-aur-woh-do-day-12-earnings-report/1779855281764
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:146 - [Bollywood Article (Detail)]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:146 - [Bollywood Article (Detail)]   GA [200] https://cm.g.doubleclick.net/partnerpixels?url=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment%2Fbollywood%2Fbox-office-collection-update-chand-mera-dil-day-5-drishyam-3-day-5-karuppu-day-12-and-pati-patni-aur-woh-do-day-12-earnings-report%2F1779855281764
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:146 - [Bollywood Article (Detail)]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864384463&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=17&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938465~115938469~119034493&dp=%2Fentertainment%2Fbollywood%2Fbox-office-collection-update-chand-mera-dil-day-5-drishyam-3-day-5-karuppu-day-12-and-pati-patni-aur-woh-do-day-12-earnings-report%2F1779855281764&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment%2Fbollywood%2Fbox-office-collection-update-chand-mera-dil-day-5-drishyam-3-day-5-karuppu-day-12-and-pati-patni-aur-woh-do-day-12-earnings-report%2F1779855281764&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment%2Fbollywood&dt=Box%20Office%20Collection%20Update%3A%20%E2%80%98Chand%20Mera%20Dil%20Day%205%2C%20%E2%80%98Drishyam%203%20Day%205%2C%20%E2%80%98Karuppu%20Day%2012%20and%20%E2%80%98Pati%20Patni%20Aur%20Woh%20Do%20Day%2012%20Earnings%20Report&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=Rishika%20Singh&tfd=506
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:146 - [Bollywood Article (Detail)]   GA [200] https://securepubads.g.doubleclick.net/gampad/ads?pvsid=6974254356873270&correlator=625385415823701&eid=95391543%2C95340253%2C95340255&output=ldjh&gdfp_req=1&vrg=202605200101&ptt=17&impl=fifs&iu_parts=1064661%2CBombaytimes_Desktop%2CBombaytimes_DTP_Detail_Mrec1&enc_prev_ius=%2F0%2F1%2F2&prev_iu_szs=250x250%7C300x250&ifi=1&dids=div-gpt-ad-1709104114131-0&adfs=1999199852&sfv=1-0-45&sc=1&cookie=ID%3Dc333893bce14fd0e%3AT%3D1779864231%3ART%3D1779864231%3AS%3DALNI_MbN98Ny_lMm-R7s-QwIzWKhi4jqcA&gpic=UID%3D000014354f24bf56%3AT%3D1779864231%3ART%3D1779864231%3AS%3DALNI_MaILOM2W0iWWQZqRjd7ocauTHn49w&abxe=1&dt=1779864384398&lmt=1779864384&adxs=887&adys=201&biw=1265&bih=720&scr_x=0&scr_y=0&btvi=0&ucis=1&oid=2&u_his=39&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=32&u_sd=1&u_tz=330&dmc=16&bc=31&nvt=1&uach=WyJXaW5kb3dzIiwiMTUuMC4wIiwieDg2IiwiIiwiMTQ4LjAuNzc3OC4xNzkiLG51bGwsMCxudWxsLCI2NCIsW1siQ2hyb21pdW0iLCIxNDguMC43Nzc4LjE3OSJdLFsiR29vZ2xlIENocm9tZSIsIjE0OC4wLjc3NzguMTc5Il0sWyJOb3QvQSlCcmFuZCIsIjk5LjAuMC4wIl1dLDBd&uas=1&url=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment%2Fbollywood%2Fbox-office-collection-update-chand-mera-dil-day-5-drishyam-3-day-5-karuppu-day-12-and-pati-patni-aur-woh-do-day-12-earnings-report%2F1779855281764&ref=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment%2Fbollywood&vis=1&psz=250x0&msz=250x0&fws=0&ohw=0&dlt=1779864384031&idt=311&cust_params=section%3Dentertainment&adks=1394754630&frm=20&eo_id_str=ID%3D86a2e4d1e5993832%3AT%3D1779864231%3ART%3D1779864231%3AS%3DAA-AfjZq2IFMuEok2LdMp5JXEAxd&pgls=CAk.
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:146 - [Bollywood Article (Detail)]   GA [200] https://securepubads.g.doubleclick.net/gampad/ads?pvsid=6974254356873270&correlator=625385415823701&eid=95391543%2C95340253%2C95340255&output=ldjh&gdfp_req=1&vrg=202605200101&ptt=17&impl=fifs&iu_parts=1064661%2CBombaytimes_Desktop%2CBombaytimes_DTP_Detail_LB1&enc_prev_ius=%2F0%2F1%2F2&prev_iu_szs=970x90%7C728x90&ifi=3&dids=div-gpt-ad-1709104211773-0&adfs=4166036319&sfv=1-0-45&sc=1&cookie=ID%3Dc333893bce14fd0e%3AT%3D1779864231%3ART%3D1779864231%3AS%3DALNI_MbN98Ny_lMm-R7s-QwIzWKhi4jqcA&gpic=UID%3D000014354f24bf56%3AT%3D1779864231%3ART%3D1779864231%3AS%3DALNI_MaILOM2W0iWWQZqRjd7ocauTHn49w&abxe=1&dt=1779864384417&lmt=1779864384&adxs=75&adys=3480&biw=1265&bih=720&scr_x=0&scr_y=0&btvi=2&ucis=3&oid=2&u_his=39&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=32&u_sd=1&u_tz=330&dmc=16&bc=31&nvt=1&uach=WyJXaW5kb3dzIiwiMTUuMC4wIiwieDg2IiwiIiwiMTQ4LjAuNzc3OC4xNzkiLG51bGwsMCxudWxsLCI2NCIsW1siQ2hyb21pdW0iLCIxNDguMC43Nzc4LjE3OSJdLFsiR29vZ2xlIENocm9tZSIsIjE0OC4wLjc3NzguMTc5Il0sWyJOb3QvQSlCcmFuZCIsIjk5LjAuMC4wIl1dLDBd&uas=1&url=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment%2Fbollywood%2Fbox-office-collection-update-chand-mera-dil-day-5-drishyam-3-day-5-karuppu-day-12-and-pati-patni-aur-woh-do-day-12-earnings-report%2F1779855281764&ref=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment%2Fbollywood&vis=1&psz=1116x0&msz=1116x0&fws=0&ohw=0&dlt=1779864384031&idt=311&cust_params=section%3Dentertainment&adks=1012290496&frm=20&eo_id_str=ID%3D86a2e4d1e5993832%3AT%3D1779864231%3ART%3D1779864231%3AS%3DAA-AfjZq2IFMuEok2LdMp5JXEAxd&pgls=CAk.
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:146 - [Bollywood Article (Detail)]   GA [200] https://securepubads.g.doubleclick.net/gampad/ads?pvsid=6974254356873270&correlator=625385415823701&eid=95391543%2C95340253%2C95340255&output=ldjh&gdfp_req=1&vrg=202605200101&ptt=17&impl=fifs&iu_parts=1064661%2CBombaytimes_Desktop%2CBombaytimes_DTP_Detail_Mrec2&enc_prev_ius=%2F0%2F1%2F2&prev_iu_szs=250x250%7C300x250&ifi=2&dids=div-gpt-ad-1775020548144-0&adfs=1011538738&sfv=1-0-45&sc=1&cookie=ID%3Dc333893bce14fd0e%3AT%3D1779864231%3ART%3D1779864231%3AS%3DALNI_MbN98Ny_lMm-R7s-QwIzWKhi4jqcA&gpic=UID%3D000014354f24bf56%3AT%3D1779864231%3ART%3D1779864231%3AS%3DALNI_MaILOM2W0iWWQZqRjd7ocauTHn49w&abxe=1&dt=1779864384410&lmt=1779864384&adxs=75&adys=2194&biw=1265&bih=720&scr_x=0&scr_y=0&btvi=1&ucis=2&oid=2&u_his=39&u_h=720&u_w=1280&u_ah=720&u_aw=1280&u_cd=32&u_sd=1&u_tz=330&dmc=16&bc=31&nvt=1&uach=WyJXaW5kb3dzIiwiMTUuMC4wIiwieDg2IiwiIiwiMTQ4LjAuNzc3OC4xNzkiLG51bGwsMCxudWxsLCI2NCIsW1siQ2hyb21pdW0iLCIxNDguMC43Nzc4LjE3OSJdLFsiR29vZ2xlIENocm9tZSIsIjE0OC4wLjc3NzguMTc5Il0sWyJOb3QvQSlCcmFuZCIsIjk5LjAuMC4wIl1dLDBd&uas=1&url=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment%2Fbollywood%2Fbox-office-collection-update-chand-mera-dil-day-5-drishyam-3-day-5-karuppu-day-12-and-pati-patni-aur-woh-do-day-12-earnings-report%2F1779855281764&ref=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment%2Fbollywood&vis=1&psz=725x0&msz=725x0&fws=0&ohw=0&dlt=1779864384031&idt=311&cust_params=section%3Dentertainment&adks=3839132470&frm=20&eo_id_str=ID%3D86a2e4d1e5993832%3AT%3D1779864231%3ART%3D1779864231%3AS%3DAA-AfjZq2IFMuEok2LdMp5JXEAxd&pgls=CAk.
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:147 - [Bollywood Article (Detail)] PASS GA: 13 call(s) fired
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:574 - Bollywood article detail page: https://www.bombaytimes.com/entertainment/bollywood/box-office-collection-update-chand-mera-dil-day-5-drishyam-3-day-5-karuppu-day-12-and-pati-patni-aur-woh-do-day-12-earnings-report/1779855281764
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:577 - Checking Trending section
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:583 - PASS: Trending section found
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:589 - Checking Related Articles section
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:596 - PASS: Related Articles section found
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:602 - Re-verifying canonical URL on article page
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:607 - Current URL:   https://www.bombaytimes.com/entertainment/bollywood/box-office-collection-update-chand-mera-dil-day-5-drishyam-3-day-5-karuppu-day-12-and-pati-patni-aur-woh-do-day-12-earnings-report/1779855281764
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:608 - Canonical URL: https://www.bombaytimes.com/entertainment/bollywood/box-office-collection-update-chand-mera-dil-day-5-drishyam-3-day-5-karuppu-day-12-and-pati-patni-aur-woh-do-day-12-earnings-report/1779855281764
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:611 - PASS: Canonical URL matches article URL
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:614 - Checking amphtml link
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:618 - PASS: amphtml link found: https://www.bombaytimes.com/entertainment/bollywood/box-office-collection-update-chand-mera-dil-day-5-drishyam-3-day-5-karuppu-day-12-and-pati-patni-aur-woh-do-day-12-earnings-report/amp/1779855281764
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:624 - Navigating back to homepage (cleanup)
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:627 - URL after return: https://www.bombaytimes.com/
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:629 - PASS: Returned to homepage
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:630 - === END: test_bollywood_article_detail_flow ===
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:639 - === START: test_photo_story_detail_flow ===
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:642 - Homepage: https://www.bombaytimes.com/
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:645 - Navigating to Photo Stories listing (5 s hold + canonical + GA validation)
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:73 - [Photo Stories Listing] Page loaded: https://www.bombaytimes.com/photo-stories
-2026-05-27 12:16:29 [    INFO] test_bombaytimes_flow.py:74 - [Photo Stories Listing] Holding for 5 s (visual confirmation)...
-2026-05-27 12:16:34 [    INFO] test_bombaytimes_flow.py:114 - [Photo Stories Listing] PASS Canonical: https://www.bombaytimes.com/photo-stories
-2026-05-27 12:16:34 [    INFO] test_bombaytimes_flow.py:142 - [Photo Stories Listing] GA calls captured: 2
-2026-05-27 12:16:34 [    INFO] test_bombaytimes_flow.py:146 - [Photo Stories Listing]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:16:34 [    INFO] test_bombaytimes_flow.py:146 - [Photo Stories Listing]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864389918&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=1&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616985~115938465~115938468~118689381&dp=%2Fphoto-stories&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fphoto-stories&dt=Photo%20Stories&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=327
-2026-05-27 12:16:34 [    INFO] test_bombaytimes_flow.py:147 - [Photo Stories Listing] PASS GA: 2 call(s) fired
-2026-05-27 12:16:34 [    INFO] test_bombaytimes_flow.py:653 - Photo Stories listing URL: https://www.bombaytimes.com/photo-stories
-2026-05-27 12:16:34 [    INFO] test_bombaytimes_flow.py:656 - PASS: Photo Stories listing URL verified
-2026-05-27 12:16:34 [    INFO] test_bombaytimes_flow.py:659 - Waiting for photo story article cards to render...
-2026-05-27 12:16:34 [    INFO] test_bombaytimes_flow.py:665 - Photo story cards are ready
-2026-05-27 12:16:34 [    INFO] test_bombaytimes_flow.py:700 - Clicking first photo story and validating detail page
-2026-05-27 12:16:34 [   DEBUG] test_bombaytimes_flow.py:687 - Photo selector 'ol.sub-cat-ol li a.right-img-a' → 1 element(s)
-2026-05-27 12:16:34 [    INFO] test_bombaytimes_flow.py:689 - Clicking first photo story using selector: ol.sub-cat-ol li a.right-img-a
-2026-05-27 12:16:35 [    INFO] test_bombaytimes_flow.py:73 - [Photo Story Detail] Page loaded: https://www.bombaytimes.com/photo-stories/divyanka-tripathi-vivek-dahiya-sunny-leone-daniel-weber-and-other-indian-celebrity-couples-blessed-with-twins/1779780107814
-2026-05-27 12:16:35 [    INFO] test_bombaytimes_flow.py:74 - [Photo Story Detail] Holding for 5 s (visual confirmation)...
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:114 - [Photo Story Detail] PASS Canonical: https://www.bombaytimes.com/photo-stories/divyanka-tripathi-vivek-dahiya-sunny-leone-daniel-weber-and-other-indian-celebrity-couples-blessed-with-twins/1779780107814
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:142 - [Photo Story Detail] GA calls captured: 2
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:146 - [Photo Story Detail]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:146 - [Photo Story Detail]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864395263&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=5&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938465~115938469~119064591&dp=%2Fphoto-stories%2Fdivyanka-tripathi-vivek-dahiya-sunny-leone-daniel-weber-and-other-indian-celebrity-couples-blessed-with-twins%2F1779780107814&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fphoto-stories%2Fdivyanka-tripathi-vivek-dahiya-sunny-leone-daniel-weber-and-other-indian-celebrity-couples-blessed-with-twins%2F1779780107814&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fphoto-stories&dt=Divyanka%20Tripathi-Vivek%20Dahiya%2C%20Sunny%20Leone-Daniel%20Weber%20and%20Other%20Indian%20Celebrity%20Couples%20Blessed%20With%20Twins&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=Team%20BT&tfd=373
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:147 - [Photo Story Detail] PASS GA: 2 call(s) fired
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:708 - Photo Story detail page validated: https://www.bombaytimes.com/photo-stories/divyanka-tripathi-vivek-dahiya-sunny-leone-daniel-weber-and-other-indian-celebrity-couples-blessed-with-twins/1779780107814
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:709 - PASS: Photo Story detail flow complete
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:712 - Navigating back to homepage (cleanup)
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:715 - URL after return: https://www.bombaytimes.com/
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:717 - PASS: Returned to homepage
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:718 - === END: test_photo_story_detail_flow ===
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:729 - === START: test_visual_story_detail_flow ===
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:732 - Homepage: https://www.bombaytimes.com/
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:735 - Navigating to Visual Stories listing: https://www.bombaytimes.com/visual-stories
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:741 - Visual Stories listing URL: https://www.bombaytimes.com/visual-stories
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:744 - PASS: Visual Stories listing page opened
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:747 - Waiting for Visual Story cards to render...
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:754 - Visual Story cards are ready
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:789 - Clicking first visual story and validating detail page
-2026-05-27 12:16:40 [   DEBUG] test_bombaytimes_flow.py:776 - Visual selector 'ol.sub-cat-ol li a.right-img-a' → 0 element(s)
-2026-05-27 12:16:40 [   DEBUG] test_bombaytimes_flow.py:776 - Visual selector 'ol.sub-cat-ol li a' → 0 element(s)
-2026-05-27 12:16:40 [   DEBUG] test_bombaytimes_flow.py:776 - Visual selector 'a.right-img-a' → 0 element(s)
-2026-05-27 12:16:40 [   DEBUG] test_bombaytimes_flow.py:776 - Visual selector 'a[href*='/visual-stories/']' → 1 element(s)
-2026-05-27 12:16:40 [    INFO] test_bombaytimes_flow.py:778 - Clicking first visual story using selector: a[href*='/visual-stories/']
-2026-05-27 12:16:41 [    INFO] test_bombaytimes_flow.py:73 - [Visual Story Detail] Page loaded: https://www.bombaytimes.com/visual-stories/kalyani-priyadarshan-turns-heads-at-cannes-2026-in-purple-strapless-gown-and-statement-diamond-jewellery/1779366553104
-2026-05-27 12:16:41 [    INFO] test_bombaytimes_flow.py:74 - [Visual Story Detail] Holding for 5 s (visual confirmation)...
-2026-05-27 12:16:46 [    INFO] test_bombaytimes_flow.py:114 - [Visual Story Detail] PASS Canonical: https://www.bombaytimes.com/visual-stories/kalyani-priyadarshan-turns-heads-at-cannes-2026-in-purple-strapless-gown-and-statement-diamond-jewellery/1779366553104
-2026-05-27 12:16:46 [    INFO] test_bombaytimes_flow.py:142 - [Visual Story Detail] GA calls captured: 3
-2026-05-27 12:16:46 [    INFO] test_bombaytimes_flow.py:146 - [Visual Story Detail]   GA [200] https://cdn.ampproject.org/rtv/012605071401000/v0/analytics-vendors/gtag.json
-2026-05-27 12:16:46 [    INFO] test_bombaytimes_flow.py:146 - [Visual Story Detail]   GA [200] https://www.googletagmanager.com/gtag/amp?__amp_source_origin=https%3A%2F%2Fwww.bombaytimes.com
-2026-05-27 12:16:46 [    INFO] test_bombaytimes_flow.py:146 - [Visual Story Detail]   GA [204] https://www.google-analytics.com/g/collect?v=2&tid=G-NNM57R6CG5&cid=354392294.1779864231&ul=en-us&sr=1280x720&sid=1779864401&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fvisual-stories%2Fkalyani-priyadarshan-turns-heads-at-cannes-2026-in-purple-strapless-gown-and-statement-diamond-jewellery%2F1779366553104&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fvisual-stories&dt=Kalyani%20Priyadarshan%20Turns%20Heads%20At%20Cannes%202026%20In%20Purple%20Strapless%20Gown%20And%20Statement%20Diamond%20Jewellery&en=page_view&_ee=1&_s=1&_et=0&uaa=x86&uab=64&uafvl=%5B%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22148.0.7778.179%22%7D%2C%7B%22brand%22%3A%22Google%20Chrome%22%2C%22version%22%3A%22148.0.7778.179%22%7D%2C%7B%22brand%22%3A%22Not%2FA)Brand%22%2C%22version%22%3A%2299.0.0.0%22%7D%5D&uamb=0&uam=&uap=Windows&uapv=15.0.0&uaw=0&_fv=1&_p=1008122932&_ss=1&dma=0&ep.author_name=Rishika%20Singh&ep.groups=default&gtm=45De1110&npa=0
-2026-05-27 12:16:46 [    INFO] test_bombaytimes_flow.py:147 - [Visual Story Detail] PASS GA: 3 call(s) fired
-2026-05-27 12:16:46 [    INFO] test_bombaytimes_flow.py:797 - Visual Story detail page URL: https://www.bombaytimes.com/visual-stories/kalyani-priyadarshan-turns-heads-at-cannes-2026-in-purple-strapless-gown-and-statement-diamond-jewellery/1779366553104
-2026-05-27 12:16:46 [    INFO] test_bombaytimes_flow.py:798 - PASS: Visual Story detail page — canonical & GA validated
-2026-05-27 12:16:46 [    INFO] test_bombaytimes_flow.py:801 - Navigating back to homepage (cleanup)
-2026-05-27 12:16:46 [    INFO] test_bombaytimes_flow.py:804 - URL after return: https://www.bombaytimes.com/
-2026-05-27 12:16:46 [    INFO] test_bombaytimes_flow.py:806 - PASS: Returned to homepage
-2026-05-27 12:16:46 [    INFO] test_bombaytimes_flow.py:807 - === END: test_visual_story_detail_flow ===
-2026-05-27 12:16:46 [    INFO] test_bombaytimes_flow.py:818 - === START: test_latest_video_detail_flow ===
-2026-05-27 12:16:46 [    INFO] test_bombaytimes_flow.py:821 - Homepage: https://www.bombaytimes.com/
-2026-05-27 12:16:46 [    INFO] test_bombaytimes_flow.py:824 - Navigating to Latest Videos listing: https://www.bombaytimes.com/latest-videos
-2026-05-27 12:16:46 [    INFO] test_bombaytimes_flow.py:830 - Latest Videos listing URL: https://www.bombaytimes.com/latest-videos
-2026-05-27 12:16:46 [    INFO] test_bombaytimes_flow.py:833 - PASS: Latest Videos listing page opened
-2026-05-27 12:16:46 [    INFO] test_bombaytimes_flow.py:838 - Waiting for /latest-videos JavaScript components to render...
-2026-05-27 12:16:49 [    INFO] test_bombaytimes_flow.py:883 - Clicking first video and validating detail page
-2026-05-27 12:16:49 [    INFO] test_bombaytimes_flow.py:871 - JS-extracted video URL via selector 'a.href-style[href*='/short-videos/']': https://www.bombaytimes.com/short-videos/shailesh-lodha-on-poetry-mumbai-and-the-habit-of-reading/1779345648320
-2026-05-27 12:16:49 [    INFO] test_bombaytimes_flow.py:73 - [Latest Video Detail] Page loaded: https://www.bombaytimes.com/short-videos/shailesh-lodha-on-poetry-mumbai-and-the-habit-of-reading/1779345648320
-2026-05-27 12:16:49 [    INFO] test_bombaytimes_flow.py:74 - [Latest Video Detail] Holding for 5 s (visual confirmation)...
-2026-05-27 12:16:54 [    INFO] test_bombaytimes_flow.py:114 - [Latest Video Detail] PASS Canonical: https://www.bombaytimes.com/short-videos/shailesh-lodha-on-poetry-mumbai-and-the-habit-of-reading/1779345648320
-2026-05-27 12:16:54 [    INFO] test_bombaytimes_flow.py:142 - [Latest Video Detail] GA calls captured: 2
-2026-05-27 12:16:54 [    INFO] test_bombaytimes_flow.py:146 - [Latest Video Detail]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:16:54 [    INFO] test_bombaytimes_flow.py:146 - [Latest Video Detail]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864409674&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=3&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938469~118128922~118228215~119034491~119169247&dp=%2Fshort-videos%2Fshailesh-lodha-on-poetry-mumbai-and-the-habit-of-reading%2F1779345648320&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fshort-videos%2Fshailesh-lodha-on-poetry-mumbai-and-the-habit-of-reading%2F1779345648320&dt=Shailesh%20Lodha%20on%20Poetry%2C%20Mumbai%20and%20the%20Habit%20of%20Reading&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=Team%20BT&tfd=241
-2026-05-27 12:16:54 [    INFO] test_bombaytimes_flow.py:147 - [Latest Video Detail] PASS GA: 2 call(s) fired
-2026-05-27 12:16:54 [    INFO] test_bombaytimes_flow.py:891 - Latest Video detail page URL: https://www.bombaytimes.com/short-videos/shailesh-lodha-on-poetry-mumbai-and-the-habit-of-reading/1779345648320
-2026-05-27 12:16:54 [    INFO] test_bombaytimes_flow.py:892 - PASS: Latest Video detail page — canonical & GA validated
-2026-05-27 12:16:54 [    INFO] test_bombaytimes_flow.py:895 - Navigating back to homepage (cleanup)
-2026-05-27 12:16:54 [    INFO] test_bombaytimes_flow.py:898 - URL after return: https://www.bombaytimes.com/
-2026-05-27 12:16:54 [    INFO] test_bombaytimes_flow.py:900 - PASS: Returned to homepage
-2026-05-27 12:16:54 [    INFO] test_bombaytimes_flow.py:901 - === END: test_latest_video_detail_flow ===
-2026-05-27 12:16:54 [    INFO] test_bombaytimes_flow.py:905 - === START: test_google_analytics_tracking ===
-2026-05-27 12:16:54 [    INFO] test_bombaytimes_flow.py:919 - Navigating to homepage: https://www.bombaytimes.com
-2026-05-27 12:16:54 [    INFO] test_bombaytimes_flow.py:914 - GA network call captured: [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:16:55 [    INFO] test_bombaytimes_flow.py:914 - GA network call captured: [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864414997&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=13&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616985~115938465~115938468~119034493~119169248&dp=%2F&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=228
-2026-05-27 12:16:59 [    INFO] test_bombaytimes_flow.py:924 - Page reached networkidle state
-2026-05-27 12:16:59 [    INFO] test_bombaytimes_flow.py:927 - Page URL: https://www.bombaytimes.com/
-2026-05-27 12:16:59 [    INFO] test_bombaytimes_flow.py:932 - ── GA network calls summary ──────────────────────────
-2026-05-27 12:16:59 [    INFO] test_bombaytimes_flow.py:933 - Total GA-related calls captured: 2
-2026-05-27 12:16:59 [    INFO] test_bombaytimes_flow.py:935 -   [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
-2026-05-27 12:16:59 [    INFO] test_bombaytimes_flow.py:935 -   [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779864414997&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=354392294.1779864231&frm=0&pscdl=noapi&rcb=13&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616985~115938465~115938468~119034493~119169248&dp=%2F&sid=1779864230&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=228
-2026-05-27 12:16:59 [    INFO] test_bombaytimes_flow.py:936 - ──────────────────────────────────────────────────────
-2026-05-27 12:16:59 [    INFO] test_bombaytimes_flow.py:950 - PASS: 2 GA call(s) found on homepage
-2026-05-27 12:16:59 [    INFO] test_bombaytimes_flow.py:959 - PASS: All 2 GA call(s) returned successful status (200 or 204)
-2026-05-27 12:16:59 [    INFO] test_bombaytimes_flow.py:960 - === END: test_google_analytics_tracking ===
-2026-05-27 12:16:59 [    INFO] test_bombaytimes_flow.py:970 - === START: test_search_flow ===
-2026-05-27 12:16:59 [    INFO] test_bombaytimes_flow.py:973 - Homepage: https://www.bombaytimes.com/
-2026-05-27 12:16:59 [    INFO] test_bombaytimes_flow.py:976 - [Search] Step 1: Opening search bar...
-2026-05-27 12:17:02 [    INFO] test_bombaytimes_flow.py:980 - [Search] Step 1 complete — search bar opened | elapsed: 3.15 s
-2026-05-27 12:17:02 [    INFO] test_bombaytimes_flow.py:987 - [Search] Step 2: Typing keyword 'Bollywood'...
-2026-05-27 12:17:02 [    INFO] test_bombaytimes_flow.py:991 - [Search] Step 2 complete — keyword filled + Enter pressed | elapsed: 0.16 s
-2026-05-27 12:17:02 [    INFO] test_bombaytimes_flow.py:999 - [Search] Step 3: Waiting for search results URL...
-2026-05-27 12:17:02 [    INFO] test_bombaytimes_flow.py:1012 - [Search] Step 3 complete — results FOUND | elapsed: 0.08 s
-2026-05-27 12:17:02 [    INFO] test_bombaytimes_flow.py:1019 - [Search] TOTAL elapsed — open: 3.15 s | type: 0.16 s | results: 0.08 s | TOTAL: 3.39 s
-2026-05-27 12:17:02 [    INFO] test_bombaytimes_flow.py:1028 - PASS: Search results found. URL: https://www.bombaytimes.com/searchresults?search=Bollywood
-2026-05-27 12:17:02 [    INFO] test_bombaytimes_flow.py:1032 - PASS: Returned to homepage
-2026-05-27 12:17:02 [    INFO] test_bombaytimes_flow.py:1033 - === END: test_search_flow ===
+2026-05-27 17:01:47 [   DEBUG] proactor_events.py:633 - Using proactor: IocpProactor
+2026-05-27 17:01:49 [    INFO] test_bombaytimes_flow.py:206 - === START: test_entertainment_and_bollywood_flow ===
+2026-05-27 17:01:49 [    INFO] test_bombaytimes_flow.py:209 - Navigating to homepage
+2026-05-27 17:01:51 [    INFO] test_bombaytimes_flow.py:211 - Homepage URL: https://www.bombaytimes.com/
+2026-05-27 17:01:51 [    INFO] test_bombaytimes_flow.py:214 - Navigating to Entertainment (canonical + GA validation)
+2026-05-27 17:01:53 [    INFO] test_bombaytimes_flow.py:73 - [Entertainment] Page loaded: https://www.bombaytimes.com/entertainment
+2026-05-27 17:01:53 [    INFO] test_bombaytimes_flow.py:74 - [Entertainment] Holding for 5 s (visual confirmation)...
+2026-05-27 17:01:58 [    INFO] test_bombaytimes_flow.py:114 - [Entertainment] PASS Canonical: https://www.bombaytimes.com/entertainment
+2026-05-27 17:01:58 [    INFO] test_bombaytimes_flow.py:142 - [Entertainment] GA calls captured: 3
+2026-05-27 17:01:58 [    INFO] test_bombaytimes_flow.py:146 - [Entertainment]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:01:58 [    INFO] test_bombaytimes_flow.py:146 - [Entertainment]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:01:58 [    INFO] test_bombaytimes_flow.py:146 - [Entertainment]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881513743&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=15&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938468~118128922~119168154&dp=%2Fentertainment&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20Entertainment%20News%2C%20Celebrity%20Photos%2C%20Gossips%20and%20more&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=1875
+2026-05-27 17:01:58 [    INFO] test_bombaytimes_flow.py:147 - [Entertainment] PASS GA: 3 call(s) fired
+2026-05-27 17:01:58 [    INFO] test_bombaytimes_flow.py:216 - URL after Entertainment: https://www.bombaytimes.com/entertainment
+2026-05-27 17:01:58 [    INFO] test_bombaytimes_flow.py:219 - PASS: Entertainment URL verified
+2026-05-27 17:01:58 [    INFO] test_bombaytimes_flow.py:222 - Navigating to Bollywood (canonical + GA validation)
+2026-05-27 17:01:58 [    INFO] test_bombaytimes_flow.py:73 - [Entertainment > Bollywood] Page loaded: https://www.bombaytimes.com/entertainment/bollywood
+2026-05-27 17:01:58 [    INFO] test_bombaytimes_flow.py:74 - [Entertainment > Bollywood] Holding for 5 s (visual confirmation)...
+2026-05-27 17:02:04 [    INFO] test_bombaytimes_flow.py:114 - [Entertainment > Bollywood] PASS Canonical: https://www.bombaytimes.com/entertainment/bollywood
+2026-05-27 17:02:04 [    INFO] test_bombaytimes_flow.py:142 - [Entertainment > Bollywood] GA calls captured: 2
+2026-05-27 17:02:04 [    INFO] test_bombaytimes_flow.py:146 - [Entertainment > Bollywood]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:02:04 [    INFO] test_bombaytimes_flow.py:146 - [Entertainment > Bollywood]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881519127&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=7&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938465~115938469~118689381~119169248&dp=%2Fentertainment%2Fbollywood&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment%2Fbollywood&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment&dt=Latest%20Bollywood%20News%2C%20Movie%20Reviews%2C%20Events%20%26%20More&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=479
+2026-05-27 17:02:04 [    INFO] test_bombaytimes_flow.py:147 - [Entertainment > Bollywood] PASS GA: 2 call(s) fired
+2026-05-27 17:02:04 [    INFO] test_bombaytimes_flow.py:224 - URL after Bollywood: https://www.bombaytimes.com/entertainment/bollywood
+2026-05-27 17:02:04 [    INFO] test_bombaytimes_flow.py:227 - PASS: Bollywood URL verified
+2026-05-27 17:02:04 [    INFO] test_bombaytimes_flow.py:229 - === END: test_entertainment_and_bollywood_flow ===
+2026-05-27 17:02:04 [    INFO] test_bombaytimes_flow.py:233 - === START: test_lifestyle_and_pawsome_flow ===
+2026-05-27 17:02:04 [    INFO] test_bombaytimes_flow.py:236 - Homepage: https://www.bombaytimes.com/
+2026-05-27 17:02:04 [    INFO] test_bombaytimes_flow.py:238 - Navigating to Lifestyle (canonical + GA validation)
+2026-05-27 17:02:04 [    INFO] test_bombaytimes_flow.py:73 - [Lifestyle] Page loaded: https://www.bombaytimes.com/lifestyle
+2026-05-27 17:02:04 [    INFO] test_bombaytimes_flow.py:74 - [Lifestyle] Holding for 5 s (visual confirmation)...
+2026-05-27 17:02:09 [    INFO] test_bombaytimes_flow.py:114 - [Lifestyle] PASS Canonical: https://www.bombaytimes.com/lifestyle
+2026-05-27 17:02:09 [    INFO] test_bombaytimes_flow.py:142 - [Lifestyle] GA calls captured: 3
+2026-05-27 17:02:09 [    INFO] test_bombaytimes_flow.py:146 - [Lifestyle]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:02:09 [    INFO] test_bombaytimes_flow.py:146 - [Lifestyle]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:02:09 [    INFO] test_bombaytimes_flow.py:146 - [Lifestyle]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881525021&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=12&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616985~115938465~115938469~119034491~119168154~119169248&dp=%2Flifestyle&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Flifestyle&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20Lifestyle%20News%2C%20Hot%20Trends%2C%20Celebrity%20Style%20and%20More&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=405
+2026-05-27 17:02:09 [    INFO] test_bombaytimes_flow.py:147 - [Lifestyle] PASS GA: 3 call(s) fired
+2026-05-27 17:02:09 [    INFO] test_bombaytimes_flow.py:240 - After Lifestyle: https://www.bombaytimes.com/lifestyle
+2026-05-27 17:02:09 [    INFO] test_bombaytimes_flow.py:242 - PASS: Lifestyle URL verified
+2026-05-27 17:02:09 [    INFO] test_bombaytimes_flow.py:244 - Navigating to Pawsome (canonical + GA validation)
+2026-05-27 17:02:10 [    INFO] test_bombaytimes_flow.py:73 - [Lifestyle > Pawsome] Page loaded: https://www.bombaytimes.com/lifestyle/pawsome
+2026-05-27 17:02:10 [    INFO] test_bombaytimes_flow.py:74 - [Lifestyle > Pawsome] Holding for 5 s (visual confirmation)...
+2026-05-27 17:02:15 [    INFO] test_bombaytimes_flow.py:114 - [Lifestyle > Pawsome] PASS Canonical: https://www.bombaytimes.com/lifestyle/pawsome
+2026-05-27 17:02:15 [    INFO] test_bombaytimes_flow.py:142 - [Lifestyle > Pawsome] GA calls captured: 2
+2026-05-27 17:02:15 [    INFO] test_bombaytimes_flow.py:146 - [Lifestyle > Pawsome]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:02:15 [    INFO] test_bombaytimes_flow.py:146 - [Lifestyle > Pawsome]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881530556&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=3&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938468&dp=%2Flifestyle%2Fpawsome&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Flifestyle%2Fpawsome&dr=https%3A%2F%2Fwww.bombaytimes.com%2Flifestyle&dt=Fun%20facts%2C%20Tips%20And%20Much%20More%20About%20Animals&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=539
+2026-05-27 17:02:15 [    INFO] test_bombaytimes_flow.py:147 - [Lifestyle > Pawsome] PASS GA: 2 call(s) fired
+2026-05-27 17:02:15 [    INFO] test_bombaytimes_flow.py:246 - After Pawsome: https://www.bombaytimes.com/lifestyle/pawsome
+2026-05-27 17:02:15 [    INFO] test_bombaytimes_flow.py:248 - PASS: Pawsome URL verified
+2026-05-27 17:02:15 [    INFO] test_bombaytimes_flow.py:251 - After logo click: https://www.bombaytimes.com/
+2026-05-27 17:02:15 [    INFO] test_bombaytimes_flow.py:253 - PASS: Returned to homepage
+2026-05-27 17:02:15 [    INFO] test_bombaytimes_flow.py:254 - === END: test_lifestyle_and_pawsome_flow ===
+2026-05-27 17:02:15 [    INFO] test_bombaytimes_flow.py:258 - === START: test_dining_and_reviews_flow ===
+2026-05-27 17:02:15 [    INFO] test_bombaytimes_flow.py:261 - Homepage: https://www.bombaytimes.com/
+2026-05-27 17:02:15 [    INFO] test_bombaytimes_flow.py:263 - Navigating to Dining (canonical + GA validation)
+2026-05-27 17:02:16 [    INFO] test_bombaytimes_flow.py:73 - [Dining] Page loaded: https://www.bombaytimes.com/dining
+2026-05-27 17:02:16 [    INFO] test_bombaytimes_flow.py:74 - [Dining] Holding for 5 s (visual confirmation)...
+2026-05-27 17:02:21 [    INFO] test_bombaytimes_flow.py:114 - [Dining] PASS Canonical: https://www.bombaytimes.com/dining
+2026-05-27 17:02:21 [    INFO] test_bombaytimes_flow.py:142 - [Dining] GA calls captured: 3
+2026-05-27 17:02:21 [    INFO] test_bombaytimes_flow.py:146 - [Dining]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:02:21 [    INFO] test_bombaytimes_flow.py:146 - [Dining]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:02:21 [    INFO] test_bombaytimes_flow.py:146 - [Dining]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881536677&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=0&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938466~115938468~119034493&dp=%2Fdining&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fdining&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=News%20%26%20Updates%20on%20Food%20%26%20Night%20Life%2C%20Restaurant%20Reviews%20and%20More&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=549
+2026-05-27 17:02:21 [    INFO] test_bombaytimes_flow.py:147 - [Dining] PASS GA: 3 call(s) fired
+2026-05-27 17:02:21 [    INFO] test_bombaytimes_flow.py:265 - After Dining: https://www.bombaytimes.com/dining
+2026-05-27 17:02:21 [    INFO] test_bombaytimes_flow.py:267 - PASS: Dining URL verified
+2026-05-27 17:02:21 [    INFO] test_bombaytimes_flow.py:269 - Navigating to Reviews (canonical + GA validation)
+2026-05-27 17:02:21 [    INFO] test_bombaytimes_flow.py:73 - [Dining > Reviews] Page loaded: https://www.bombaytimes.com/dining/reviews
+2026-05-27 17:02:21 [    INFO] test_bombaytimes_flow.py:74 - [Dining > Reviews] Holding for 5 s (visual confirmation)...
+2026-05-27 17:02:27 [    INFO] test_bombaytimes_flow.py:114 - [Dining > Reviews] PASS Canonical: https://www.bombaytimes.com/dining/reviews
+2026-05-27 17:02:27 [    INFO] test_bombaytimes_flow.py:142 - [Dining > Reviews] GA calls captured: 2
+2026-05-27 17:02:27 [    INFO] test_bombaytimes_flow.py:146 - [Dining > Reviews]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:02:27 [    INFO] test_bombaytimes_flow.py:146 - [Dining > Reviews]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881542137&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=15&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938465~115938469~118689381~119034492&dp=%2Fdining%2Freviews&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fdining%2Freviews&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fdining&dt=Latest%20Restaurant%20%26%20Food%20Reviews%20%7C%20Dining%20News&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=547
+2026-05-27 17:02:27 [    INFO] test_bombaytimes_flow.py:147 - [Dining > Reviews] PASS GA: 2 call(s) fired
+2026-05-27 17:02:27 [    INFO] test_bombaytimes_flow.py:271 - After Reviews: https://www.bombaytimes.com/dining/reviews
+2026-05-27 17:02:27 [    INFO] test_bombaytimes_flow.py:273 - PASS: Reviews URL verified
+2026-05-27 17:02:27 [    INFO] test_bombaytimes_flow.py:276 - After logo click: https://www.bombaytimes.com/
+2026-05-27 17:02:27 [    INFO] test_bombaytimes_flow.py:278 - PASS: Returned to homepage
+2026-05-27 17:02:27 [    INFO] test_bombaytimes_flow.py:279 - === END: test_dining_and_reviews_flow ===
+2026-05-27 17:02:27 [    INFO] test_bombaytimes_flow.py:283 - === START: test_travel_and_india_flow ===
+2026-05-27 17:02:27 [    INFO] test_bombaytimes_flow.py:286 - Homepage: https://www.bombaytimes.com/
+2026-05-27 17:02:27 [    INFO] test_bombaytimes_flow.py:288 - Navigating to Travel (canonical + GA validation)
+2026-05-27 17:02:28 [    INFO] test_bombaytimes_flow.py:73 - [Travel] Page loaded: https://www.bombaytimes.com/travel
+2026-05-27 17:02:28 [    INFO] test_bombaytimes_flow.py:74 - [Travel] Holding for 5 s (visual confirmation)...
+2026-05-27 17:02:33 [    INFO] test_bombaytimes_flow.py:114 - [Travel] PASS Canonical: https://www.bombaytimes.com/travel
+2026-05-27 17:02:33 [    INFO] test_bombaytimes_flow.py:142 - [Travel] GA calls captured: 3
+2026-05-27 17:02:33 [    INFO] test_bombaytimes_flow.py:146 - [Travel]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:02:33 [    INFO] test_bombaytimes_flow.py:146 - [Travel]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:02:33 [    INFO] test_bombaytimes_flow.py:146 - [Travel]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881548223&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=0&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938465~115938468~118228214&dp=%2Ftravel&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Ftravel&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=India%20%26%20International%20Travel%20Guide%20%E2%80%93%20Places%20to%20Visit%2C%20Hotels&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=425
+2026-05-27 17:02:33 [    INFO] test_bombaytimes_flow.py:147 - [Travel] PASS GA: 3 call(s) fired
+2026-05-27 17:02:33 [    INFO] test_bombaytimes_flow.py:290 - After Travel: https://www.bombaytimes.com/travel
+2026-05-27 17:02:33 [    INFO] test_bombaytimes_flow.py:292 - PASS: Travel URL verified
+2026-05-27 17:02:33 [    INFO] test_bombaytimes_flow.py:294 - Navigating to India (canonical + GA validation)
+2026-05-27 17:02:33 [    INFO] test_bombaytimes_flow.py:73 - [Travel > India] Page loaded: https://www.bombaytimes.com/travel/india
+2026-05-27 17:02:33 [    INFO] test_bombaytimes_flow.py:74 - [Travel > India] Holding for 5 s (visual confirmation)...
+2026-05-27 17:02:38 [    INFO] test_bombaytimes_flow.py:114 - [Travel > India] PASS Canonical: https://www.bombaytimes.com/travel/india
+2026-05-27 17:02:38 [    INFO] test_bombaytimes_flow.py:142 - [Travel > India] GA calls captured: 3
+2026-05-27 17:02:38 [    INFO] test_bombaytimes_flow.py:146 - [Travel > India]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:02:38 [    INFO] test_bombaytimes_flow.py:146 - [Travel > India]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881553765&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=8&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938468~118228214&dp=%2Ftravel%2Findia&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Ftravel%2Findia&dr=https%3A%2F%2Fwww.bombaytimes.com%2Ftravel&dt=India%20Travel%20Guide%20with%20Tips%20and%20Ideas&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=535
+2026-05-27 17:02:38 [    INFO] test_bombaytimes_flow.py:146 - [Travel > India]   GA [204] https://www.googletagmanager.com/td?id=G-NNM57R6CG5&v=3&t=t&pid=1173750061&gtm=45je65m1v9172439187za200zd9172439187&seq=1&exp=0~115938466~115938468~118228214&dl=www.bombaytimes.com%2Ftravel%2Findia&tdp=G-NNM57R6CG5;172439187;0;0;0&frm=0&rtg=172439187&slo=20&hlo=22&lst=3&bt=0&ct=3&z=0
+2026-05-27 17:02:38 [    INFO] test_bombaytimes_flow.py:147 - [Travel > India] PASS GA: 3 call(s) fired
+2026-05-27 17:02:38 [    INFO] test_bombaytimes_flow.py:296 - After India: https://www.bombaytimes.com/travel/india
+2026-05-27 17:02:38 [    INFO] test_bombaytimes_flow.py:298 - PASS: India URL verified
+2026-05-27 17:02:38 [    INFO] test_bombaytimes_flow.py:301 - After logo click: https://www.bombaytimes.com/
+2026-05-27 17:02:38 [    INFO] test_bombaytimes_flow.py:303 - PASS: Returned to homepage
+2026-05-27 17:02:38 [    INFO] test_bombaytimes_flow.py:304 - === END: test_travel_and_india_flow ===
+2026-05-27 17:02:38 [    INFO] test_bombaytimes_flow.py:308 - === START: test_people_and_interviews_flow ===
+2026-05-27 17:02:39 [    INFO] test_bombaytimes_flow.py:311 - Homepage: https://www.bombaytimes.com/
+2026-05-27 17:02:39 [    INFO] test_bombaytimes_flow.py:313 - Navigating to People (canonical + GA validation)
+2026-05-27 17:02:39 [    INFO] test_bombaytimes_flow.py:73 - [People] Page loaded: https://www.bombaytimes.com/people
+2026-05-27 17:02:39 [    INFO] test_bombaytimes_flow.py:74 - [People] Holding for 5 s (visual confirmation)...
+2026-05-27 17:02:44 [    INFO] test_bombaytimes_flow.py:114 - [People] PASS Canonical: https://www.bombaytimes.com/people
+2026-05-27 17:02:44 [    INFO] test_bombaytimes_flow.py:142 - [People] GA calls captured: 3
+2026-05-27 17:02:44 [    INFO] test_bombaytimes_flow.py:146 - [People]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:02:44 [    INFO] test_bombaytimes_flow.py:146 - [People]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:02:44 [    INFO] test_bombaytimes_flow.py:146 - [People]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881560096&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=19&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938466~115938468&dp=%2Fpeople&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fpeople&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20Celebrity%20News%20%26%20Exclusive%20Interviews&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=652
+2026-05-27 17:02:44 [    INFO] test_bombaytimes_flow.py:147 - [People] PASS GA: 3 call(s) fired
+2026-05-27 17:02:44 [    INFO] test_bombaytimes_flow.py:315 - After People: https://www.bombaytimes.com/people
+2026-05-27 17:02:44 [    INFO] test_bombaytimes_flow.py:317 - PASS: People URL verified
+2026-05-27 17:02:44 [    INFO] test_bombaytimes_flow.py:319 - Navigating to Interviews (canonical + GA validation)
+2026-05-27 17:02:45 [    INFO] test_bombaytimes_flow.py:73 - [People > Interviews] Page loaded: https://www.bombaytimes.com/people/interviews
+2026-05-27 17:02:45 [    INFO] test_bombaytimes_flow.py:74 - [People > Interviews] Holding for 5 s (visual confirmation)...
+2026-05-27 17:02:50 [    INFO] test_bombaytimes_flow.py:114 - [People > Interviews] PASS Canonical: https://www.bombaytimes.com/people/interviews
+2026-05-27 17:02:50 [    INFO] test_bombaytimes_flow.py:142 - [People > Interviews] GA calls captured: 2
+2026-05-27 17:02:50 [    INFO] test_bombaytimes_flow.py:146 - [People > Interviews]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:02:50 [    INFO] test_bombaytimes_flow.py:146 - [People > Interviews]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881565544&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=15&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938465~115938469~118012007~118689382~119034493~119169247&dp=%2Fpeople%2Finterviews&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fpeople%2Finterviews&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fpeople&dt=Interviews%20of%20Celebrities%20and%20Famous%20People&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=474
+2026-05-27 17:02:50 [    INFO] test_bombaytimes_flow.py:147 - [People > Interviews] PASS GA: 2 call(s) fired
+2026-05-27 17:02:50 [    INFO] test_bombaytimes_flow.py:321 - After Interviews: https://www.bombaytimes.com/people/interviews
+2026-05-27 17:02:50 [    INFO] test_bombaytimes_flow.py:323 - PASS: Interviews URL verified
+2026-05-27 17:02:50 [    INFO] test_bombaytimes_flow.py:326 - After logo click: https://www.bombaytimes.com/
+2026-05-27 17:02:50 [    INFO] test_bombaytimes_flow.py:328 - PASS: Returned to homepage
+2026-05-27 17:02:50 [    INFO] test_bombaytimes_flow.py:329 - === END: test_people_and_interviews_flow ===
+2026-05-27 17:02:50 [    INFO] test_bombaytimes_flow.py:333 - === START: test_specials_and_take_two_flow ===
+2026-05-27 17:02:50 [    INFO] test_bombaytimes_flow.py:336 - Homepage: https://www.bombaytimes.com/
+2026-05-27 17:02:50 [    INFO] test_bombaytimes_flow.py:338 - Navigating to Specials (canonical + GA validation)
+2026-05-27 17:02:51 [    INFO] test_bombaytimes_flow.py:73 - [Specials] Page loaded: https://www.bombaytimes.com/specials
+2026-05-27 17:02:51 [    INFO] test_bombaytimes_flow.py:74 - [Specials] Holding for 5 s (visual confirmation)...
+2026-05-27 17:02:56 [    INFO] test_bombaytimes_flow.py:114 - [Specials] PASS Canonical: https://www.bombaytimes.com/specials
+2026-05-27 17:02:56 [    INFO] test_bombaytimes_flow.py:142 - [Specials] GA calls captured: 3
+2026-05-27 17:02:56 [    INFO] test_bombaytimes_flow.py:146 - [Specials]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:02:56 [    INFO] test_bombaytimes_flow.py:146 - [Specials]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:02:56 [    INFO] test_bombaytimes_flow.py:146 - [Specials]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881571695&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=5&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616985~115938466~115938469&dp=%2Fspecials&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fspecials&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Special%20Campaigns%2FInitiatives%20By%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=508
+2026-05-27 17:02:56 [    INFO] test_bombaytimes_flow.py:147 - [Specials] PASS GA: 3 call(s) fired
+2026-05-27 17:02:56 [    INFO] test_bombaytimes_flow.py:340 - After Specials: https://www.bombaytimes.com/specials
+2026-05-27 17:02:56 [    INFO] test_bombaytimes_flow.py:342 - PASS: Specials URL verified
+2026-05-27 17:02:56 [    INFO] test_bombaytimes_flow.py:344 - Navigating to Take Two (canonical + GA validation)
+2026-05-27 17:02:56 [    INFO] test_bombaytimes_flow.py:73 - [Specials > Take Two] Page loaded: https://www.bombaytimes.com/specials/take-two
+2026-05-27 17:02:56 [    INFO] test_bombaytimes_flow.py:74 - [Specials > Take Two] Holding for 5 s (visual confirmation)...
+2026-05-27 17:03:02 [    INFO] test_bombaytimes_flow.py:114 - [Specials > Take Two] PASS Canonical: https://www.bombaytimes.com/specials/take-two
+2026-05-27 17:03:02 [    INFO] test_bombaytimes_flow.py:142 - [Specials > Take Two] GA calls captured: 2
+2026-05-27 17:03:02 [    INFO] test_bombaytimes_flow.py:146 - [Specials > Take Two]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:03:02 [    INFO] test_bombaytimes_flow.py:146 - [Specials > Take Two]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881577054&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=16&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938469~119034493&dp=%2Fspecials%2Ftake-two&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fspecials%2Ftake-two&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fspecials&dt=A%20Valentine%27s%20Day%20special%20campaign%20with%20celebrities%20sharing%20their%20stories%20of%20love&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=443
+2026-05-27 17:03:02 [    INFO] test_bombaytimes_flow.py:147 - [Specials > Take Two] PASS GA: 2 call(s) fired
+2026-05-27 17:03:02 [    INFO] test_bombaytimes_flow.py:346 - After Take Two: https://www.bombaytimes.com/specials/take-two
+2026-05-27 17:03:02 [    INFO] test_bombaytimes_flow.py:348 - PASS: Take Two URL verified
+2026-05-27 17:03:02 [    INFO] test_bombaytimes_flow.py:351 - After logo click: https://www.bombaytimes.com/
+2026-05-27 17:03:02 [    INFO] test_bombaytimes_flow.py:353 - PASS: Returned to homepage
+2026-05-27 17:03:02 [    INFO] test_bombaytimes_flow.py:354 - === END: test_specials_and_take_two_flow ===
+2026-05-27 17:03:02 [    INFO] test_bombaytimes_flow.py:358 - === START: test_astro_and_trends_flow ===
+2026-05-27 17:03:02 [    INFO] test_bombaytimes_flow.py:361 - Homepage: https://www.bombaytimes.com/
+2026-05-27 17:03:02 [    INFO] test_bombaytimes_flow.py:363 - Navigating to Astro (canonical + GA validation)
+2026-05-27 17:03:03 [    INFO] test_bombaytimes_flow.py:73 - [Astro] Page loaded: https://www.bombaytimes.com/astro
+2026-05-27 17:03:03 [    INFO] test_bombaytimes_flow.py:74 - [Astro] Holding for 5 s (visual confirmation)...
+2026-05-27 17:03:08 [    INFO] test_bombaytimes_flow.py:114 - [Astro] PASS Canonical: https://www.bombaytimes.com/astro
+2026-05-27 17:03:08 [    INFO] test_bombaytimes_flow.py:142 - [Astro] GA calls captured: 3
+2026-05-27 17:03:08 [    INFO] test_bombaytimes_flow.py:146 - [Astro]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:03:08 [    INFO] test_bombaytimes_flow.py:146 - [Astro]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:03:08 [    INFO] test_bombaytimes_flow.py:146 - [Astro]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881583336&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=0&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938465~115938468~119169248&dp=%2Fastro&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fastro&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Your%20Astrology%20Guide%20With%20Predictions%2C%20Manifestation%20Portals%2C%20Tips&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=576
+2026-05-27 17:03:08 [    INFO] test_bombaytimes_flow.py:147 - [Astro] PASS GA: 3 call(s) fired
+2026-05-27 17:03:08 [    INFO] test_bombaytimes_flow.py:365 - After Astro: https://www.bombaytimes.com/astro
+2026-05-27 17:03:08 [    INFO] test_bombaytimes_flow.py:367 - PASS: Astro URL verified
+2026-05-27 17:03:08 [    INFO] test_bombaytimes_flow.py:369 - Navigating to Trends (canonical + GA validation)
+2026-05-27 17:03:16 [    INFO] test_bombaytimes_flow.py:73 - [Astro > Trends] Page loaded: https://www.bombaytimes.com/astro/trends
+2026-05-27 17:03:16 [    INFO] test_bombaytimes_flow.py:74 - [Astro > Trends] Holding for 5 s (visual confirmation)...
+2026-05-27 17:03:21 [    INFO] test_bombaytimes_flow.py:114 - [Astro > Trends] PASS Canonical: https://www.bombaytimes.com/astro/trends
+2026-05-27 17:03:21 [    INFO] test_bombaytimes_flow.py:142 - [Astro > Trends] GA calls captured: 2
+2026-05-27 17:03:21 [    INFO] test_bombaytimes_flow.py:146 - [Astro > Trends]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:03:21 [    INFO] test_bombaytimes_flow.py:146 - [Astro > Trends]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881596866&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=13&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938469~118228215&dp=%2Fastro%2Ftrends&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fastro%2Ftrends&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fastro&dt=All%20Astrology%20Related%20Trends%20For%20The%20Believer%20In%20You&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=505
+2026-05-27 17:03:21 [    INFO] test_bombaytimes_flow.py:147 - [Astro > Trends] PASS GA: 2 call(s) fired
+2026-05-27 17:03:21 [    INFO] test_bombaytimes_flow.py:371 - After Trends: https://www.bombaytimes.com/astro/trends
+2026-05-27 17:03:21 [    INFO] test_bombaytimes_flow.py:373 - PASS: Trends URL verified
+2026-05-27 17:03:21 [    INFO] test_bombaytimes_flow.py:376 - After logo click: https://www.bombaytimes.com/
+2026-05-27 17:03:21 [    INFO] test_bombaytimes_flow.py:378 - PASS: Returned to homepage
+2026-05-27 17:03:21 [    INFO] test_bombaytimes_flow.py:379 - === END: test_astro_and_trends_flow ===
+2026-05-27 17:03:21 [    INFO] test_bombaytimes_flow.py:383 - === START: test_bt_picks_and_electronics_flow ===
+2026-05-27 17:03:22 [    INFO] test_bombaytimes_flow.py:386 - Homepage: https://www.bombaytimes.com/
+2026-05-27 17:03:22 [    INFO] test_bombaytimes_flow.py:388 - Navigating to BT Picks (canonical + GA validation)
+2026-05-27 17:03:22 [    INFO] test_bombaytimes_flow.py:73 - [BT Picks] Page loaded: https://www.bombaytimes.com/bt-picks
+2026-05-27 17:03:22 [    INFO] test_bombaytimes_flow.py:74 - [BT Picks] Holding for 5 s (visual confirmation)...
+2026-05-27 17:03:27 [    INFO] test_bombaytimes_flow.py:114 - [BT Picks] PASS Canonical: https://www.bombaytimes.com/bt-picks
+2026-05-27 17:03:27 [    INFO] test_bombaytimes_flow.py:142 - [BT Picks] GA calls captured: 3
+2026-05-27 17:03:27 [    INFO] test_bombaytimes_flow.py:146 - [BT Picks]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:03:27 [    INFO] test_bombaytimes_flow.py:146 - [BT Picks]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:03:27 [    INFO] test_bombaytimes_flow.py:146 - [BT Picks]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881603024&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=18&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938465~115938468~119034492~119169247&dp=%2Fbt-picks&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fbt-picks&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Bombay%20Times%20Picks%3A%20All%20Inclusive%20Reviews%20On%20Latest%20Launches&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=455
+2026-05-27 17:03:27 [    INFO] test_bombaytimes_flow.py:147 - [BT Picks] PASS GA: 3 call(s) fired
+2026-05-27 17:03:27 [    INFO] test_bombaytimes_flow.py:390 - After BT Picks: https://www.bombaytimes.com/bt-picks
+2026-05-27 17:03:27 [    INFO] test_bombaytimes_flow.py:392 - PASS: BT Picks URL verified
+2026-05-27 17:03:27 [    INFO] test_bombaytimes_flow.py:394 - Navigating to Electronics (canonical + GA validation)
+2026-05-27 17:03:36 [    INFO] test_bombaytimes_flow.py:73 - [BT Picks > Electronics] Page loaded: https://www.bombaytimes.com/bt-picks/electronics
+2026-05-27 17:03:36 [    INFO] test_bombaytimes_flow.py:74 - [BT Picks > Electronics] Holding for 5 s (visual confirmation)...
+2026-05-27 17:03:41 [    INFO] test_bombaytimes_flow.py:114 - [BT Picks > Electronics] PASS Canonical: https://www.bombaytimes.com/bt-picks/electronics
+2026-05-27 17:03:41 [    INFO] test_bombaytimes_flow.py:142 - [BT Picks > Electronics] GA calls captured: 2
+2026-05-27 17:03:41 [    INFO] test_bombaytimes_flow.py:146 - [BT Picks > Electronics]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:03:41 [    INFO] test_bombaytimes_flow.py:146 - [BT Picks > Electronics]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881616506&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=12&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616985~115938466~115938469~118228215~119169249&dp=%2Fbt-picks%2Felectronics&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fbt-picks%2Felectronics&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fbt-picks&dt=Detailed%20reviews%20and%20best%20deals%20on%20Electronics&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=444
+2026-05-27 17:03:41 [    INFO] test_bombaytimes_flow.py:147 - [BT Picks > Electronics] PASS GA: 2 call(s) fired
+2026-05-27 17:03:41 [    INFO] test_bombaytimes_flow.py:396 - After Electronics: https://www.bombaytimes.com/bt-picks/electronics
+2026-05-27 17:03:41 [    INFO] test_bombaytimes_flow.py:398 - PASS: Electronics URL verified
+2026-05-27 17:03:41 [    INFO] test_bombaytimes_flow.py:401 - After logo click: https://www.bombaytimes.com/
+2026-05-27 17:03:41 [    INFO] test_bombaytimes_flow.py:403 - PASS: Returned to homepage
+2026-05-27 17:03:41 [    INFO] test_bombaytimes_flow.py:404 - === END: test_bt_picks_and_electronics_flow ===
+2026-05-27 17:03:41 [    INFO] test_bombaytimes_flow.py:408 - === START: test_intimate_diaries_flow ===
+2026-05-27 17:03:41 [    INFO] test_bombaytimes_flow.py:411 - Homepage: https://www.bombaytimes.com/
+2026-05-27 17:03:41 [    INFO] test_bombaytimes_flow.py:414 - === [Intimate Diaries] Performance timing enabled ===
+2026-05-27 17:03:41 [    INFO] test_bombaytimes_flow.py:415 - [Intimate Diaries] Navigating (canonical + GA validation + timing logs)
+2026-05-27 17:03:50 [    INFO] test_bombaytimes_flow.py:57 - [Intimate Diaries] ⏱ Step 1 – Click/nav completed: 8.33 s
+2026-05-27 17:03:50 [    INFO] test_bombaytimes_flow.py:68 - [Intimate Diaries] ⏱ Step 2 – Page load state reached: 0.01 s
+2026-05-27 17:03:50 [    INFO] test_bombaytimes_flow.py:73 - [Intimate Diaries] Page loaded: https://www.bombaytimes.com/intimate-diaries
+2026-05-27 17:03:50 [    INFO] test_bombaytimes_flow.py:74 - [Intimate Diaries] Holding for 5 s (visual confirmation)...
+2026-05-27 17:03:55 [    INFO] test_bombaytimes_flow.py:114 - [Intimate Diaries] PASS Canonical: https://www.bombaytimes.com/intimate-diaries
+2026-05-27 17:03:55 [    INFO] test_bombaytimes_flow.py:132 - [Intimate Diaries] ⏱ Step 3 – Canonical validation: 0.039 s | Result: PASS
+2026-05-27 17:03:55 [    INFO] test_bombaytimes_flow.py:142 - [Intimate Diaries] GA calls captured: 5
+2026-05-27 17:03:55 [    INFO] test_bombaytimes_flow.py:146 - [Intimate Diaries]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:03:55 [    INFO] test_bombaytimes_flow.py:146 - [Intimate Diaries]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881622056&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=18&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938469&dp=%2F&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=484
+2026-05-27 17:03:55 [    INFO] test_bombaytimes_flow.py:146 - [Intimate Diaries]   GA [204] https://www.googletagmanager.com/td?id=G-NNM57R6CG5&v=3&t=t&pid=2100056054&gtm=45je65m1v9172439187za200zd9172439187&seq=1&exp=0~115938466~115938469&dl=www.bombaytimes.com%2F&tdp=G-NNM57R6CG5;172439187;0;0;0&frm=0&rtg=172439187&slo=20&hlo=21&lst=3&bt=0&ct=3&z=0
+2026-05-27 17:03:55 [    INFO] test_bombaytimes_flow.py:146 - [Intimate Diaries]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:03:55 [    INFO] test_bombaytimes_flow.py:146 - [Intimate Diaries]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881630242&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=18&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938469~118694324~119034492&dp=%2Fintimate-diaries&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fintimate-diaries&dt=BT%20Intimate%20Diaries%20%E2%80%93%20Your%20Weekly%20Guide%20to%20Sex%2C%20Love%20%26%20Relationships&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=2283
+2026-05-27 17:03:55 [    INFO] test_bombaytimes_flow.py:147 - [Intimate Diaries] PASS GA: 5 call(s) fired
+2026-05-27 17:03:55 [    INFO] test_bombaytimes_flow.py:153 - [Intimate Diaries] ⏱ Step 4 – GA validation: 0.002 s | Calls: 5 | Result: PASS
+2026-05-27 17:03:55 [    INFO] test_bombaytimes_flow.py:158 - [Intimate Diaries] ⏱ TOTAL (excl. 5 s hold) — click: 8.33 s | load: 0.01 s | canonical: 0.039 s | GA: 0.002 s | TOTAL: 8.40 s
+2026-05-27 17:03:55 [    INFO] test_bombaytimes_flow.py:422 - After Intimate Diaries: https://www.bombaytimes.com/intimate-diaries
+2026-05-27 17:03:55 [    INFO] test_bombaytimes_flow.py:425 - PASS: Intimate Diaries URL verified
+2026-05-27 17:03:55 [    INFO] test_bombaytimes_flow.py:428 - After logo click: https://www.bombaytimes.com/
+2026-05-27 17:03:55 [    INFO] test_bombaytimes_flow.py:430 - PASS: Returned to homepage
+2026-05-27 17:03:55 [    INFO] test_bombaytimes_flow.py:433 - Opening overflow menu for Festival
+2026-05-27 17:03:55 [    INFO] test_bombaytimes_flow.py:436 - Overflow menu open attempt: 0.55 s | opened: True
+2026-05-27 17:03:55 [    INFO] test_bombaytimes_flow.py:438 - Navigating to Festival (canonical + GA validation)
+2026-05-27 17:04:35 [    INFO] test_bombaytimes_flow.py:73 - [Festival] Page loaded: https://www.bombaytimes.com/festivals
+2026-05-27 17:04:35 [    INFO] test_bombaytimes_flow.py:74 - [Festival] Holding for 5 s (visual confirmation)...
+2026-05-27 17:04:40 [    INFO] test_bombaytimes_flow.py:114 - [Festival] PASS Canonical: https://www.bombaytimes.com/festivals
+2026-05-27 17:04:40 [    INFO] test_bombaytimes_flow.py:142 - [Festival] GA calls captured: 2
+2026-05-27 17:04:40 [    INFO] test_bombaytimes_flow.py:146 - [Festival]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:04:40 [    INFO] test_bombaytimes_flow.py:146 - [Festival]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881675882&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=11&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938468~118128923&dp=%2Ffestivals&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Ffestivals&dt=Festivals%20%26%20Celebrations%20in%20India%20and%20Around%20the%20World%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=640
+2026-05-27 17:04:40 [    INFO] test_bombaytimes_flow.py:147 - [Festival] PASS GA: 2 call(s) fired
+2026-05-27 17:04:40 [    INFO] test_bombaytimes_flow.py:440 - After Festival: https://www.bombaytimes.com/festivals
+2026-05-27 17:04:40 [    INFO] test_bombaytimes_flow.py:443 - PASS: Festival URL verified
+2026-05-27 17:04:41 [    INFO] test_bombaytimes_flow.py:446 - After logo click: https://www.bombaytimes.com/
+2026-05-27 17:04:41 [    INFO] test_bombaytimes_flow.py:448 - PASS: Returned to homepage after Festival
+2026-05-27 17:04:41 [    INFO] test_bombaytimes_flow.py:451 - Opening overflow menu for Photo Stories
+2026-05-27 17:04:42 [    INFO] test_bombaytimes_flow.py:454 - Overflow menu open attempt: 0.96 s | opened: True
+2026-05-27 17:04:42 [    INFO] test_bombaytimes_flow.py:456 - Navigating to Photo Stories (canonical + GA validation)
+2026-05-27 17:04:43 [    INFO] test_bombaytimes_flow.py:73 - [Photo Stories] Page loaded: https://www.bombaytimes.com/photo-stories
+2026-05-27 17:04:43 [    INFO] test_bombaytimes_flow.py:74 - [Photo Stories] Holding for 5 s (visual confirmation)...
+2026-05-27 17:04:48 [    INFO] test_bombaytimes_flow.py:114 - [Photo Stories] PASS Canonical: https://www.bombaytimes.com/photo-stories
+2026-05-27 17:04:48 [    INFO] test_bombaytimes_flow.py:142 - [Photo Stories] GA calls captured: 3
+2026-05-27 17:04:48 [    INFO] test_bombaytimes_flow.py:146 - [Photo Stories]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881681910&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=1&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938469&dp=%2F&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2F&dr=https%3A%2F%2Fwww.bombaytimes.com%2Ffestivals&dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=1059
+2026-05-27 17:04:48 [    INFO] test_bombaytimes_flow.py:146 - [Photo Stories]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:04:48 [    INFO] test_bombaytimes_flow.py:146 - [Photo Stories]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881683315&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=5&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938466~115938468~118689381~119169248&dp=%2Fphoto-stories&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fphoto-stories&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Photo%20Stories&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=1172
+2026-05-27 17:04:48 [    INFO] test_bombaytimes_flow.py:147 - [Photo Stories] PASS GA: 3 call(s) fired
+2026-05-27 17:04:48 [    INFO] test_bombaytimes_flow.py:458 - After Photo Stories: https://www.bombaytimes.com/photo-stories
+2026-05-27 17:04:48 [    INFO] test_bombaytimes_flow.py:461 - PASS: Photo Stories URL verified
+2026-05-27 17:04:48 [    INFO] test_bombaytimes_flow.py:464 - After logo click: https://www.bombaytimes.com/
+2026-05-27 17:04:48 [    INFO] test_bombaytimes_flow.py:466 - PASS: Returned to homepage
+2026-05-27 17:04:48 [    INFO] test_bombaytimes_flow.py:469 - Opening overflow menu for Web Stories
+2026-05-27 17:04:48 [    INFO] test_bombaytimes_flow.py:472 - Overflow menu open attempt: 0.55 s | opened: True
+2026-05-27 17:04:48 [    INFO] test_bombaytimes_flow.py:474 - Navigating to Web Stories (canonical + GA validation)
+2026-05-27 17:04:49 [    INFO] test_bombaytimes_flow.py:73 - [Web Stories] Page loaded: https://www.bombaytimes.com/visual-stories
+2026-05-27 17:04:49 [    INFO] test_bombaytimes_flow.py:74 - [Web Stories] Holding for 5 s (visual confirmation)...
+2026-05-27 17:04:54 [    INFO] test_bombaytimes_flow.py:114 - [Web Stories] PASS Canonical: https://www.bombaytimes.com/visual-stories
+2026-05-27 17:04:54 [    INFO] test_bombaytimes_flow.py:142 - [Web Stories] GA calls captured: 2
+2026-05-27 17:04:54 [    INFO] test_bombaytimes_flow.py:146 - [Web Stories]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:04:54 [    INFO] test_bombaytimes_flow.py:146 - [Web Stories]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881689643&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=3&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616985~115938465~115938468~119034492&dp=%2Fvisual-stories&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fvisual-stories&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Entertainment%20Web%20Stories%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=501
+2026-05-27 17:04:54 [    INFO] test_bombaytimes_flow.py:147 - [Web Stories] PASS GA: 2 call(s) fired
+2026-05-27 17:04:54 [    INFO] test_bombaytimes_flow.py:476 - After Web Stories: https://www.bombaytimes.com/visual-stories
+2026-05-27 17:04:54 [    INFO] test_bombaytimes_flow.py:478 - PASS: Web Stories URL verified
+2026-05-27 17:04:54 [    INFO] test_bombaytimes_flow.py:482 - PASS: Returned to homepage
+2026-05-27 17:04:54 [    INFO] test_bombaytimes_flow.py:485 - Opening overflow menu for Videos
+2026-05-27 17:04:55 [    INFO] test_bombaytimes_flow.py:488 - Overflow menu open attempt: 0.54 s | opened: True
+2026-05-27 17:04:55 [    INFO] test_bombaytimes_flow.py:490 - Navigating to Latest Videos (canonical + GA validation)
+2026-05-27 17:04:56 [    INFO] test_bombaytimes_flow.py:73 - [Latest Videos] Page loaded: https://www.bombaytimes.com/latest-videos
+2026-05-27 17:04:56 [    INFO] test_bombaytimes_flow.py:74 - [Latest Videos] Holding for 5 s (visual confirmation)...
+2026-05-27 17:05:01 [    INFO] test_bombaytimes_flow.py:114 - [Latest Videos] PASS Canonical: https://www.bombaytimes.com/latest-videos
+2026-05-27 17:05:01 [    INFO] test_bombaytimes_flow.py:142 - [Latest Videos] GA calls captured: 2
+2026-05-27 17:05:01 [    INFO] test_bombaytimes_flow.py:146 - [Latest Videos]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:05:01 [    INFO] test_bombaytimes_flow.py:146 - [Latest Videos]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881696175&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=3&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938466~115938469&dp=%2Flatest-videos&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Flatest-videos&dr=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=videos&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=441
+2026-05-27 17:05:01 [    INFO] test_bombaytimes_flow.py:147 - [Latest Videos] PASS GA: 2 call(s) fired
+2026-05-27 17:05:01 [    INFO] test_bombaytimes_flow.py:492 - After Videos: https://www.bombaytimes.com/latest-videos
+2026-05-27 17:05:01 [    INFO] test_bombaytimes_flow.py:494 - PASS: Latest Videos URL verified
+2026-05-27 17:05:01 [    INFO] test_bombaytimes_flow.py:497 - Navigating to Short Videos (canonical + GA validation)
+2026-05-27 17:05:10 [    INFO] test_bombaytimes_flow.py:73 - [Short Videos] Page loaded: https://www.bombaytimes.com/short-videos
+2026-05-27 17:05:10 [    INFO] test_bombaytimes_flow.py:74 - [Short Videos] Holding for 5 s (visual confirmation)...
+2026-05-27 17:05:15 [    INFO] test_bombaytimes_flow.py:114 - [Short Videos] PASS Canonical: https://www.bombaytimes.com/short-videos
+2026-05-27 17:05:15 [    INFO] test_bombaytimes_flow.py:142 - [Short Videos] GA calls captured: 2
+2026-05-27 17:05:15 [    INFO] test_bombaytimes_flow.py:146 - [Short Videos]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:05:15 [    INFO] test_bombaytimes_flow.py:146 - [Short Videos]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881710486&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=4&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938468&dp=%2Fshort-videos&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fshort-videos&dr=https%3A%2F%2Fwww.bombaytimes.com%2Flatest-videos&dt=Videos&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=1256
+2026-05-27 17:05:15 [    INFO] test_bombaytimes_flow.py:147 - [Short Videos] PASS GA: 2 call(s) fired
+2026-05-27 17:05:15 [    INFO] test_bombaytimes_flow.py:499 - After Short Videos: https://www.bombaytimes.com/short-videos
+2026-05-27 17:05:15 [    INFO] test_bombaytimes_flow.py:501 - PASS: Short Videos URL verified
+2026-05-27 17:05:15 [    INFO] test_bombaytimes_flow.py:505 - PASS: Returned to homepage
+2026-05-27 17:05:15 [    INFO] test_bombaytimes_flow.py:506 - === END: test_intimate_diaries_flow ===
+2026-05-27 17:05:15 [    INFO] test_bombaytimes_flow.py:517 - === START: test_bollywood_article_detail_flow ===
+2026-05-27 17:05:15 [    INFO] test_bombaytimes_flow.py:520 - Homepage: https://www.bombaytimes.com/
+2026-05-27 17:05:15 [    INFO] test_bombaytimes_flow.py:523 - Navigating directly to Bollywood listing: /entertainment/bollywood
+2026-05-27 17:05:16 [    INFO] test_bombaytimes_flow.py:529 - Bollywood listing URL: https://www.bombaytimes.com/entertainment/bollywood
+2026-05-27 17:05:16 [    INFO] test_bombaytimes_flow.py:532 - Waiting for Bollywood article cards to render...
+2026-05-27 17:05:16 [    INFO] test_bombaytimes_flow.py:535 - Article listing is ready
+2026-05-27 17:05:16 [    INFO] test_bombaytimes_flow.py:567 - Navigating to Bollywood article detail (5 s hold + canonical + GA validation)
+2026-05-27 17:05:16 [   DEBUG] test_bombaytimes_flow.py:555 - Article selector 'ol.sub-cat-ol li a.right-img-a' → 1 element(s)
+2026-05-27 17:05:16 [    INFO] test_bombaytimes_flow.py:557 - Clicking first article using selector: ol.sub-cat-ol li a.right-img-a
+2026-05-27 17:05:16 [    INFO] test_bombaytimes_flow.py:73 - [Bollywood Article (Detail)] Page loaded: https://www.bombaytimes.com/entertainment/bollywood/who-is-pooja-deol-sunny-deol-s-wife-trends-online-after-rare-public-outing-with-actor-at-mumbai-airport/1779875123668
+2026-05-27 17:05:16 [    INFO] test_bombaytimes_flow.py:74 - [Bollywood Article (Detail)] Holding for 5 s (visual confirmation)...
+2026-05-27 17:05:21 [    INFO] test_bombaytimes_flow.py:114 - [Bollywood Article (Detail)] PASS Canonical: https://www.bombaytimes.com/entertainment/bollywood/who-is-pooja-deol-sunny-deol-s-wife-trends-online-after-rare-public-outing-with-actor-at-mumbai-airport/1779875123668
+2026-05-27 17:05:21 [    INFO] test_bombaytimes_flow.py:142 - [Bollywood Article (Detail)] GA calls captured: 3
+2026-05-27 17:05:21 [    INFO] test_bombaytimes_flow.py:146 - [Bollywood Article (Detail)]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881716323&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=13&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938465~115938468~119168155~119169247&dp=%2Fentertainment%2Fbollywood&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment%2Fbollywood&dt=Latest%20Bollywood%20News%2C%20Movie%20Reviews%2C%20Events%20%26%20More&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=380
+2026-05-27 17:05:21 [    INFO] test_bombaytimes_flow.py:146 - [Bollywood Article (Detail)]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:05:21 [    INFO] test_bombaytimes_flow.py:146 - [Bollywood Article (Detail)]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881716834&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=8&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616985~115938465~115938469~118012009~118689382&dp=%2Fentertainment%2Fbollywood%2Fwho-is-pooja-deol-sunny-deol-s-wife-trends-online-after-rare-public-outing-with-actor-at-mumbai-airport%2F1779875123668&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment%2Fbollywood%2Fwho-is-pooja-deol-sunny-deol-s-wife-trends-online-after-rare-public-outing-with-actor-at-mumbai-airport%2F1779875123668&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fentertainment%2Fbollywood&dt=Who%20Is%20Pooja%20Deol%20Sunny%20Deols%20Wife%20Trends%20Online%20After%20Rare%20Public%20Outing%20With%20Actor%20at%20Mumbai%20Airport&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=Rishika%20Singh&tfd=433
+2026-05-27 17:05:21 [    INFO] test_bombaytimes_flow.py:147 - [Bollywood Article (Detail)] PASS GA: 3 call(s) fired
+2026-05-27 17:05:21 [    INFO] test_bombaytimes_flow.py:574 - Bollywood article detail page: https://www.bombaytimes.com/entertainment/bollywood/who-is-pooja-deol-sunny-deol-s-wife-trends-online-after-rare-public-outing-with-actor-at-mumbai-airport/1779875123668
+2026-05-27 17:05:21 [    INFO] test_bombaytimes_flow.py:577 - Checking Trending section
+2026-05-27 17:05:21 [    INFO] test_bombaytimes_flow.py:583 - PASS: Trending section found
+2026-05-27 17:05:21 [    INFO] test_bombaytimes_flow.py:589 - Checking Related Articles section
+2026-05-27 17:05:21 [    INFO] test_bombaytimes_flow.py:596 - PASS: Related Articles section found
+2026-05-27 17:05:21 [    INFO] test_bombaytimes_flow.py:602 - Re-verifying canonical URL on article page
+2026-05-27 17:05:21 [    INFO] test_bombaytimes_flow.py:607 - Current URL:   https://www.bombaytimes.com/entertainment/bollywood/who-is-pooja-deol-sunny-deol-s-wife-trends-online-after-rare-public-outing-with-actor-at-mumbai-airport/1779875123668
+2026-05-27 17:05:21 [    INFO] test_bombaytimes_flow.py:608 - Canonical URL: https://www.bombaytimes.com/entertainment/bollywood/who-is-pooja-deol-sunny-deol-s-wife-trends-online-after-rare-public-outing-with-actor-at-mumbai-airport/1779875123668
+2026-05-27 17:05:21 [    INFO] test_bombaytimes_flow.py:611 - PASS: Canonical URL matches article URL
+2026-05-27 17:05:21 [    INFO] test_bombaytimes_flow.py:614 - Checking amphtml link
+2026-05-27 17:05:21 [    INFO] test_bombaytimes_flow.py:618 - PASS: amphtml link found: https://www.bombaytimes.com/entertainment/bollywood/who-is-pooja-deol-sunny-deol-s-wife-trends-online-after-rare-public-outing-with-actor-at-mumbai-airport/amp/1779875123668
+2026-05-27 17:05:21 [    INFO] test_bombaytimes_flow.py:624 - Navigating back to homepage (cleanup)
+2026-05-27 17:05:22 [    INFO] test_bombaytimes_flow.py:627 - URL after return: https://www.bombaytimes.com/
+2026-05-27 17:05:22 [    INFO] test_bombaytimes_flow.py:629 - PASS: Returned to homepage
+2026-05-27 17:05:22 [    INFO] test_bombaytimes_flow.py:630 - === END: test_bollywood_article_detail_flow ===
+2026-05-27 17:05:22 [    INFO] test_bombaytimes_flow.py:639 - === START: test_photo_story_detail_flow ===
+2026-05-27 17:05:22 [    INFO] test_bombaytimes_flow.py:642 - Homepage: https://www.bombaytimes.com/
+2026-05-27 17:05:22 [    INFO] test_bombaytimes_flow.py:645 - Navigating to Photo Stories listing (5 s hold + canonical + GA validation)
+2026-05-27 17:05:22 [    INFO] test_bombaytimes_flow.py:73 - [Photo Stories Listing] Page loaded: https://www.bombaytimes.com/photo-stories
+2026-05-27 17:05:22 [    INFO] test_bombaytimes_flow.py:74 - [Photo Stories Listing] Holding for 5 s (visual confirmation)...
+2026-05-27 17:05:27 [    INFO] test_bombaytimes_flow.py:114 - [Photo Stories Listing] PASS Canonical: https://www.bombaytimes.com/photo-stories
+2026-05-27 17:05:27 [    INFO] test_bombaytimes_flow.py:142 - [Photo Stories Listing] GA calls captured: 2
+2026-05-27 17:05:27 [    INFO] test_bombaytimes_flow.py:146 - [Photo Stories Listing]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:05:27 [    INFO] test_bombaytimes_flow.py:146 - [Photo Stories Listing]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881723023&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=8&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938465~115938468~118128922~118228214&dp=%2Fphoto-stories&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fphoto-stories&dt=Photo%20Stories&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=686
+2026-05-27 17:05:27 [    INFO] test_bombaytimes_flow.py:147 - [Photo Stories Listing] PASS GA: 2 call(s) fired
+2026-05-27 17:05:27 [    INFO] test_bombaytimes_flow.py:653 - Photo Stories listing URL: https://www.bombaytimes.com/photo-stories
+2026-05-27 17:05:27 [    INFO] test_bombaytimes_flow.py:656 - PASS: Photo Stories listing URL verified
+2026-05-27 17:05:27 [    INFO] test_bombaytimes_flow.py:659 - Waiting for photo story article cards to render...
+2026-05-27 17:05:27 [    INFO] test_bombaytimes_flow.py:665 - Photo story cards are ready
+2026-05-27 17:05:27 [    INFO] test_bombaytimes_flow.py:700 - Clicking first photo story and validating detail page
+2026-05-27 17:05:27 [   DEBUG] test_bombaytimes_flow.py:687 - Photo selector 'ol.sub-cat-ol li a.right-img-a' → 1 element(s)
+2026-05-27 17:05:27 [    INFO] test_bombaytimes_flow.py:689 - Clicking first photo story using selector: ol.sub-cat-ol li a.right-img-a
+2026-05-27 17:05:28 [    INFO] test_bombaytimes_flow.py:73 - [Photo Story Detail] Page loaded: https://www.bombaytimes.com/photo-stories/divyanka-tripathi-vivek-dahiya-sunny-leone-daniel-weber-and-other-indian-celebrity-couples-blessed-with-twins/1779780107814
+2026-05-27 17:05:28 [    INFO] test_bombaytimes_flow.py:74 - [Photo Story Detail] Holding for 5 s (visual confirmation)...
+2026-05-27 17:05:33 [    INFO] test_bombaytimes_flow.py:114 - [Photo Story Detail] PASS Canonical: https://www.bombaytimes.com/photo-stories/divyanka-tripathi-vivek-dahiya-sunny-leone-daniel-weber-and-other-indian-celebrity-couples-blessed-with-twins/1779780107814
+2026-05-27 17:05:33 [    INFO] test_bombaytimes_flow.py:142 - [Photo Story Detail] GA calls captured: 2
+2026-05-27 17:05:33 [    INFO] test_bombaytimes_flow.py:146 - [Photo Story Detail]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:05:33 [    INFO] test_bombaytimes_flow.py:146 - [Photo Story Detail]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881728526&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=4&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938465~115938468~119169248&dp=%2Fphoto-stories%2Fdivyanka-tripathi-vivek-dahiya-sunny-leone-daniel-weber-and-other-indian-celebrity-couples-blessed-with-twins%2F1779780107814&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fphoto-stories%2Fdivyanka-tripathi-vivek-dahiya-sunny-leone-daniel-weber-and-other-indian-celebrity-couples-blessed-with-twins%2F1779780107814&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fphoto-stories&dt=Divyanka%20Tripathi-Vivek%20Dahiya%2C%20Sunny%20Leone-Daniel%20Weber%20and%20Other%20Indian%20Celebrity%20Couples%20Blessed%20With%20Twins&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=Team%20BT&tfd=614
+2026-05-27 17:05:33 [    INFO] test_bombaytimes_flow.py:147 - [Photo Story Detail] PASS GA: 2 call(s) fired
+2026-05-27 17:05:33 [    INFO] test_bombaytimes_flow.py:708 - Photo Story detail page validated: https://www.bombaytimes.com/photo-stories/divyanka-tripathi-vivek-dahiya-sunny-leone-daniel-weber-and-other-indian-celebrity-couples-blessed-with-twins/1779780107814
+2026-05-27 17:05:33 [    INFO] test_bombaytimes_flow.py:709 - PASS: Photo Story detail flow complete
+2026-05-27 17:05:33 [    INFO] test_bombaytimes_flow.py:712 - Navigating back to homepage (cleanup)
+2026-05-27 17:05:33 [    INFO] test_bombaytimes_flow.py:715 - URL after return: https://www.bombaytimes.com/
+2026-05-27 17:05:33 [    INFO] test_bombaytimes_flow.py:717 - PASS: Returned to homepage
+2026-05-27 17:05:33 [    INFO] test_bombaytimes_flow.py:718 - === END: test_photo_story_detail_flow ===
+2026-05-27 17:05:33 [    INFO] test_bombaytimes_flow.py:729 - === START: test_visual_story_detail_flow ===
+2026-05-27 17:05:33 [    INFO] test_bombaytimes_flow.py:732 - Homepage: https://www.bombaytimes.com/
+2026-05-27 17:05:33 [    INFO] test_bombaytimes_flow.py:735 - Navigating to Visual Stories listing: https://www.bombaytimes.com/visual-stories
+2026-05-27 17:05:34 [    INFO] test_bombaytimes_flow.py:741 - Visual Stories listing URL: https://www.bombaytimes.com/visual-stories
+2026-05-27 17:05:34 [    INFO] test_bombaytimes_flow.py:744 - PASS: Visual Stories listing page opened
+2026-05-27 17:05:34 [    INFO] test_bombaytimes_flow.py:747 - Waiting for Visual Story cards to render...
+2026-05-27 17:05:34 [    INFO] test_bombaytimes_flow.py:754 - Visual Story cards are ready
+2026-05-27 17:05:34 [    INFO] test_bombaytimes_flow.py:789 - Clicking first visual story and validating detail page
+2026-05-27 17:05:34 [   DEBUG] test_bombaytimes_flow.py:776 - Visual selector 'ol.sub-cat-ol li a.right-img-a' → 0 element(s)
+2026-05-27 17:05:34 [   DEBUG] test_bombaytimes_flow.py:776 - Visual selector 'ol.sub-cat-ol li a' → 0 element(s)
+2026-05-27 17:05:34 [   DEBUG] test_bombaytimes_flow.py:776 - Visual selector 'a.right-img-a' → 0 element(s)
+2026-05-27 17:05:34 [   DEBUG] test_bombaytimes_flow.py:776 - Visual selector 'a[href*='/visual-stories/']' → 1 element(s)
+2026-05-27 17:05:34 [    INFO] test_bombaytimes_flow.py:778 - Clicking first visual story using selector: a[href*='/visual-stories/']
+2026-05-27 17:05:34 [    INFO] test_bombaytimes_flow.py:73 - [Visual Story Detail] Page loaded: https://www.bombaytimes.com/visual-stories/kalyani-priyadarshan-turns-heads-at-cannes-2026-in-purple-strapless-gown-and-statement-diamond-jewellery/1779366553104
+2026-05-27 17:05:34 [    INFO] test_bombaytimes_flow.py:74 - [Visual Story Detail] Holding for 5 s (visual confirmation)...
+2026-05-27 17:05:39 [    INFO] test_bombaytimes_flow.py:114 - [Visual Story Detail] PASS Canonical: https://www.bombaytimes.com/visual-stories/kalyani-priyadarshan-turns-heads-at-cannes-2026-in-purple-strapless-gown-and-statement-diamond-jewellery/1779366553104
+2026-05-27 17:05:39 [    INFO] test_bombaytimes_flow.py:142 - [Visual Story Detail] GA calls captured: 4
+2026-05-27 17:05:39 [    INFO] test_bombaytimes_flow.py:146 - [Visual Story Detail]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881734266&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=13&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938465~115938469~118128923~118228215&dp=%2Fvisual-stories&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fvisual-stories&dt=Entertainment%20Web%20Stories%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=345
+2026-05-27 17:05:39 [    INFO] test_bombaytimes_flow.py:146 - [Visual Story Detail]   GA [200] https://cdn.ampproject.org/rtv/012605071401000/v0/analytics-vendors/gtag.json
+2026-05-27 17:05:39 [    INFO] test_bombaytimes_flow.py:146 - [Visual Story Detail]   GA [200] https://www.googletagmanager.com/gtag/amp?__amp_source_origin=https%3A%2F%2Fwww.bombaytimes.com
+2026-05-27 17:05:39 [    INFO] test_bombaytimes_flow.py:146 - [Visual Story Detail]   GA [204] https://www.google-analytics.com/g/collect?v=2&tid=G-NNM57R6CG5&cid=1191464156.1779881512&ul=en-us&sr=1280x720&sid=1779881735&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fvisual-stories%2Fkalyani-priyadarshan-turns-heads-at-cannes-2026-in-purple-strapless-gown-and-statement-diamond-jewellery%2F1779366553104&dr=https%3A%2F%2Fwww.bombaytimes.com%2Fvisual-stories&dt=Kalyani%20Priyadarshan%20Turns%20Heads%20At%20Cannes%202026%20In%20Purple%20Strapless%20Gown%20And%20Statement%20Diamond%20Jewellery&en=page_view&_ee=1&_s=1&_et=0&uaa=x86&uab=64&uafvl=%5B%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22148.0.7778.179%22%7D%2C%7B%22brand%22%3A%22Google%20Chrome%22%2C%22version%22%3A%22148.0.7778.179%22%7D%2C%7B%22brand%22%3A%22Not%2FA)Brand%22%2C%22version%22%3A%2299.0.0.0%22%7D%5D&uamb=0&uam=&uap=Windows&uapv=15.0.0&uaw=0&_fv=1&_p=1937284482&_ss=1&dma=0&ep.author_name=Rishika%20Singh&ep.groups=default&gtm=45De1110&npa=0
+2026-05-27 17:05:39 [    INFO] test_bombaytimes_flow.py:147 - [Visual Story Detail] PASS GA: 4 call(s) fired
+2026-05-27 17:05:39 [    INFO] test_bombaytimes_flow.py:797 - Visual Story detail page URL: https://www.bombaytimes.com/visual-stories/kalyani-priyadarshan-turns-heads-at-cannes-2026-in-purple-strapless-gown-and-statement-diamond-jewellery/1779366553104
+2026-05-27 17:05:39 [    INFO] test_bombaytimes_flow.py:798 - PASS: Visual Story detail page — canonical & GA validated
+2026-05-27 17:05:39 [    INFO] test_bombaytimes_flow.py:801 - Navigating back to homepage (cleanup)
+2026-05-27 17:05:40 [    INFO] test_bombaytimes_flow.py:804 - URL after return: https://www.bombaytimes.com/
+2026-05-27 17:05:40 [    INFO] test_bombaytimes_flow.py:806 - PASS: Returned to homepage
+2026-05-27 17:05:40 [    INFO] test_bombaytimes_flow.py:807 - === END: test_visual_story_detail_flow ===
+2026-05-27 17:05:40 [    INFO] test_bombaytimes_flow.py:818 - === START: test_latest_video_detail_flow ===
+2026-05-27 17:05:40 [    INFO] test_bombaytimes_flow.py:821 - Homepage: https://www.bombaytimes.com/
+2026-05-27 17:05:40 [    INFO] test_bombaytimes_flow.py:824 - Navigating to Latest Videos listing: https://www.bombaytimes.com/latest-videos
+2026-05-27 17:05:41 [    INFO] test_bombaytimes_flow.py:830 - Latest Videos listing URL: https://www.bombaytimes.com/latest-videos
+2026-05-27 17:05:41 [    INFO] test_bombaytimes_flow.py:833 - PASS: Latest Videos listing page opened
+2026-05-27 17:05:41 [    INFO] test_bombaytimes_flow.py:838 - Waiting for /latest-videos JavaScript components to render...
+2026-05-27 17:05:44 [    INFO] test_bombaytimes_flow.py:883 - Clicking first video and validating detail page
+2026-05-27 17:05:44 [    INFO] test_bombaytimes_flow.py:871 - JS-extracted video URL via selector 'a.href-style[href*='/short-videos/']': https://www.bombaytimes.com/short-videos/shailesh-lodha-on-poetry-mumbai-and-the-habit-of-reading/1779345648320
+2026-05-27 17:05:44 [    INFO] test_bombaytimes_flow.py:73 - [Latest Video Detail] Page loaded: https://www.bombaytimes.com/short-videos/shailesh-lodha-on-poetry-mumbai-and-the-habit-of-reading/1779345648320
+2026-05-27 17:05:44 [    INFO] test_bombaytimes_flow.py:74 - [Latest Video Detail] Holding for 5 s (visual confirmation)...
+2026-05-27 17:05:49 [    INFO] test_bombaytimes_flow.py:114 - [Latest Video Detail] PASS Canonical: https://www.bombaytimes.com/short-videos/shailesh-lodha-on-poetry-mumbai-and-the-habit-of-reading/1779345648320
+2026-05-27 17:05:49 [    INFO] test_bombaytimes_flow.py:142 - [Latest Video Detail] GA calls captured: 2
+2026-05-27 17:05:49 [    INFO] test_bombaytimes_flow.py:146 - [Latest Video Detail]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:05:49 [    INFO] test_bombaytimes_flow.py:146 - [Latest Video Detail]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881744995&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=7&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938465~115938468~118228215~118689382&dp=%2Fshort-videos%2Fshailesh-lodha-on-poetry-mumbai-and-the-habit-of-reading%2F1779345648320&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fshort-videos%2Fshailesh-lodha-on-poetry-mumbai-and-the-habit-of-reading%2F1779345648320&dt=Shailesh%20Lodha%20on%20Poetry%2C%20Mumbai%20and%20the%20Habit%20of%20Reading&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=Team%20BT&tfd=534
+2026-05-27 17:05:49 [    INFO] test_bombaytimes_flow.py:147 - [Latest Video Detail] PASS GA: 2 call(s) fired
+2026-05-27 17:05:49 [    INFO] test_bombaytimes_flow.py:891 - Latest Video detail page URL: https://www.bombaytimes.com/short-videos/shailesh-lodha-on-poetry-mumbai-and-the-habit-of-reading/1779345648320
+2026-05-27 17:05:49 [    INFO] test_bombaytimes_flow.py:892 - PASS: Latest Video detail page — canonical & GA validated
+2026-05-27 17:05:49 [    INFO] test_bombaytimes_flow.py:895 - Navigating back to homepage (cleanup)
+2026-05-27 17:05:50 [    INFO] test_bombaytimes_flow.py:898 - URL after return: https://www.bombaytimes.com/
+2026-05-27 17:05:50 [    INFO] test_bombaytimes_flow.py:900 - PASS: Returned to homepage
+2026-05-27 17:05:50 [    INFO] test_bombaytimes_flow.py:901 - === END: test_latest_video_detail_flow ===
+2026-05-27 17:05:50 [    INFO] test_bombaytimes_flow.py:912 - === START: test_bt_picks_detail_flow ===
+2026-05-27 17:05:50 [    INFO] test_bombaytimes_flow.py:915 - Homepage: https://www.bombaytimes.com/
+2026-05-27 17:05:50 [    INFO] test_bombaytimes_flow.py:918 - Navigating to BT Picks Electronics: https://www.bombaytimes.com/bt-picks/electronics
+2026-05-27 17:05:50 [    INFO] test_bombaytimes_flow.py:924 - BT Picks Electronics listing URL: https://www.bombaytimes.com/bt-picks/electronics
+2026-05-27 17:05:50 [    INFO] test_bombaytimes_flow.py:927 - PASS: BT Picks Electronics listing page opened
+2026-05-27 17:05:50 [    INFO] test_bombaytimes_flow.py:930 - Waiting for BT Picks Electronics JavaScript components to render...
+2026-05-27 17:06:02 [    INFO] test_bombaytimes_flow.py:991 - Clicking first BT Picks article and validating detail page
+2026-05-27 17:06:03 [    INFO] test_bombaytimes_flow.py:979 - JS-extracted BT Picks URL via selector 'a[href*='/bt-picks/electronics/']': https://www.bombaytimes.com/bt-picks/electronics/bt-picks-ozone-smart-door-locks-and-digital-safes-complete-review/1740135714977
+2026-05-27 17:06:04 [    INFO] test_bombaytimes_flow.py:73 - [BT Picks Detail] Page loaded: https://www.bombaytimes.com/bt-picks/electronics/bt-picks-ozone-smart-door-locks-and-digital-safes-complete-review/1740135714977
+2026-05-27 17:06:04 [    INFO] test_bombaytimes_flow.py:74 - [BT Picks Detail] Holding for 5 s (visual confirmation)...
+2026-05-27 17:06:09 [    INFO] test_bombaytimes_flow.py:114 - [BT Picks Detail] PASS Canonical: https://www.bombaytimes.com/bt-picks/electronics/bt-picks-ozone-smart-door-locks-and-digital-safes-complete-review/1740135714977
+2026-05-27 17:06:09 [    INFO] test_bombaytimes_flow.py:142 - [BT Picks Detail] GA calls captured: 2
+2026-05-27 17:06:09 [    INFO] test_bombaytimes_flow.py:146 - [BT Picks Detail]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:06:09 [    INFO] test_bombaytimes_flow.py:146 - [BT Picks Detail]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881764249&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=19&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938466~115938469~118128922~119169249&dp=%2Fbt-picks%2Felectronics%2Fbt-picks-ozone-smart-door-locks-and-digital-safes-complete-review%2F1740135714977&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fbt-picks%2Felectronics%2Fbt-picks-ozone-smart-door-locks-and-digital-safes-complete-review%2F1740135714977&dt=BT%20Picks%3A%20Ozone%20Locks%20And%20Safes%20Complete%20Review&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=Team%20BT&tfd=610
+2026-05-27 17:06:09 [    INFO] test_bombaytimes_flow.py:147 - [BT Picks Detail] PASS GA: 2 call(s) fired
+2026-05-27 17:06:09 [    INFO] test_bombaytimes_flow.py:999 - BT Picks detail page URL: https://www.bombaytimes.com/bt-picks/electronics/bt-picks-ozone-smart-door-locks-and-digital-safes-complete-review/1740135714977
+2026-05-27 17:06:09 [    INFO] test_bombaytimes_flow.py:1000 - PASS: BT Picks detail page - canonical & GA validated
+2026-05-27 17:06:09 [    INFO] test_bombaytimes_flow.py:1003 - Navigating back to homepage (cleanup)
+2026-05-27 17:06:09 [    INFO] test_bombaytimes_flow.py:1006 - URL after return: https://www.bombaytimes.com/
+2026-05-27 17:06:09 [    INFO] test_bombaytimes_flow.py:1008 - PASS: Returned to homepage
+2026-05-27 17:06:09 [    INFO] test_bombaytimes_flow.py:1009 - === END: test_bt_picks_detail_flow ===
+2026-05-27 17:06:09 [    INFO] test_bombaytimes_flow.py:1020 - === START: test_intimate_diaries_detail_flow ===
+2026-05-27 17:06:09 [    INFO] test_bombaytimes_flow.py:1023 - Homepage: https://www.bombaytimes.com/
+2026-05-27 17:06:09 [    INFO] test_bombaytimes_flow.py:1026 - Navigating to Intimate Diaries: https://www.bombaytimes.com/intimate-diaries
+2026-05-27 17:06:10 [    INFO] test_bombaytimes_flow.py:1032 - Intimate Diaries listing URL: https://www.bombaytimes.com/intimate-diaries
+2026-05-27 17:06:10 [    INFO] test_bombaytimes_flow.py:1035 - PASS: Intimate Diaries listing page opened
+2026-05-27 17:06:10 [    INFO] test_bombaytimes_flow.py:1038 - Waiting for Intimate Diaries JavaScript components to render...
+2026-05-27 17:06:27 [    INFO] test_bombaytimes_flow.py:1091 - Clicking first Intimate Diaries article and validating detail page
+2026-05-27 17:06:27 [    INFO] test_bombaytimes_flow.py:1081 - JS-extracted Intimate Diaries URL: https://www.bombaytimes.com/intimate-diaries/postpartum-emotional-distance-with-partner-how-to-reconnect/1779783013303
+2026-05-27 17:06:27 [    INFO] test_bombaytimes_flow.py:73 - [Intimate Diaries Detail] Page loaded: https://www.bombaytimes.com/intimate-diaries/postpartum-emotional-distance-with-partner-how-to-reconnect/1779783013303
+2026-05-27 17:06:27 [    INFO] test_bombaytimes_flow.py:74 - [Intimate Diaries Detail] Holding for 5 s (visual confirmation)...
+2026-05-27 17:06:32 [    INFO] test_bombaytimes_flow.py:114 - [Intimate Diaries Detail] PASS Canonical: https://www.bombaytimes.com/intimate-diaries/postpartum-emotional-distance-with-partner-how-to-reconnect/1779783013303
+2026-05-27 17:06:32 [    INFO] test_bombaytimes_flow.py:142 - [Intimate Diaries Detail] GA calls captured: 2
+2026-05-27 17:06:32 [    INFO] test_bombaytimes_flow.py:146 - [Intimate Diaries Detail]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:06:32 [    INFO] test_bombaytimes_flow.py:146 - [Intimate Diaries Detail]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881787492&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=8&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938466~115938469&dp=%2Fintimate-diaries%2Fpostpartum-emotional-distance-with-partner-how-to-reconnect%2F1779783013303&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fintimate-diaries%2Fpostpartum-emotional-distance-with-partner-how-to-reconnect%2F1779783013303&dt=I%20Am%20a%2035-Year-Old%20New%20Mother%20and%20Going%20Through%20a%20Post-Partum%20Phase%20Where%20I%20Feel%20an%20Emotional%20Gap%20With%20My%20Partner.%20How%20To%20Rebuild%20Emotional%20Connection%20When%20It%20Really%20Becomes%20a%20Battle%20of%20Egos%20Will%20Professional%20Counseling%20Help&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=Tanisha%20Rao&tfd=434
+2026-05-27 17:06:32 [    INFO] test_bombaytimes_flow.py:147 - [Intimate Diaries Detail] PASS GA: 2 call(s) fired
+2026-05-27 17:06:32 [    INFO] test_bombaytimes_flow.py:1099 - Intimate Diaries detail page URL: https://www.bombaytimes.com/intimate-diaries/postpartum-emotional-distance-with-partner-how-to-reconnect/1779783013303
+2026-05-27 17:06:32 [    INFO] test_bombaytimes_flow.py:1100 - PASS: Intimate Diaries detail page - canonical & GA validated
+2026-05-27 17:06:32 [    INFO] test_bombaytimes_flow.py:1103 - Navigating back to homepage (cleanup)
+2026-05-27 17:06:32 [    INFO] test_bombaytimes_flow.py:1106 - URL after return: https://www.bombaytimes.com/
+2026-05-27 17:06:32 [    INFO] test_bombaytimes_flow.py:1108 - PASS: Returned to homepage
+2026-05-27 17:06:32 [    INFO] test_bombaytimes_flow.py:1109 - === END: test_intimate_diaries_detail_flow ===
+2026-05-27 17:06:32 [    INFO] test_bombaytimes_flow.py:1120 - === START: test_astro_trends_detail_flow ===
+2026-05-27 17:06:32 [    INFO] test_bombaytimes_flow.py:1123 - Homepage: https://www.bombaytimes.com/
+2026-05-27 17:06:32 [    INFO] test_bombaytimes_flow.py:1126 - Navigating to Astro Trends: https://www.bombaytimes.com/astro/trends
+2026-05-27 17:06:33 [    INFO] test_bombaytimes_flow.py:1132 - Astro Trends listing URL: https://www.bombaytimes.com/astro/trends
+2026-05-27 17:06:33 [    INFO] test_bombaytimes_flow.py:1135 - PASS: Astro Trends listing page opened
+2026-05-27 17:06:33 [    INFO] test_bombaytimes_flow.py:1138 - Waiting for Astro Trends JavaScript components to render...
+2026-05-27 17:06:50 [    INFO] test_bombaytimes_flow.py:1181 - Clicking first Astro Trends article and validating detail page
+2026-05-27 17:06:50 [    INFO] test_bombaytimes_flow.py:1169 - JS-extracted Astro Trends URL via selector 'ol.sub-cat-ol li a.right-img-a': https://www.bombaytimes.com/astro/trends/taurus-season-2026-begins-famous-taurus-celebrities-list-from-sachin-tendulkar-anushka-sharma-sabrina-carpenter-kak-and-more/1776622200961
+2026-05-27 17:06:50 [    INFO] test_bombaytimes_flow.py:73 - [Astro Trends Detail] Page loaded: https://www.bombaytimes.com/astro/trends/taurus-season-2026-begins-famous-taurus-celebrities-list-from-sachin-tendulkar-anushka-sharma-sabrina-carpenter-kak-and-more/1776622200961
+2026-05-27 17:06:50 [    INFO] test_bombaytimes_flow.py:74 - [Astro Trends Detail] Holding for 5 s (visual confirmation)...
+2026-05-27 17:06:55 [    INFO] test_bombaytimes_flow.py:114 - [Astro Trends Detail] PASS Canonical: https://www.bombaytimes.com/astro/trends/taurus-season-2026-begins-famous-taurus-celebrities-list-from-sachin-tendulkar-anushka-sharma-sabrina-carpenter-kak-and-more/1776622200961
+2026-05-27 17:06:55 [    INFO] test_bombaytimes_flow.py:142 - [Astro Trends Detail] GA calls captured: 2
+2026-05-27 17:06:55 [    INFO] test_bombaytimes_flow.py:146 - [Astro Trends Detail]   GA [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:06:55 [    INFO] test_bombaytimes_flow.py:146 - [Astro Trends Detail]   GA [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881810594&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=5&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115938466~115938468~119169247&dp=%2Fastro%2Ftrends%2Ftaurus-season-2026-begins-famous-taurus-celebrities-list-from-sachin-tendulkar-anushka-sharma-sabrina-carpenter-kak-and-more%2F1776622200961&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2Fastro%2Ftrends%2Ftaurus-season-2026-begins-famous-taurus-celebrities-list-from-sachin-tendulkar-anushka-sharma-sabrina-carpenter-kak-and-more%2F1776622200961&dt=Taurus%20Season%202026%20Begins%3A%20Famous%20Taurus%20Celebrities%20List%20From%20Sachin%20Tendulkar%2C%20Anushka%20Sharma%2C%20Sabrina%20Carpenter%2C%20Kak%C3%A1%20and%20More&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=Team%20BT&tfd=502
+2026-05-27 17:06:55 [    INFO] test_bombaytimes_flow.py:147 - [Astro Trends Detail] PASS GA: 2 call(s) fired
+2026-05-27 17:06:55 [    INFO] test_bombaytimes_flow.py:1189 - Astro Trends detail page URL: https://www.bombaytimes.com/astro/trends/taurus-season-2026-begins-famous-taurus-celebrities-list-from-sachin-tendulkar-anushka-sharma-sabrina-carpenter-kak-and-more/1776622200961
+2026-05-27 17:06:55 [    INFO] test_bombaytimes_flow.py:1190 - PASS: Astro Trends detail page - canonical & GA validated
+2026-05-27 17:06:55 [    INFO] test_bombaytimes_flow.py:1193 - Navigating back to homepage (cleanup)
+2026-05-27 17:06:55 [    INFO] test_bombaytimes_flow.py:1196 - URL after return: https://www.bombaytimes.com/
+2026-05-27 17:06:55 [    INFO] test_bombaytimes_flow.py:1198 - PASS: Returned to homepage
+2026-05-27 17:06:55 [    INFO] test_bombaytimes_flow.py:1199 - === END: test_astro_trends_detail_flow ===
+2026-05-27 17:06:55 [    INFO] test_bombaytimes_flow.py:1203 - === START: test_google_analytics_tracking ===
+2026-05-27 17:06:55 [    INFO] test_bombaytimes_flow.py:1217 - Navigating to homepage: https://www.bombaytimes.com
+2026-05-27 17:06:56 [    INFO] test_bombaytimes_flow.py:1212 - GA network call captured: [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:06:56 [    INFO] test_bombaytimes_flow.py:1212 - GA network call captured: [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881816218&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=8&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938466~115938469~118689382~119034491~119168154~119169247&dp=%2F&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=483
+2026-05-27 17:07:01 [    INFO] test_bombaytimes_flow.py:1222 - Page reached networkidle state
+2026-05-27 17:07:01 [    INFO] test_bombaytimes_flow.py:1225 - Page URL: https://www.bombaytimes.com/
+2026-05-27 17:07:01 [    INFO] test_bombaytimes_flow.py:1230 - ── GA network calls summary ──────────────────────────
+2026-05-27 17:07:01 [    INFO] test_bombaytimes_flow.py:1231 - Total GA-related calls captured: 2
+2026-05-27 17:07:01 [    INFO] test_bombaytimes_flow.py:1233 -   [200] https://www.googletagmanager.com/gtag/js?id=G-NNM57R6CG5
+2026-05-27 17:07:01 [    INFO] test_bombaytimes_flow.py:1233 -   [204] https://analytics.google.com/g/collect?v=2&tid=G-NNM57R6CG5&gtm=45je65m1v9172439187za200zd9172439187&_p=1779881816218&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAGQ&are=1&cid=1191464156.1779881512&frm=0&pscdl=noapi&rcb=8&sr=1280x720&uaa=x86&uab=64&uafvl=Chromium%3B148.0.7778.179%7CGoogle%2520Chrome%3B148.0.7778.179%7CNot%252FA)Brand%3B99.0.0.0&uam=&uamb=0&uap=Windows&uapv=15.0.0&uaw=0&ul=en-us&gaf=2&_s=1&tag_exp=0~115616986~115938466~115938469~118689382~119034491~119168154~119169247&dp=%2F&sid=1779881512&sct=1&seg=1&dl=https%3A%2F%2Fwww.bombaytimes.com%2F&dt=Latest%20News%20on%20Entertainment%2C%20Lifestyle%2C%20Events%20and%20More%20%7C%20Bombay%20Times&_tu=QA&en=page_view&_c=1&_ee=1&ep.author_name=NA&tfd=483
+2026-05-27 17:07:01 [    INFO] test_bombaytimes_flow.py:1234 - ──────────────────────────────────────────────────────
+2026-05-27 17:07:01 [    INFO] test_bombaytimes_flow.py:1248 - PASS: 2 GA call(s) found on homepage
+2026-05-27 17:07:01 [    INFO] test_bombaytimes_flow.py:1257 - PASS: All 2 GA call(s) returned successful status (200 or 204)
+2026-05-27 17:07:01 [    INFO] test_bombaytimes_flow.py:1258 - === END: test_google_analytics_tracking ===
+2026-05-27 17:07:01 [    INFO] test_bombaytimes_flow.py:1268 - === START: test_search_flow ===
+2026-05-27 17:07:01 [    INFO] test_bombaytimes_flow.py:1271 - Homepage: https://www.bombaytimes.com/
+2026-05-27 17:07:01 [    INFO] test_bombaytimes_flow.py:1274 - [Search] Step 1: Opening search bar...
+2026-05-27 17:07:05 [    INFO] test_bombaytimes_flow.py:1278 - [Search] Step 1 complete — search bar opened | elapsed: 3.40 s
+2026-05-27 17:07:05 [    INFO] test_bombaytimes_flow.py:1285 - [Search] Step 2: Typing keyword 'Bollywood'...
+2026-05-27 17:07:05 [    INFO] test_bombaytimes_flow.py:1289 - [Search] Step 2 complete — keyword filled + Enter pressed | elapsed: 0.29 s
+2026-05-27 17:07:05 [    INFO] test_bombaytimes_flow.py:1297 - [Search] Step 3: Waiting for search results URL...
+2026-05-27 17:07:05 [    INFO] test_bombaytimes_flow.py:1310 - [Search] Step 3 complete — results FOUND | elapsed: 0.06 s
+2026-05-27 17:07:05 [    INFO] test_bombaytimes_flow.py:1317 - [Search] TOTAL elapsed — open: 3.40 s | type: 0.29 s | results: 0.06 s | TOTAL: 3.75 s
+2026-05-27 17:07:05 [    INFO] test_bombaytimes_flow.py:1326 - PASS: Search results found. URL: https://www.bombaytimes.com/searchresults?search=Bollywood
+2026-05-27 17:07:05 [    INFO] test_bombaytimes_flow.py:1330 - PASS: Returned to homepage
+2026-05-27 17:07:05 [    INFO] test_bombaytimes_flow.py:1331 - === END: test_search_flow ===

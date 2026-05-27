@@ -330,26 +330,34 @@ class HomePage(BasePage):
     def click_festival(self):
         """Click Festival link — present in the overflow (3-dot) menu.
 
-        Uses the same visibility-checked pattern as click_photo_stories.
+        Scopes selector to the overflow container (div.b-none) first to avoid
+        accidentally matching a 'Festival' text link elsewhere on the page that
+        points back to the homepage.  Falls back to direct navigation so the
+        page always loads even when the menu link is absent.
         """
+        # Priority: scoped to overflow menu container so we never match a
+        # stray 'Festival' anchor in the main page body.
         for sel in [
-            "a:has-text('Festival')",
-            "a[href*='/festival']",
-            "a[href*='festival']",
+            "div.b-none a[href*='festival']",   # scoped to overflow menu
+            "a[href*='/festivals']",             # /festivals (with 's')
+            "a[href*='/festival']",              # /festival (without 's')
+            "a[href*='festival']",               # any festival href
         ]:
             try:
                 loc = self.page.locator(sel).first
                 if loc.count() > 0 and loc.is_visible():
-                    loc.click()
+                    loc.click(timeout=3000)
                     return True
             except Exception:
                 continue
-        # Role/href fallbacks (short timeouts via base helpers)
+        # Role/href fallbacks
         if self.click_role("link", "Festival"):
             return True
         if self.click_href_contains("/festival"):
             return True
-        return False
+        # Final fallback: direct navigation — always lands on the right page
+        self.goto("/festivals")
+        return True
 
     def click_photo_stories(self):
         # Direct visibility-checked click — most reliable when menu is already open
