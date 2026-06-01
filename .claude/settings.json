@@ -7,7 +7,11 @@
       "Read(//c/Users/PANKAJ~1.GAR/AppData/Local/Temp/claude/c--Users-pankaj-garg1-OneDrive---BENNETT-COLEMAN---CO-LTD-Desktop-BT-New/3a18d131-49a3-4152-b4ac-56599aa41d28/tasks/**)",
       "Bash(grep '/[0-9]{13,}')",
       "Bash(python3)",
-      "Bash(timeout 10 python3 -c ' *)"
+      "Bash(timeout 10 python3 -c ' *)",
+      "Bash(python -m pytest tests/test_bombaytimes_flow.py --tb=short -q)",
+      "Bash(python -m pytest tests/test_bombaytimes_flow.py --tb=no -q)",
+      "Bash(python -m pytest tests/test_bombaytimes_flow.py::test_bollywood_article_detail_flow tests/test_bombaytimes_flow.py::test_amp_page_validation --tb=short -q)",
+      "Bash(python -c ' *)"
     ]
   }
 }

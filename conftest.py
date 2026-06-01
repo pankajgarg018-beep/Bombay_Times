@@ -19,9 +19,15 @@ def _esc(text: str) -> str:
 
 
 # ── Session-level data stores ─────────────────────────────────────────────────
-_ga_store_key  = pytest.StashKey()
-_cat_store_key = pytest.StashKey()
-_amp_store_key = pytest.StashKey()
+_ga_store_key          = pytest.StashKey()
+_cat_store_key         = pytest.StashKey()
+_amp_store_key              = pytest.StashKey()
+_photo_amp_store_key        = pytest.StashKey()
+_bt_picks_amp_store_key     = pytest.StashKey()
+_intimate_diaries_amp_store_key = pytest.StashKey()
+_festival_amp_store_key         = pytest.StashKey()
+_astro_trends_amp_store_key     = pytest.StashKey()
+_sitemap_rss_store_key          = pytest.StashKey()
 
 _session: dict = {
     "tests": [],
@@ -76,6 +82,93 @@ def category_val_store(request):
     """
     store = []
     request.session.stash[_cat_store_key] = store
+    return store
+
+
+@pytest.fixture(scope="session")
+def bt_picks_amp_report_store(request):
+    """Session fixture for BT Picks AMP page validation results."""
+    store = {
+        "run": False,
+        "article_url": "", "amp_url": "", "page_open": None,
+        "canonical_result": None, "canonical_url": "", "canonical_error": "",
+        "amp_error_status": None, "amp_errors": [],
+        "ga_calls": [], "ga_result": None, "ga_error": "", "overall": None,
+    }
+    request.session.stash[_bt_picks_amp_store_key] = store
+    return store
+
+
+@pytest.fixture(scope="session")
+def intimate_diaries_amp_report_store(request):
+    """Session fixture for Intimate Diaries AMP page validation results."""
+    store = {
+        "run": False,
+        "article_url": "", "amp_url": "", "page_open": None,
+        "canonical_result": None, "canonical_url": "", "canonical_error": "",
+        "amp_error_status": None, "amp_errors": [],
+        "ga_calls": [], "ga_result": None, "ga_error": "", "overall": None,
+    }
+    request.session.stash[_intimate_diaries_amp_store_key] = store
+    return store
+
+
+@pytest.fixture(scope="session")
+def festival_amp_report_store(request):
+    """Session fixture for Festival AMP page validation results."""
+    store = {
+        "run": False,
+        "article_url": "", "amp_url": "", "page_open": None,
+        "canonical_result": None, "canonical_url": "", "canonical_error": "",
+        "amp_error_status": None, "amp_errors": [],
+        "ga_calls": [], "ga_result": None, "ga_error": "", "overall": None,
+    }
+    request.session.stash[_festival_amp_store_key] = store
+    return store
+
+
+@pytest.fixture(scope="session")
+def astro_trends_amp_report_store(request):
+    """Session fixture for Astro Trends AMP page validation results."""
+    store = {
+        "run": False,
+        "article_url": "", "amp_url": "", "page_open": None,
+        "canonical_result": None, "canonical_url": "", "canonical_error": "",
+        "amp_error_status": None, "amp_errors": [],
+        "ga_calls": [], "ga_result": None, "ga_error": "", "overall": None,
+    }
+    request.session.stash[_astro_trends_amp_store_key] = store
+    return store
+
+
+@pytest.fixture(scope="session")
+def sitemap_rss_report_store(request):
+    """Session fixture for Sitemap and RSS Feed validation results."""
+    store = {
+        "run": False,
+        "results": [],
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "all_sitemaps_ok": False,
+        "all_rss_ok": False,
+        "summary_message": "",
+    }
+    request.session.stash[_sitemap_rss_store_key] = store
+    return store
+
+
+@pytest.fixture(scope="session")
+def photo_amp_report_store(request):
+    """Session fixture for PhotoStory AMP page validation results."""
+    store = {
+        "run": False,
+        "article_url": "", "amp_url": "", "page_open": None,
+        "canonical_result": None, "canonical_url": "", "canonical_error": "",
+        "amp_error_status": None, "amp_errors": [],
+        "ga_calls": [], "ga_result": None, "ga_error": "", "overall": None,
+    }
+    request.session.stash[_photo_amp_store_key] = store
     return store
 
 
@@ -219,6 +312,46 @@ def pytest_sessionfinish(session, exitstatus):
         "ga_calls": [], "ga_result": None, "ga_error": "", "overall": None,
     })
 
+    photo_amp_data = session.stash.get(_photo_amp_store_key, {
+        "run": False, "article_url": "", "amp_url": "", "page_open": None,
+        "canonical_result": None, "canonical_url": "", "canonical_error": "",
+        "amp_error_status": None, "amp_errors": [],
+        "ga_calls": [], "ga_result": None, "ga_error": "", "overall": None,
+    })
+
+    bt_picks_amp_data = session.stash.get(_bt_picks_amp_store_key, {
+        "run": False, "article_url": "", "amp_url": "", "page_open": None,
+        "canonical_result": None, "canonical_url": "", "canonical_error": "",
+        "amp_error_status": None, "amp_errors": [],
+        "ga_calls": [], "ga_result": None, "ga_error": "", "overall": None,
+    })
+
+    intimate_diaries_amp_data = session.stash.get(_intimate_diaries_amp_store_key, {
+        "run": False, "article_url": "", "amp_url": "", "page_open": None,
+        "canonical_result": None, "canonical_url": "", "canonical_error": "",
+        "amp_error_status": None, "amp_errors": [],
+        "ga_calls": [], "ga_result": None, "ga_error": "", "overall": None,
+    })
+
+    festival_amp_data = session.stash.get(_festival_amp_store_key, {
+        "run": False, "article_url": "", "amp_url": "", "page_open": None,
+        "canonical_result": None, "canonical_url": "", "canonical_error": "",
+        "amp_error_status": None, "amp_errors": [],
+        "ga_calls": [], "ga_result": None, "ga_error": "", "overall": None,
+    })
+
+    astro_trends_amp_data = session.stash.get(_astro_trends_amp_store_key, {
+        "run": False, "article_url": "", "amp_url": "", "page_open": None,
+        "canonical_result": None, "canonical_url": "", "canonical_error": "",
+        "amp_error_status": None, "amp_errors": [],
+        "ga_calls": [], "ga_result": None, "ga_error": "", "overall": None,
+    })
+
+    sitemap_rss_data = session.stash.get(_sitemap_rss_store_key, {
+        "run": False, "results": [], "total": 0, "passed": 0, "failed": 0,
+        "all_sitemaps_ok": False, "all_rss_ok": False, "summary_message": "",
+    })
+
     _write_report(
         tests=tests,
         passed=passed,
@@ -230,14 +363,26 @@ def pytest_sessionfinish(session, exitstatus):
         ga=ga_data,
         cat_pages=cat_data,
         amp=amp_data,
+        photo_amp=photo_amp_data,
+        bt_picks_amp=bt_picks_amp_data,
+        intimate_diaries_amp=intimate_diaries_amp_data,
+        festival_amp=festival_amp_data,
+        astro_trends_amp=astro_trends_amp_data,
+        sitemap_rss=sitemap_rss_data,
     )
 
 
 # ── Custom HTML report generator ──────────────────────────────────────────────
 
-def _write_report(tests, passed, failed, skipped, duration, start_time, end_time, ga, cat_pages=None, amp=None):
-    cat_pages = cat_pages or []
-    amp = amp or {}
+def _write_report(tests, passed, failed, skipped, duration, start_time, end_time, ga, cat_pages=None, amp=None, photo_amp=None, bt_picks_amp=None, intimate_diaries_amp=None, festival_amp=None, astro_trends_amp=None, sitemap_rss=None):
+    cat_pages             = cat_pages             or []
+    amp                   = amp                   or {}
+    photo_amp             = photo_amp             or {}
+    bt_picks_amp          = bt_picks_amp          or {}
+    intimate_diaries_amp  = intimate_diaries_amp  or {}
+    festival_amp          = festival_amp          or {}
+    astro_trends_amp      = astro_trends_amp      or {}
+    sitemap_rss           = sitemap_rss           or {}
     total = len(tests)
     pass_rate = round((passed / total * 100) if total else 0, 1)
     start_str = start_time.strftime("%Y-%m-%d %H:%M:%S")
@@ -345,6 +490,19 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
     .amp-err-line{padding:2px 0;border-bottom:1px dotted #f8d7da}
     .amp-err-line:last-child{border-bottom:none}
 
+    /* Sitemap / RSS section */
+    .sm-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:4px}
+    .sm-tbl thead th{background:#343a40;color:#fff;padding:8px 12px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+    .sm-tbl tbody tr:nth-child(even){background:#f8f9fa}
+    .sm-tbl td{padding:7px 12px;border-bottom:1px solid #e9ecef;vertical-align:middle}
+    .sm-url{font-family:'Courier New',monospace;font-size:11px;color:#0d6efd;word-break:break-all}
+    .sm-type-sitemap{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;background:#e3f2fd;color:#0d47a1}
+    .sm-type-rss{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;background:#fff3e0;color:#e65100}
+    .sm-summary{border-radius:6px;padding:12px 16px;font-size:13px;font-weight:600;margin-top:16px;text-align:center}
+    .sm-summary-ok{background:#d4edda;border:1px solid #c3e6cb;color:#155724}
+    .sm-summary-fail{background:#f8d7da;border:1px solid #f5c6cb;color:#721c24}
+    .sm-chips{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+
     /* Footer */
     .footer{text-align:center;padding:20px 40px 30px;color:#adb5bd;font-size:12px}
     """
@@ -431,6 +589,15 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
                 err_parts.append(_esc(p["ga_error"]))
             err_cell = "<br>".join(err_parts) if err_parts else ""
 
+            # AMP column — only present if AMP validation ran for this page
+            amp_overall_val = p.get("amp_overall")
+            if amp_overall_val == "PASS":
+                amp_cell = "<span class='badge b-passed'>&#10003; AMP</span>"
+            elif amp_overall_val == "FAIL":
+                amp_cell = "<span class='badge b-failed'>&#10007; AMP</span>"
+            else:
+                amp_cell = "<span style='color:#adb5bd;font-size:11px'>&#8212;</span>"
+
             # Screenshot toggle
             ss = p.get("screenshot_b64")
             detail_id = f"cv{i}"
@@ -440,7 +607,7 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
                 expand_td = f"<td class='td-exp' style='cursor:pointer'>&#x25BC;</td>"
                 ss_row = (
                     f"<tr class='drow' id='{detail_id}'>"
-                    f"<td colspan='9' class='dtd'>"
+                    f"<td colspan='10' class='dtd'>"
                     f"<div class='dsec'>"
                     f"<div class='dlbl'>Screenshot (captured on FAIL)</div>"
                     f"<img src='data:image/png;base64,{ss}' class='ss-img'>"
@@ -462,6 +629,7 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
                 f"{_esc(p.get('canonical_href', ''))}</td>"
                 f"<td>{row_can_badge}</td>"
                 f"<td>{row_ga_badge}</td>"
+                f"<td>{amp_cell}</td>"
                 f"<td style='color:#dc3545;font-size:11px'>{err_cell}</td>"
                 f"<td class='td-ts'>{_esc(p.get('timestamp', ''))}</td>"
                 f"{expand_td}"
@@ -473,7 +641,7 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
             "<table class='res-tbl' style='font-size:12px'>"
             "<thead><tr>"
             "<th>#</th><th>Page Name</th><th>Opened URL</th><th>Canonical URL</th>"
-            "<th>Canonical</th><th>GA</th><th>Error / Note</th><th>Timestamp</th><th></th>"
+            "<th>Canonical</th><th>GA</th><th>AMP</th><th>Error / Note</th><th>Timestamp</th><th></th>"
             "</tr></thead>"
             f"<tbody>{cat_rows_html}</tbody></table>"
         )
@@ -584,6 +752,618 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
 </div>
 """
 
+    # ── PhotoStory AMP page validation section ────────────────────────────────
+    ps_amp_ran         = photo_amp.get("run", False)
+    ps_amp_overall     = photo_amp.get("overall")
+    ps_amp_article_url = photo_amp.get("article_url", "")
+    ps_amp_url_val     = photo_amp.get("amp_url", "")
+    ps_amp_page_open   = photo_amp.get("page_open")
+    ps_amp_can_result  = photo_amp.get("canonical_result")
+    ps_amp_can_url     = photo_amp.get("canonical_url", "")
+    ps_amp_can_error   = photo_amp.get("canonical_error", "")
+    ps_amp_err_status  = photo_amp.get("amp_error_status")
+    ps_amp_errors_list = photo_amp.get("amp_errors", [])
+    ps_amp_ga_calls    = photo_amp.get("ga_calls", [])
+    ps_amp_ga_result   = photo_amp.get("ga_result")
+    ps_amp_ga_error    = photo_amp.get("ga_error", "")
+
+    if not ps_amp_ran:
+        ps_amp_section_body  = "<div class='no-data'>PhotoStory AMP validation was not executed in this run.</div>"
+        ps_amp_overall_badge = _amp_badge(None)
+    else:
+        ps_amp_open_badge   = _amp_badge("PASS" if ps_amp_page_open else "FAIL")
+        ps_amp_can_badge    = _amp_badge(ps_amp_can_result)
+        ps_amp_err_badge    = _amp_badge(ps_amp_err_status)
+        ps_amp_ga_badge_val = _amp_badge(ps_amp_ga_result)
+        ps_amp_overall_badge = _amp_badge(ps_amp_overall)
+
+        if ps_amp_ga_calls:
+            ps_ga_rows = ""
+            for i, e in enumerate(ps_amp_ga_calls, 1):
+                cls = "http-ok" if e["status"] in (200, 204) else "http-err"
+                ps_ga_rows += (
+                    f"<tr><td class='ga-num'>{i}</td>"
+                    f"<td><span class='http {cls}'>{e['status']}</span></td>"
+                    f"<td class='ga-url'>{_esc(e['url'])}</td></tr>"
+                )
+            ps_amp_ga_html = (
+                "<table class='ga-tbl' style='margin-top:8px'>"
+                "<thead><tr><th>#</th><th>HTTP</th><th>Request URL</th></tr></thead>"
+                f"<tbody>{ps_ga_rows}</tbody></table>"
+            )
+        else:
+            ps_amp_ga_html = f"<div class='no-data'>{_esc(ps_amp_ga_error) if ps_amp_ga_error else 'No GA calls captured.'}</div>"
+
+        if ps_amp_errors_list:
+            ps_err_lines = "".join(
+                f"<div class='amp-err-line'>{_esc(e)}</div>" for e in ps_amp_errors_list
+            )
+            ps_amp_errors_html = f"<div class='amp-errors'>{ps_err_lines}</div>"
+        else:
+            ps_amp_errors_html = "<div style='color:#28a745;font-size:12px;margin-top:4px'>No AMP validation errors detected.</div>"
+
+        ps_amp_section_body = f"""
+<div class="amp-grid">
+  <div class="amp-item" style="grid-column:span 2">
+    <div class="amp-item-lbl">PhotoStory URL (Normal)</div>
+    <div class="amp-url">{_esc(ps_amp_article_url)}</div>
+  </div>
+  <div class="amp-item" style="grid-column:span 2">
+    <div class="amp-item-lbl">AMP URL Tested</div>
+    <div class="amp-url">{_esc(ps_amp_url_val)}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">AMP Page Opened</div>
+    <div class="amp-item-val">{ps_amp_open_badge}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">Canonical Validation</div>
+    <div class="amp-item-val">{ps_amp_can_badge}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">AMP Error Check</div>
+    <div class="amp-item-val">{ps_amp_err_badge}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">GA Tag Validation</div>
+    <div class="amp-item-val">{ps_amp_ga_badge_val}</div>
+  </div>
+</div>
+
+<div style="margin-bottom:14px">
+  <div class="sub-lbl">Canonical URL (from PhotoStory AMP page)</div>
+  <div class="amp-url" style="margin-top:6px">{_esc(ps_amp_can_url) if ps_amp_can_url else '<em style="color:#6c757d">Not found</em>'}</div>
+  {(f'<div style="color:#dc3545;font-size:11px;margin-top:4px">{_esc(ps_amp_can_error)}</div>') if ps_amp_can_error else ''}
+</div>
+
+<div style="margin-bottom:14px">
+  <div class="sub-lbl">AMP Validation Error Details</div>
+  {ps_amp_errors_html}
+</div>
+
+<div>
+  <div class="sub-lbl">GA Network Requests (PhotoStory AMP Page)</div>
+  {ps_amp_ga_html}
+</div>
+"""
+
+    # ── BT Picks AMP page validation section ─────────────────────────────────
+    bt_amp_ran         = bt_picks_amp.get("run", False)
+    bt_amp_overall     = bt_picks_amp.get("overall")
+    bt_amp_article_url = bt_picks_amp.get("article_url", "")
+    bt_amp_url_val     = bt_picks_amp.get("amp_url", "")
+    bt_amp_page_open   = bt_picks_amp.get("page_open")
+    bt_amp_can_result  = bt_picks_amp.get("canonical_result")
+    bt_amp_can_url     = bt_picks_amp.get("canonical_url", "")
+    bt_amp_can_error   = bt_picks_amp.get("canonical_error", "")
+    bt_amp_err_status  = bt_picks_amp.get("amp_error_status")
+    bt_amp_errors_list = bt_picks_amp.get("amp_errors", [])
+    bt_amp_ga_calls    = bt_picks_amp.get("ga_calls", [])
+    bt_amp_ga_result   = bt_picks_amp.get("ga_result")
+    bt_amp_ga_error    = bt_picks_amp.get("ga_error", "")
+
+    if not bt_amp_ran:
+        bt_amp_section_body  = "<div class='no-data'>BT Picks AMP validation was not executed in this run.</div>"
+        bt_amp_overall_badge = _amp_badge(None)
+    else:
+        bt_amp_open_badge    = _amp_badge("PASS" if bt_amp_page_open else "FAIL")
+        bt_amp_can_badge     = _amp_badge(bt_amp_can_result)
+        bt_amp_err_badge     = _amp_badge(bt_amp_err_status)
+        bt_amp_ga_badge_val  = _amp_badge(bt_amp_ga_result)
+        bt_amp_overall_badge = _amp_badge(bt_amp_overall)
+
+        if bt_amp_ga_calls:
+            bt_ga_rows = ""
+            for i, e in enumerate(bt_amp_ga_calls, 1):
+                cls = "http-ok" if e["status"] in (200, 204) else "http-err"
+                bt_ga_rows += (
+                    f"<tr><td class='ga-num'>{i}</td>"
+                    f"<td><span class='http {cls}'>{e['status']}</span></td>"
+                    f"<td class='ga-url'>{_esc(e['url'])}</td></tr>"
+                )
+            bt_amp_ga_html = (
+                "<table class='ga-tbl' style='margin-top:8px'>"
+                "<thead><tr><th>#</th><th>HTTP</th><th>Request URL</th></tr></thead>"
+                f"<tbody>{bt_ga_rows}</tbody></table>"
+            )
+        else:
+            bt_amp_ga_html = f"<div class='no-data'>{_esc(bt_amp_ga_error) if bt_amp_ga_error else 'No GA calls captured.'}</div>"
+
+        if bt_amp_errors_list:
+            bt_err_lines = "".join(
+                f"<div class='amp-err-line'>{_esc(e)}</div>" for e in bt_amp_errors_list
+            )
+            bt_amp_errors_html = f"<div class='amp-errors'>{bt_err_lines}</div>"
+        else:
+            bt_amp_errors_html = "<div style='color:#28a745;font-size:12px;margin-top:4px'>No AMP validation errors detected.</div>"
+
+        bt_amp_section_body = f"""
+<div class="amp-grid">
+  <div class="amp-item" style="grid-column:span 2">
+    <div class="amp-item-lbl">BT Picks Article URL (Normal)</div>
+    <div class="amp-url">{_esc(bt_amp_article_url)}</div>
+  </div>
+  <div class="amp-item" style="grid-column:span 2">
+    <div class="amp-item-lbl">AMP URL Tested</div>
+    <div class="amp-url">{_esc(bt_amp_url_val)}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">AMP Page Opened</div>
+    <div class="amp-item-val">{bt_amp_open_badge}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">Canonical Validation</div>
+    <div class="amp-item-val">{bt_amp_can_badge}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">AMP Error Check</div>
+    <div class="amp-item-val">{bt_amp_err_badge}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">GA Tag Validation</div>
+    <div class="amp-item-val">{bt_amp_ga_badge_val}</div>
+  </div>
+</div>
+
+<div style="margin-bottom:14px">
+  <div class="sub-lbl">Canonical URL (from BT Picks AMP page)</div>
+  <div class="amp-url" style="margin-top:6px">{_esc(bt_amp_can_url) if bt_amp_can_url else '<em style="color:#6c757d">Not found</em>'}</div>
+  {(f'<div style="color:#dc3545;font-size:11px;margin-top:4px">{_esc(bt_amp_can_error)}</div>') if bt_amp_can_error else ''}
+</div>
+
+<div style="margin-bottom:14px">
+  <div class="sub-lbl">AMP Validation Error Details</div>
+  {bt_amp_errors_html}
+</div>
+
+<div>
+  <div class="sub-lbl">GA Network Requests (BT Picks AMP Page)</div>
+  {bt_amp_ga_html}
+</div>
+"""
+
+    # ── Intimate Diaries AMP page validation section ──────────────────────────
+    id_amp_ran         = intimate_diaries_amp.get("run", False)
+    id_amp_overall     = intimate_diaries_amp.get("overall")
+    id_amp_article_url = intimate_diaries_amp.get("article_url", "")
+    id_amp_url_val     = intimate_diaries_amp.get("amp_url", "")
+    id_amp_page_open   = intimate_diaries_amp.get("page_open")
+    id_amp_can_result  = intimate_diaries_amp.get("canonical_result")
+    id_amp_can_url     = intimate_diaries_amp.get("canonical_url", "")
+    id_amp_can_error   = intimate_diaries_amp.get("canonical_error", "")
+    id_amp_err_status  = intimate_diaries_amp.get("amp_error_status")
+    id_amp_errors_list = intimate_diaries_amp.get("amp_errors", [])
+    id_amp_ga_calls    = intimate_diaries_amp.get("ga_calls", [])
+    id_amp_ga_result   = intimate_diaries_amp.get("ga_result")
+    id_amp_ga_error    = intimate_diaries_amp.get("ga_error", "")
+
+    if not id_amp_ran:
+        id_amp_section_body  = "<div class='no-data'>Intimate Diaries AMP validation was not executed in this run.</div>"
+        id_amp_overall_badge = _amp_badge(None)
+    else:
+        id_amp_open_badge    = _amp_badge("PASS" if id_amp_page_open else "FAIL")
+        id_amp_can_badge     = _amp_badge(id_amp_can_result)
+        id_amp_err_badge     = _amp_badge(id_amp_err_status)
+        id_amp_ga_badge_val  = _amp_badge(id_amp_ga_result)
+        id_amp_overall_badge = _amp_badge(id_amp_overall)
+
+        if id_amp_ga_calls:
+            id_ga_rows = ""
+            for i, e in enumerate(id_amp_ga_calls, 1):
+                cls = "http-ok" if e["status"] in (200, 204) else "http-err"
+                id_ga_rows += (
+                    f"<tr><td class='ga-num'>{i}</td>"
+                    f"<td><span class='http {cls}'>{e['status']}</span></td>"
+                    f"<td class='ga-url'>{_esc(e['url'])}</td></tr>"
+                )
+            id_amp_ga_html = (
+                "<table class='ga-tbl' style='margin-top:8px'>"
+                "<thead><tr><th>#</th><th>HTTP</th><th>Request URL</th></tr></thead>"
+                f"<tbody>{id_ga_rows}</tbody></table>"
+            )
+        else:
+            id_amp_ga_html = f"<div class='no-data'>{_esc(id_amp_ga_error) if id_amp_ga_error else 'No GA calls captured.'}</div>"
+
+        if id_amp_errors_list:
+            id_err_lines = "".join(
+                f"<div class='amp-err-line'>{_esc(e)}</div>" for e in id_amp_errors_list
+            )
+            id_amp_errors_html = f"<div class='amp-errors'>{id_err_lines}</div>"
+        else:
+            id_amp_errors_html = "<div style='color:#28a745;font-size:12px;margin-top:4px'>No AMP validation errors detected.</div>"
+
+        id_amp_section_body = f"""
+<div class="amp-grid">
+  <div class="amp-item" style="grid-column:span 2">
+    <div class="amp-item-lbl">Intimate Diaries Article URL (Normal)</div>
+    <div class="amp-url">{_esc(id_amp_article_url)}</div>
+  </div>
+  <div class="amp-item" style="grid-column:span 2">
+    <div class="amp-item-lbl">AMP URL Tested</div>
+    <div class="amp-url">{_esc(id_amp_url_val)}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">AMP Page Opened</div>
+    <div class="amp-item-val">{id_amp_open_badge}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">Canonical Validation</div>
+    <div class="amp-item-val">{id_amp_can_badge}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">AMP Error Check</div>
+    <div class="amp-item-val">{id_amp_err_badge}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">GA Tag Validation</div>
+    <div class="amp-item-val">{id_amp_ga_badge_val}</div>
+  </div>
+</div>
+
+<div style="margin-bottom:14px">
+  <div class="sub-lbl">Canonical URL (from Intimate Diaries AMP page)</div>
+  <div class="amp-url" style="margin-top:6px">{_esc(id_amp_can_url) if id_amp_can_url else '<em style="color:#6c757d">Not found</em>'}</div>
+  {(f'<div style="color:#dc3545;font-size:11px;margin-top:4px">{_esc(id_amp_can_error)}</div>') if id_amp_can_error else ''}
+</div>
+
+<div style="margin-bottom:14px">
+  <div class="sub-lbl">AMP Validation Error Details</div>
+  {id_amp_errors_html}
+</div>
+
+<div>
+  <div class="sub-lbl">GA Network Requests (Intimate Diaries AMP Page)</div>
+  {id_amp_ga_html}
+</div>
+"""
+
+    # ── Festival AMP page validation section ─────────────────────────────────
+    fest_amp_ran         = festival_amp.get("run", False)
+    fest_amp_overall     = festival_amp.get("overall")
+    fest_amp_article_url = festival_amp.get("article_url", "")
+    fest_amp_url_val     = festival_amp.get("amp_url", "")
+    fest_amp_page_open   = festival_amp.get("page_open")
+    fest_amp_can_result  = festival_amp.get("canonical_result")
+    fest_amp_can_url     = festival_amp.get("canonical_url", "")
+    fest_amp_can_error   = festival_amp.get("canonical_error", "")
+    fest_amp_err_status  = festival_amp.get("amp_error_status")
+    fest_amp_errors_list = festival_amp.get("amp_errors", [])
+    fest_amp_ga_calls    = festival_amp.get("ga_calls", [])
+    fest_amp_ga_result   = festival_amp.get("ga_result")
+    fest_amp_ga_error    = festival_amp.get("ga_error", "")
+
+    if not fest_amp_ran:
+        fest_amp_section_body  = "<div class='no-data'>Festival AMP validation was not executed in this run.</div>"
+        fest_amp_overall_badge = _amp_badge(None)
+    else:
+        fest_amp_open_badge    = _amp_badge("PASS" if fest_amp_page_open else "FAIL")
+        fest_amp_can_badge     = _amp_badge(fest_amp_can_result)
+        fest_amp_err_badge     = _amp_badge(fest_amp_err_status)
+        fest_amp_ga_badge_val  = _amp_badge(fest_amp_ga_result)
+        fest_amp_overall_badge = _amp_badge(fest_amp_overall)
+
+        if fest_amp_ga_calls:
+            fest_ga_rows = ""
+            for i, e in enumerate(fest_amp_ga_calls, 1):
+                cls = "http-ok" if e["status"] in (200, 204) else "http-err"
+                fest_ga_rows += (
+                    f"<tr><td class='ga-num'>{i}</td>"
+                    f"<td><span class='http {cls}'>{e['status']}</span></td>"
+                    f"<td class='ga-url'>{_esc(e['url'])}</td></tr>"
+                )
+            fest_amp_ga_html = (
+                "<table class='ga-tbl' style='margin-top:8px'>"
+                "<thead><tr><th>#</th><th>HTTP</th><th>Request URL</th></tr></thead>"
+                f"<tbody>{fest_ga_rows}</tbody></table>"
+            )
+        else:
+            fest_amp_ga_html = f"<div class='no-data'>{_esc(fest_amp_ga_error) if fest_amp_ga_error else 'No GA calls captured.'}</div>"
+
+        if fest_amp_errors_list:
+            fest_err_lines = "".join(
+                f"<div class='amp-err-line'>{_esc(e)}</div>" for e in fest_amp_errors_list
+            )
+            fest_amp_errors_html = f"<div class='amp-errors'>{fest_err_lines}</div>"
+        else:
+            fest_amp_errors_html = "<div style='color:#28a745;font-size:12px;margin-top:4px'>No AMP validation errors detected.</div>"
+
+        fest_amp_section_body = f"""
+<div class="amp-grid">
+  <div class="amp-item" style="grid-column:span 2">
+    <div class="amp-item-lbl">Festival Article URL (Normal)</div>
+    <div class="amp-url">{_esc(fest_amp_article_url)}</div>
+  </div>
+  <div class="amp-item" style="grid-column:span 2">
+    <div class="amp-item-lbl">AMP URL Tested</div>
+    <div class="amp-url">{_esc(fest_amp_url_val)}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">AMP Page Opened</div>
+    <div class="amp-item-val">{fest_amp_open_badge}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">Canonical Validation</div>
+    <div class="amp-item-val">{fest_amp_can_badge}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">AMP Error Check</div>
+    <div class="amp-item-val">{fest_amp_err_badge}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">GA Tag Validation</div>
+    <div class="amp-item-val">{fest_amp_ga_badge_val}</div>
+  </div>
+</div>
+
+<div style="margin-bottom:14px">
+  <div class="sub-lbl">Canonical URL (from Festival AMP page)</div>
+  <div class="amp-url" style="margin-top:6px">{_esc(fest_amp_can_url) if fest_amp_can_url else '<em style="color:#6c757d">Not found</em>'}</div>
+  {(f'<div style="color:#dc3545;font-size:11px;margin-top:4px">{_esc(fest_amp_can_error)}</div>') if fest_amp_can_error else ''}
+</div>
+
+<div style="margin-bottom:14px">
+  <div class="sub-lbl">AMP Validation Error Details</div>
+  {fest_amp_errors_html}
+</div>
+
+<div>
+  <div class="sub-lbl">GA Network Requests (Festival AMP Page)</div>
+  {fest_amp_ga_html}
+</div>
+"""
+
+    # ── Astro Trends AMP page validation section ──────────────────────────────
+    astro_amp_ran         = astro_trends_amp.get("run", False)
+    astro_amp_overall     = astro_trends_amp.get("overall")
+    astro_amp_article_url = astro_trends_amp.get("article_url", "")
+    astro_amp_url_val     = astro_trends_amp.get("amp_url", "")
+    astro_amp_page_open   = astro_trends_amp.get("page_open")
+    astro_amp_can_result  = astro_trends_amp.get("canonical_result")
+    astro_amp_can_url     = astro_trends_amp.get("canonical_url", "")
+    astro_amp_can_error   = astro_trends_amp.get("canonical_error", "")
+    astro_amp_err_status  = astro_trends_amp.get("amp_error_status")
+    astro_amp_errors_list = astro_trends_amp.get("amp_errors", [])
+    astro_amp_ga_calls    = astro_trends_amp.get("ga_calls", [])
+    astro_amp_ga_result   = astro_trends_amp.get("ga_result")
+    astro_amp_ga_error    = astro_trends_amp.get("ga_error", "")
+
+    if not astro_amp_ran:
+        astro_amp_section_body  = "<div class='no-data'>Astro Trends AMP validation was not executed in this run.</div>"
+        astro_amp_overall_badge = _amp_badge(None)
+    else:
+        astro_amp_open_badge    = _amp_badge("PASS" if astro_amp_page_open else "FAIL")
+        astro_amp_can_badge     = _amp_badge(astro_amp_can_result)
+        astro_amp_err_badge     = _amp_badge(astro_amp_err_status)
+        astro_amp_ga_badge_val  = _amp_badge(astro_amp_ga_result)
+        astro_amp_overall_badge = _amp_badge(astro_amp_overall)
+
+        if astro_amp_ga_calls:
+            astro_ga_rows = ""
+            for i, e in enumerate(astro_amp_ga_calls, 1):
+                cls = "http-ok" if e["status"] in (200, 204) else "http-err"
+                astro_ga_rows += (
+                    f"<tr><td class='ga-num'>{i}</td>"
+                    f"<td><span class='http {cls}'>{e['status']}</span></td>"
+                    f"<td class='ga-url'>{_esc(e['url'])}</td></tr>"
+                )
+            astro_amp_ga_html = (
+                "<table class='ga-tbl' style='margin-top:8px'>"
+                "<thead><tr><th>#</th><th>HTTP</th><th>Request URL</th></tr></thead>"
+                f"<tbody>{astro_ga_rows}</tbody></table>"
+            )
+        else:
+            astro_amp_ga_html = f"<div class='no-data'>{_esc(astro_amp_ga_error) if astro_amp_ga_error else 'No GA calls captured.'}</div>"
+
+        if astro_amp_errors_list:
+            astro_err_lines = "".join(
+                f"<div class='amp-err-line'>{_esc(e)}</div>" for e in astro_amp_errors_list
+            )
+            astro_amp_errors_html = f"<div class='amp-errors'>{astro_err_lines}</div>"
+        else:
+            astro_amp_errors_html = "<div style='color:#28a745;font-size:12px;margin-top:4px'>No AMP validation errors detected.</div>"
+
+        astro_amp_section_body = f"""
+<div class="amp-grid">
+  <div class="amp-item" style="grid-column:span 2">
+    <div class="amp-item-lbl">Astro Trends Article URL (Normal)</div>
+    <div class="amp-url">{_esc(astro_amp_article_url)}</div>
+  </div>
+  <div class="amp-item" style="grid-column:span 2">
+    <div class="amp-item-lbl">AMP URL Tested</div>
+    <div class="amp-url">{_esc(astro_amp_url_val)}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">AMP Page Opened</div>
+    <div class="amp-item-val">{astro_amp_open_badge}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">Canonical Validation</div>
+    <div class="amp-item-val">{astro_amp_can_badge}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">AMP Error Check</div>
+    <div class="amp-item-val">{astro_amp_err_badge}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">GA Tag Validation</div>
+    <div class="amp-item-val">{astro_amp_ga_badge_val}</div>
+  </div>
+</div>
+
+<div style="margin-bottom:14px">
+  <div class="sub-lbl">Canonical URL (from Astro Trends AMP page)</div>
+  <div class="amp-url" style="margin-top:6px">{_esc(astro_amp_can_url) if astro_amp_can_url else '<em style="color:#6c757d">Not found</em>'}</div>
+  {(f'<div style="color:#dc3545;font-size:11px;margin-top:4px">{_esc(astro_amp_can_error)}</div>') if astro_amp_can_error else ''}
+</div>
+
+<div style="margin-bottom:14px">
+  <div class="sub-lbl">AMP Validation Error Details</div>
+  {astro_amp_errors_html}
+</div>
+
+<div>
+  <div class="sub-lbl">GA Network Requests (Astro Trends AMP Page)</div>
+  {astro_amp_ga_html}
+</div>
+"""
+
+    # ── Sitemap and RSS Feed validation section ───────────────────────────────
+    sm_ran     = sitemap_rss.get("run", False)
+    sm_results = sitemap_rss.get("results", [])
+    sm_total   = sitemap_rss.get("total", 0)
+    sm_passed  = sitemap_rss.get("passed", 0)
+    sm_failed  = sitemap_rss.get("failed", 0)
+    sm_sit_ok  = sitemap_rss.get("all_sitemaps_ok", False)
+    sm_rss_ok  = sitemap_rss.get("all_rss_ok", False)
+    sm_summary = sitemap_rss.get("summary_message", "")
+
+    if not sm_ran:
+        sm_overall_badge  = _amp_badge(None)
+        sm_section_body   = "<div class='no-data'>Sitemap and RSS Feed validation was not executed in this run.</div>"
+        sm_summary_html   = ""
+    else:
+        sm_overall = "PASS" if sm_failed == 0 and sm_total > 0 else "FAIL"
+        sm_overall_badge = _amp_badge(sm_overall)
+
+        # Build table rows
+        sm_rows_html = ""
+        for i, r in enumerate(sm_results, 1):
+            res_cls  = "b-passed" if r["result"] == "PASS" else "b-failed"
+            res_badge = f"<span class='badge {res_cls}'>{r['result']}</span>"
+            open_badge = (
+                "<span class='badge b-passed'>&#10003; Yes</span>"
+                if r.get("open_status")
+                else "<span class='badge b-failed'>&#10007; No</span>"
+            )
+            xml_badge = (
+                "<span class='badge b-passed'>&#10003; Valid</span>"
+                if r.get("xml_valid")
+                else "<span class='badge b-failed'>&#10007; Invalid</span>"
+            )
+            sc = r.get("status_code")
+            sc_cls  = "http-ok" if sc == 200 else "http-err"
+            sc_html = (
+                f"<span class='http {sc_cls}'>{sc}</span>"
+                if sc is not None
+                else "<span style='color:#adb5bd'>—</span>"
+            )
+            type_cls  = "sm-type-sitemap" if r["url_type"] == "Sitemap" else "sm-type-rss"
+            type_html = f"<span class='{type_cls}'>{_esc(r['url_type'])}</span>"
+            err_html  = (
+                f"<span style='color:#dc3545;font-size:11px;font-family:\"Courier New\",monospace'>"
+                f"{_esc(r['error'])}</span>"
+                if r.get("error") else ""
+            )
+            sm_rows_html += (
+                f"<tr>"
+                f"<td class='ga-num'>{i}</td>"
+                f"<td class='sm-url'>{_esc(r['url'])}</td>"
+                f"<td style='white-space:nowrap'>{type_html}</td>"
+                f"<td>{open_badge}</td>"
+                f"<td style='text-align:center'>{sc_html}</td>"
+                f"<td>{xml_badge}</td>"
+                f"<td>{res_badge}</td>"
+                f"<td style='max-width:260px'>{err_html}</td>"
+                f"</tr>"
+            )
+
+        sm_table = (
+            "<table class='sm-tbl'>"
+            "<thead><tr>"
+            "<th>#</th><th>URL</th><th>Type</th><th>Accessible</th>"
+            "<th>HTTP Status</th><th>XML / Structure</th><th>Result</th><th>Error Details</th>"
+            "</tr></thead>"
+            f"<tbody>{sm_rows_html}</tbody></table>"
+        )
+
+        sm_summary_cls  = "sm-summary-ok" if sm_overall == "PASS" else "sm-summary-fail"
+        sm_summary_html = f"<div class='sm-summary {sm_summary_cls}'>{_esc(sm_summary)}</div>"
+
+        sm_section_body = f"""
+<div class="sm-chips">
+  <div class="chip"><div class="chip-lbl">Total URLs</div><div class="chip-val">{sm_total}</div></div>
+  <div class="chip"><div class="chip-lbl">Passed</div><div class="chip-val" style="color:#28a745">{sm_passed}</div></div>
+  <div class="chip"><div class="chip-lbl">Failed</div><div class="chip-val" style="color:#dc3545">{sm_failed}</div></div>
+  <div class="chip"><div class="chip-lbl">Sitemaps OK</div><div class="chip-val">{"&#10003; Yes" if sm_sit_ok else "&#10007; No"}</div></div>
+  <div class="chip"><div class="chip-lbl">RSS Feeds OK</div><div class="chip-val">{"&#10003; Yes" if sm_rss_ok else "&#10007; No"}</div></div>
+</div>
+{sm_table}
+{sm_summary_html}
+"""
+
+    # ── Unified AMP Page Validation section ──────────────────────────────────
+    _amp_pages = [
+        ("Bollywood Article",  amp_ran,       amp_url_val,       amp_page_open,       amp_can_result,   amp_err_status,   amp_ga_result,       amp_overall),
+        ("Photo Story",        ps_amp_ran,    ps_amp_url_val,    ps_amp_page_open,    ps_amp_can_result, ps_amp_err_status, ps_amp_ga_result,   ps_amp_overall),
+        ("BT Picks",           bt_amp_ran,    bt_amp_url_val,    bt_amp_page_open,    bt_amp_can_result, bt_amp_err_status, bt_amp_ga_result,   bt_amp_overall),
+        ("Intimate Diaries",   id_amp_ran,    id_amp_url_val,    id_amp_page_open,    id_amp_can_result, id_amp_err_status, id_amp_ga_result,   id_amp_overall),
+        ("Festival",           fest_amp_ran,  fest_amp_url_val,  fest_amp_page_open,  fest_amp_can_result, fest_amp_err_status, fest_amp_ga_result, fest_amp_overall),
+        ("Astro Trends",       astro_amp_ran, astro_amp_url_val, astro_amp_page_open, astro_amp_can_result, astro_amp_err_status, astro_amp_ga_result, astro_amp_overall),
+    ]
+    _ran_amp_pages = [p for p in _amp_pages if p[1]]
+    _all_amp_pass  = all(p[7] == "PASS" for p in _ran_amp_pages) if _ran_amp_pages else False
+    unified_amp_overall       = "PASS" if _ran_amp_pages and _all_amp_pass else ("FAIL" if _ran_amp_pages else None)
+    unified_amp_overall_badge = _amp_badge(unified_amp_overall)
+
+    unified_amp_rows = ""
+    for i, (page_type, ran, amp_url_v, page_open, canonical, amp_err, ga_v, overall) in enumerate(_amp_pages, 1):
+        if not ran:
+            unified_amp_rows += (
+                f"<tr class='trow'>"
+                f"<td class='td-num'>{i}</td>"
+                f"<td class='td-name'>{_esc(page_type)}</td>"
+                f"<td colspan='6' style='color:#adb5bd;font-size:11px;font-style:italic'>Not executed in this run</td>"
+                f"</tr>"
+            )
+            continue
+        open_badge = _amp_badge("PASS" if page_open else "FAIL")
+        can_badge  = _amp_badge(canonical)
+        err_badge  = _amp_badge(amp_err)
+        ga_badge_v = _amp_badge(ga_v)
+        ov_badge   = _amp_badge(overall)
+        row_cls    = "trow-passed" if overall == "PASS" else "trow-failed"
+        unified_amp_rows += (
+            f"<tr class='trow {row_cls}'>"
+            f"<td class='td-num'>{i}</td>"
+            f"<td class='td-name'>{_esc(page_type)}</td>"
+            f"<td style='font-family:\"Courier New\",monospace;font-size:10px;word-break:break-all;max-width:200px;color:#0d6efd'>{_esc(amp_url_v)}</td>"
+            f"<td style='text-align:center'>{open_badge}</td>"
+            f"<td style='text-align:center'>{can_badge}</td>"
+            f"<td style='text-align:center'>{err_badge}</td>"
+            f"<td style='text-align:center'>{ga_badge_v}</td>"
+            f"<td style='text-align:center'>{ov_badge}</td>"
+            f"</tr>"
+        )
+
+    unified_amp_section_body = (
+        "<table class='res-tbl' style='font-size:12px'>"
+        "<thead><tr>"
+        "<th>#</th><th>Page Type</th><th>AMP URL</th>"
+        "<th>Page Open</th><th>Canonical</th><th>AMP Check</th><th>GA</th><th>Overall</th>"
+        "</tr></thead>"
+        f"<tbody>{unified_amp_rows}</tbody></table>"
+    )
+
     # ── Test result rows ──────────────────────────────────────────────────────
     rows_html = ""
     for i, t in enumerate(tests):
@@ -691,22 +1471,6 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
   <table class="env-tbl">{env_rows}</table>
 </div>
 
-<!-- ░░ GA VALIDATION ░░ -->
-<div class="sec">
-  <div class="sec-title">
-    <span>📡 Google Analytics Validation</span>
-    {ga_badge}
-  </div>
-  <div class="ga-chips">
-    <div class="chip"><div class="chip-lbl">Homepage URL</div><div class="chip-val">{_esc(ga_url)}</div></div>
-    <div class="chip"><div class="chip-lbl">Total GA Calls</div><div class="chip-val">{ga_total}</div></div>
-    <div class="chip"><div class="chip-lbl">Validation Status</div><div class="chip-val">{_esc(ga_status_txt)}</div></div>
-    <div class="chip"><div class="chip-lbl">Keywords Matched</div><div class="chip-val">google-analytics · googletagmanager · gtag · collect</div></div>
-  </div>
-  <div class="sub-lbl">Captured GA Network Requests</div>
-  {ga_calls_html}
-</div>
-
 <!-- ░░ PAGE-LEVEL CANONICAL & GA VALIDATION ░░ -->
 <div class="sec">
   <div class="sec-title">
@@ -727,9 +1491,18 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
 <div class="sec">
   <div class="sec-title">
     <span>&#9889; AMP Page Validation</span>
-    {amp_overall_badge}
+    {unified_amp_overall_badge}
   </div>
-  {amp_section_body}
+  {unified_amp_section_body}
+</div>
+
+<!-- ░░ SITEMAP AND RSS FEED VALIDATION ░░ -->
+<div class="sec">
+  <div class="sec-title">
+    <span>&#128506; Sitemap and RSS Feed Validation</span>
+    {sm_overall_badge}
+  </div>
+  {sm_section_body}
 </div>
 
 <!-- ░░ TEST RESULTS ░░ -->
