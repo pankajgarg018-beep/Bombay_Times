@@ -246,6 +246,212 @@ def test_entertainment_and_bollywood_flow(page, category_val_store):
     logger.info("=== END: test_entertainment_and_bollywood_flow ===")
 
 
+def test_home_page_amp_validation(page, home_page_amp_report_store):
+    """
+    Runs AFTER test_entertainment_and_bollywood_flow (which visits the home page first).
+    Navigates to the AMP Home Page URL (https://www.bombaytimes.com/amp_home) and validates:
+      A. Canonical — must NOT contain 'amp' or 'amp_home'; must point to
+         https://www.bombaytimes.com/ (the non-AMP home page).
+      B. AMP validation errors — html[amp] check + console error listener.
+      C. Google Analytics — same GA keyword match used across the suite.
+    Results written to home_page_amp_report_store (shown as first row in the
+    unified AMP Page Validation table). No existing validations are changed.
+    """
+    logger.info("=== START: test_home_page_amp_validation ===")
+
+    home_page_amp_report_store["run"] = True
+
+    _HOME_URL    = "https://www.bombaytimes.com"
+    _AMP_HOME_URL = "https://www.bombaytimes.com/amp_home"
+
+    home_page_amp_report_store["article_url"] = _HOME_URL
+    home_page_amp_report_store["amp_url"]     = _AMP_HOME_URL
+
+    logger.info("Home Page URL     : %s", _HOME_URL)
+    logger.info("Home Page AMP URL : %s", _AMP_HOME_URL)
+
+    # ── Step 1: Setup listeners ───────────────────────────────────────────────
+    ga_calls:           list = []
+    amp_console_errors: list = []
+
+    def _on_response(resp):
+        url = resp.url.lower()
+        if any(kw in url for kw in _GA_KEYWORDS):
+            ga_calls.append({"url": resp.url, "status": resp.status})
+
+    def _on_console(msg):
+        if msg.type == "error":
+            text = msg.text
+            if any(kw in text.upper() for kw in ["AMP", "AMPHTML", "VALIDATION"]):
+                amp_console_errors.append({"type": msg.type, "text": text})
+
+    def _safe_goto_home_hp():
+        try:
+            page.evaluate("() => { try { window.stop(); } catch(e) {} }")
+        except Exception:
+            pass
+        for _wu in ("commit", "domcontentloaded", "load"):
+            try:
+                page.goto("https://www.bombaytimes.com", timeout=20000, wait_until=_wu)
+                return
+            except Exception:
+                continue
+
+    page.on("response", _on_response)
+    page.on("console", _on_console)
+
+    # ── Step 2: Navigate to AMP Home Page ────────────────────────────────────
+    page_open_ok = False
+    try:
+        logger.info("Navigating to Home Page AMP: %s", _AMP_HOME_URL)
+        page.goto(_AMP_HOME_URL, timeout=60000, wait_until="domcontentloaded")
+        try:
+            page.wait_for_load_state("networkidle", timeout=10000)
+        except Exception:
+            pass
+        page.wait_for_timeout(3000)
+        page_open_ok = True
+        logger.info("Home Page AMP opened: %s", page.url)
+    except Exception as exc:
+        logger.error("Failed to open Home Page AMP: %s", exc)
+        home_page_amp_report_store["page_open"] = False
+        home_page_amp_report_store["overall"]   = "FAIL"
+    finally:
+        page.remove_listener("response", _on_response)
+        page.remove_listener("console", _on_console)
+
+    home_page_amp_report_store["page_open"] = page_open_ok
+    if not page_open_ok:
+        logger.info("Navigating back to homepage (cleanup after open failure)")
+        _safe_goto_home_hp()
+        logger.info("=== END: test_home_page_amp_validation ===")
+        return
+
+    # ── Step A: AMP Canonical Validation ─────────────────────────────────────
+    logger.info("--- Home Page AMP Canonical Validation ---")
+    canonical_result = "FAIL"
+    canonical_url    = ""
+    canonical_error  = ""
+    try:
+        can_loc = page.locator("link[rel='canonical']")
+        if can_loc.count() > 0:
+            canonical_url = can_loc.first.get_attribute("href") or ""
+            home_page_amp_report_store["canonical_url"] = canonical_url
+            if not canonical_url:
+                canonical_error = "Canonical href attribute is empty"
+                logger.warning("FAIL Home Page AMP Canonical: href empty")
+            elif "amp" in canonical_url.lower():
+                canonical_error = (
+                    f"Canonical still contains AMP-related path: {canonical_url}"
+                )
+                logger.warning(
+                    "FAIL Home Page AMP Canonical: contains 'amp' — %s", canonical_url
+                )
+            elif canonical_url.rstrip("/") == _HOME_URL.rstrip("/"):
+                canonical_result = "PASS"
+                logger.info("PASS Home Page AMP Canonical: %s", canonical_url)
+            else:
+                canonical_error = (
+                    f"Canonical '{canonical_url}' does not match home page '{_HOME_URL}'"
+                )
+                logger.warning(
+                    "FAIL Home Page AMP Canonical: mismatch — %s", canonical_error
+                )
+        else:
+            canonical_error = "No link[rel='canonical'] found on Home Page AMP"
+            logger.warning("FAIL Home Page AMP Canonical: %s", canonical_error)
+    except Exception as exc:
+        canonical_error = str(exc)
+        logger.error("Home Page AMP Canonical check raised: %s", exc)
+
+    home_page_amp_report_store["canonical_result"] = canonical_result
+    home_page_amp_report_store["canonical_error"]  = canonical_error
+
+    # ── Step B: AMP Validation Error Check ───────────────────────────────────
+    logger.info("--- Home Page AMP Validation Error Check ---")
+    amp_error_status  = "PASS"
+    amp_errors_detail: list = []
+    try:
+        is_amp = page.evaluate("""
+            () => {
+                const html = document.documentElement;
+                return html.hasAttribute('amp') || html.hasAttribute('⚡');
+            }
+        """)
+        if not is_amp:
+            amp_error_status = "FAIL"
+            amp_errors_detail.append(
+                "Page does not have html[amp] or html[⚡] — not a valid AMP page"
+            )
+            logger.warning("FAIL Home Page AMP: html[amp] attribute missing")
+        else:
+            logger.info("PASS: html[amp] confirmed — valid AMP page")
+
+        if amp_console_errors:
+            amp_error_status = "FAIL"
+            for e in amp_console_errors:
+                msg = f"[{e['type'].upper()}] {e['text']}"
+                amp_errors_detail.append(msg)
+                logger.warning("Home Page AMP console %s: %s", e["type"], e["text"])
+        else:
+            logger.info("PASS: No AMP validation errors in console")
+    except Exception as exc:
+        amp_error_status = "FAIL"
+        amp_errors_detail.append(f"AMP validation check raised: {exc}")
+        logger.error("Home Page AMP validation check raised: %s", exc)
+
+    home_page_amp_report_store["amp_error_status"] = amp_error_status
+    home_page_amp_report_store["amp_errors"]       = amp_errors_detail
+    logger.info(
+        "%s Home Page AMP Validation: %d issue(s)",
+        "PASS" if amp_error_status == "PASS" else "FAIL",
+        len(amp_errors_detail),
+    )
+
+    # ── Step C: Google Analytics Validation ───────────────────────────────────
+    logger.info("--- Home Page AMP GA Validation ---")
+    ga_result = "FAIL"
+    ga_error  = ""
+    home_page_amp_report_store["ga_calls"] = ga_calls
+    logger.info("GA calls captured on Home Page AMP: %d", len(ga_calls))
+    for e in ga_calls:
+        logger.info("  GA [%d] %s", e["status"], e["url"])
+    if ga_calls:
+        bad = [e for e in ga_calls if e["status"] not in (200, 204)]
+        if bad:
+            ga_error = f"{len(bad)} GA call(s) returned error status"
+            logger.warning("FAIL Home Page AMP GA: %s", ga_error)
+        else:
+            ga_result = "PASS"
+            logger.info("PASS Home Page AMP GA: %d call(s) fired", len(ga_calls))
+    else:
+        ga_error = "No GA network calls captured on Home Page AMP"
+        logger.warning("FAIL Home Page AMP GA: %s", ga_error)
+
+    home_page_amp_report_store["ga_result"] = ga_result
+    home_page_amp_report_store["ga_error"]  = ga_error
+
+    # ── Overall result ────────────────────────────────────────────────────────
+    overall = "PASS" if all([
+        canonical_result == "PASS",
+        amp_error_status == "PASS",
+        ga_result        == "PASS",
+    ]) else "FAIL"
+    home_page_amp_report_store["overall"] = overall
+    logger.info("Home Page AMP Overall: %s", overall)
+    logger.info(
+        "  Canonical=%s | AMP Errors=%s | GA=%s",
+        canonical_result, amp_error_status, ga_result,
+    )
+
+    logger.info("Navigating back to homepage (cleanup)")
+    _safe_goto_home_hp()
+    logger.info("URL after return: %s", page.url)
+    assert page.url.startswith("https://www.bombaytimes.com/")
+    logger.info("PASS: Returned to homepage")
+    logger.info("=== END: test_home_page_amp_validation ===")
+
+
 def test_lifestyle_and_pawsome_flow(page, category_val_store):
     logger.info("=== START: test_lifestyle_and_pawsome_flow ===")
     home = HomePage(page)

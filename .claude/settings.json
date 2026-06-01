@@ -11,7 +11,9 @@
       "Bash(python -m pytest tests/test_bombaytimes_flow.py --tb=short -q)",
       "Bash(python -m pytest tests/test_bombaytimes_flow.py --tb=no -q)",
       "Bash(python -m pytest tests/test_bombaytimes_flow.py::test_bollywood_article_detail_flow tests/test_bombaytimes_flow.py::test_amp_page_validation --tb=short -q)",
-      "Bash(python -c ' *)"
+      "Bash(python -c ' *)",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('conftest.py', encoding='utf-8'\\).read\\(\\)\\); print\\('conftest.py OK'\\)\")",
+      "Bash(python -c \"import os; print\\('SMTP_HOST:', os.environ.get\\('EMAIL_SMTP_HOST','\\(not set\\)'\\)\\); print\\('EMAIL_FROM:', os.environ.get\\('EMAIL_FROM','\\(not set\\)'\\)\\); print\\('EMAIL_USER:', os.environ.get\\('EMAIL_USER','\\(not set\\)'\\)\\)\")"
     ]
   }
 }

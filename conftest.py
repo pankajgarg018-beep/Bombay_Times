@@ -18,6 +18,27 @@ def _esc(text: str) -> str:
     )
 
 
+# ── Email reporting configuration ────────────────────────────────────────────
+# Fill in smtp_host / from_addr / username / password here OR set the
+# corresponding environment variables before running the suite.
+# Leave smtp_host empty (or unset EMAIL_SMTP_HOST) to skip email sending.
+#
+# Common SMTP servers:
+#   Office 365 / Exchange Online : smtp.office365.com  port=587  use_tls=True
+#   Gmail (app password needed)  : smtp.gmail.com      port=587  use_tls=True
+#   Internal relay (no auth)     : <your-relay-host>   port=25   use_tls=False
+_EMAIL_CONFIG: dict = {
+    "enabled":   True,
+    "smtp_host": os.environ.get("EMAIL_SMTP_HOST",   "smtp.gmail.com"),   # required — e.g. "smtp.office365.com"
+    "smtp_port": int(os.environ.get("EMAIL_SMTP_PORT", "587")),
+    "use_tls":   os.environ.get("EMAIL_USE_TLS", "true").lower() in ("true", "1", "yes"),
+    "from_addr": os.environ.get("EMAIL_FROM", "pankajgarg018@gmail.com"),       # sender e-mail address
+    "username":  os.environ.get("EMAIL_USER", "pankajgarg018@gmail.com"),       # leave empty for anonymous relay
+    "password":  os.environ.get("EMAIL_PASSWORD", "sbyb iowh cpso qtlj"),
+    "to_addrs":  ["Pankaj.garg1@timesofindia.com"],
+}
+
+
 # ── Session-level data stores ─────────────────────────────────────────────────
 _ga_store_key          = pytest.StashKey()
 _cat_store_key         = pytest.StashKey()
@@ -28,6 +49,7 @@ _intimate_diaries_amp_store_key = pytest.StashKey()
 _festival_amp_store_key         = pytest.StashKey()
 _astro_trends_amp_store_key     = pytest.StashKey()
 _sitemap_rss_store_key          = pytest.StashKey()
+_home_amp_store_key             = pytest.StashKey()
 
 _session: dict = {
     "tests": [],
@@ -155,6 +177,20 @@ def sitemap_rss_report_store(request):
         "summary_message": "",
     }
     request.session.stash[_sitemap_rss_store_key] = store
+    return store
+
+
+@pytest.fixture(scope="session")
+def home_page_amp_report_store(request):
+    """Session fixture for Home Page AMP validation results."""
+    store = {
+        "run": False,
+        "article_url": "", "amp_url": "", "page_open": None,
+        "canonical_result": None, "canonical_url": "", "canonical_error": "",
+        "amp_error_status": None, "amp_errors": [],
+        "ga_calls": [], "ga_result": None, "ga_error": "", "overall": None,
+    }
+    request.session.stash[_home_amp_store_key] = store
     return store
 
 
@@ -352,6 +388,13 @@ def pytest_sessionfinish(session, exitstatus):
         "all_sitemaps_ok": False, "all_rss_ok": False, "summary_message": "",
     })
 
+    home_amp_data = session.stash.get(_home_amp_store_key, {
+        "run": False, "article_url": "", "amp_url": "", "page_open": None,
+        "canonical_result": None, "canonical_url": "", "canonical_error": "",
+        "amp_error_status": None, "amp_errors": [],
+        "ga_calls": [], "ga_result": None, "ga_error": "", "overall": None,
+    })
+
     _write_report(
         tests=tests,
         passed=passed,
@@ -369,12 +412,30 @@ def pytest_sessionfinish(session, exitstatus):
         festival_amp=festival_amp_data,
         astro_trends_amp=astro_trends_amp_data,
         sitemap_rss=sitemap_rss_data,
+        home_page_amp=home_amp_data,
+    )
+
+    # ── Send email report (additional final step — never blocks execution) ────
+    _amp_result_list = [
+        home_amp_data, amp_data, photo_amp_data, bt_picks_amp_data,
+        intimate_diaries_amp_data, festival_amp_data, astro_trends_amp_data,
+    ]
+    _send_report_email(
+        report_path  = pathlib.Path("reports") / "bt_report.html",
+        passed       = passed,
+        failed       = failed,
+        skipped      = skipped,
+        duration     = duration,
+        start_time   = start_time,
+        end_time     = end_time,
+        amp_results  = _amp_result_list,
+        sitemap_data = sitemap_rss_data,
     )
 
 
 # ── Custom HTML report generator ──────────────────────────────────────────────
 
-def _write_report(tests, passed, failed, skipped, duration, start_time, end_time, ga, cat_pages=None, amp=None, photo_amp=None, bt_picks_amp=None, intimate_diaries_amp=None, festival_amp=None, astro_trends_amp=None, sitemap_rss=None):
+def _write_report(tests, passed, failed, skipped, duration, start_time, end_time, ga, cat_pages=None, amp=None, photo_amp=None, bt_picks_amp=None, intimate_diaries_amp=None, festival_amp=None, astro_trends_amp=None, sitemap_rss=None, home_page_amp=None):
     cat_pages             = cat_pages             or []
     amp                   = amp                   or {}
     photo_amp             = photo_amp             or {}
@@ -383,6 +444,7 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
     festival_amp          = festival_amp          or {}
     astro_trends_amp      = astro_trends_amp      or {}
     sitemap_rss           = sitemap_rss           or {}
+    home_page_amp         = home_page_amp         or {}
     total = len(tests)
     pass_rate = round((passed / total * 100) if total else 0, 1)
     start_str = start_time.strftime("%Y-%m-%d %H:%M:%S")
@@ -1311,8 +1373,18 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
 {sm_summary_html}
 """
 
+    # ── Home Page AMP data extraction ────────────────────────────────────────
+    hp_amp_ran         = home_page_amp.get("run", False)
+    hp_amp_overall     = home_page_amp.get("overall")
+    hp_amp_url_val     = home_page_amp.get("amp_url", "")
+    hp_amp_page_open   = home_page_amp.get("page_open")
+    hp_amp_can_result  = home_page_amp.get("canonical_result")
+    hp_amp_err_status  = home_page_amp.get("amp_error_status")
+    hp_amp_ga_result   = home_page_amp.get("ga_result")
+
     # ── Unified AMP Page Validation section ──────────────────────────────────
     _amp_pages = [
+        ("Home Page",          hp_amp_ran,    hp_amp_url_val,    hp_amp_page_open,    hp_amp_can_result,   hp_amp_err_status,   hp_amp_ga_result,   hp_amp_overall),
         ("Bollywood Article",  amp_ran,       amp_url_val,       amp_page_open,       amp_can_result,   amp_err_status,   amp_ga_result,       amp_overall),
         ("Photo Story",        ps_amp_ran,    ps_amp_url_val,    ps_amp_page_open,    ps_amp_can_result, ps_amp_err_status, ps_amp_ga_result,   ps_amp_overall),
         ("BT Picks",           bt_amp_ran,    bt_amp_url_val,    bt_amp_page_open,    bt_amp_can_result, bt_amp_err_status, bt_amp_ga_result,   bt_amp_overall),
@@ -1546,3 +1618,145 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
         print(f"\n  Custom HTML report: {out.resolve()}")
     except UnicodeEncodeError:
         print(f"\n  Custom HTML report: {str(out.resolve()).encode('ascii', errors='replace').decode()}")
+
+
+# ── Email report sender ───────────────────────────────────────────────────────
+
+def _send_report_email(report_path, passed, failed, skipped, duration,
+                       start_time, end_time, amp_results, sitemap_data):
+    """Send the generated HTML report via email.
+
+    Called at the end of pytest_sessionfinish, after _write_report().
+    All exceptions are caught — email failure is logged but never interrupts
+    the existing execution or causes the suite to appear failed.
+    """
+    import smtplib
+    import ssl
+    from email.mime.multipart import MIMEMultipart
+    from email.mime.text       import MIMEText
+    from email.mime.base       import MIMEBase
+    from email                 import encoders
+
+    cfg = _EMAIL_CONFIG
+
+    if not cfg.get("enabled", True):
+        print("\n  [Email] Email reporting is disabled (_EMAIL_CONFIG['enabled'] = False).")
+        return
+
+    smtp_host = cfg.get("smtp_host", "").strip()
+    if not smtp_host:
+        print(
+            "\n  [Email] SMTP host not configured — skipping email report.\n"
+            "          Set EMAIL_SMTP_HOST env var or fill _EMAIL_CONFIG['smtp_host'] in conftest.py."
+        )
+        return
+
+    try:
+        total      = passed + failed + skipped
+        exec_ok    = failed == 0
+        status_str = "PASS — All Tests Passed" if exec_ok else f"FAIL — {failed} Test(s) Failed"
+
+        # ── AMP summary ───────────────────────────────────────────────────────
+        amp_ran  = sum(1 for r in amp_results if r.get("run"))
+        amp_pass = sum(1 for r in amp_results if r.get("overall") == "PASS")
+        amp_fail = sum(1 for r in amp_results if r.get("overall") == "FAIL")
+        if amp_ran:
+            amp_summary = f"Completed — {amp_pass}/{amp_ran} page(s) passed"
+            if amp_fail:
+                amp_summary += f", {amp_fail} failed"
+        else:
+            amp_summary = "Not executed"
+
+        # ── Sitemap / RSS summary ─────────────────────────────────────────────
+        sm_ran    = sitemap_data.get("run", False)
+        sm_total  = sitemap_data.get("total", 0)
+        sm_passed = sitemap_data.get("passed", 0)
+        sm_failed = sitemap_data.get("failed", 0)
+        if sm_ran:
+            sm_summary = f"Completed — {sm_passed}/{sm_total} URL(s) passed"
+            if sm_failed:
+                sm_summary += f", {sm_failed} failed"
+        else:
+            sm_summary = "Not executed"
+
+        # ── Timestamps ────────────────────────────────────────────────────────
+        now_str   = datetime.datetime.now().strftime("%d %b %Y %I:%M %p")
+        start_str = start_time.strftime("%d %b %Y %I:%M:%S %p")
+        end_str   = end_time.strftime("%d %b %Y %I:%M:%S %p")
+
+        subject = f"Bombay Times Automation Report - {now_str}"
+
+        body = (
+            "Hello,\n\n"
+            "Please find attached the latest Bombay Times automation execution report.\n\n"
+            "Execution Summary:\n"
+            "==================\n"
+            f"Execution Status    : {status_str}\n"
+            f"Execution Started   : {start_str}\n"
+            f"Execution Completed : {end_str}\n"
+            f"Total Duration      : {duration}s\n\n"
+            "Test Results:\n"
+            f"  Total Validations : {total}\n"
+            f"  Passed            : {passed}\n"
+            f"  Failed            : {failed}\n"
+            f"  Skipped           : {skipped}\n\n"
+            f"AMP Validation      : {amp_summary}\n"
+            f"Sitemap/RSS         : {sm_summary}\n\n"
+            "Regards,\n"
+            "Automation System\n"
+        )
+
+        # ── Build MIME message ────────────────────────────────────────────────
+        from_addr = cfg.get("from_addr", "").strip()
+        to_addrs  = cfg.get("to_addrs", [])
+
+        msg              = MIMEMultipart()
+        msg["From"]      = from_addr or smtp_host          # fallback sender
+        msg["To"]        = ", ".join(to_addrs)
+        msg["Subject"]   = subject
+        msg.attach(MIMEText(body, "plain", "utf-8"))
+
+        # Attach the HTML report
+        rp = pathlib.Path(report_path)
+        if rp.exists():
+            with open(rp, "rb") as fh:
+                part = MIMEBase("application", "octet-stream")
+                part.set_payload(fh.read())
+            encoders.encode_base64(part)
+            part.add_header(
+                "Content-Disposition",
+                f'attachment; filename="{rp.name}"',
+            )
+            msg.attach(part)
+            print(f"\n  [Email] Attaching report: {rp.name}")
+        else:
+            print(f"\n  [Email] Warning: report file not found at {rp} — sending without attachment.")
+
+        # ── Connect and send ──────────────────────────────────────────────────
+        smtp_port = cfg.get("smtp_port", 587)
+        use_tls   = cfg.get("use_tls", True)
+        username  = cfg.get("username", "").strip()
+        password  = cfg.get("password", "")
+
+        print(f"\n  [Email] Connecting to {smtp_host}:{smtp_port} (TLS={use_tls}) …")
+
+        if use_tls:
+            server = smtplib.SMTP(smtp_host, smtp_port, timeout=30)
+            server.ehlo()
+            server.starttls(context=ssl.create_default_context())
+            server.ehlo()
+        else:
+            server = smtplib.SMTP(smtp_host, smtp_port, timeout=30)
+            server.ehlo()
+
+        if username and password:
+            server.login(username, password)
+
+        server.sendmail(from_addr or smtp_host, to_addrs, msg.as_string())
+        server.quit()
+
+        print(f"  [Email] Report sent successfully to: {', '.join(to_addrs)}")
+
+    except Exception as exc:
+        print(f"\n  [Email] Failed to send report email: {exc}")
+        print("  [Email] Existing execution is unaffected — continuing.")
