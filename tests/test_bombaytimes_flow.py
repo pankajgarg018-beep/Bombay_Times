@@ -2,6 +2,7 @@ import base64
 import datetime
 import logging
 import pathlib
+import re
 import time
 
 import pytest
@@ -12,6 +13,12 @@ logger = logging.getLogger(__name__)
 
 # Keywords used to identify Google Analytics / GTM network calls
 _GA_KEYWORDS = ["google-analytics", "googletagmanager", "gtag", "collect"]
+
+# Shared state passed between tests without a new fixture
+_shared: dict = {
+    "bollywood_article_url": None,   # populated by test_bollywood_article_detail_flow
+    "bollywood_amp_url":     None,   # amphtml href read directly from the article page
+}
 
 
 # ── Per-page canonical + GA validation helper ─────────────────────────────────
@@ -571,6 +578,11 @@ def test_bollywood_article_detail_flow(page, category_val_store):
             logger, category_val_store,
         )
         article_url = page.url
+        _shared["bollywood_article_url"] = article_url   # used by test_amp_page_validation
+        # Also capture the amphtml URL directly from the page (more reliable than constructing it)
+        _amp_link = page.locator("link[rel='amphtml']")
+        if _amp_link.count() > 0:
+            _shared["bollywood_amp_url"] = _amp_link.first.get_attribute("href") or ""
         logger.info("Bollywood article detail page: %s", article_url)
 
         # Trending section
@@ -628,6 +640,248 @@ def test_bollywood_article_detail_flow(page, category_val_store):
     assert page.url.startswith("https://www.bombaytimes.com/")
     logger.info("PASS: Returned to homepage")
     logger.info("=== END: test_bollywood_article_detail_flow ===")
+
+
+def test_amp_page_validation(page, amp_report_store):
+    """
+    Runs AFTER test_bollywood_article_detail_flow.
+    Uses the same article URL; inserts amp/ before the numeric ID to form the
+    AMP URL, then validates:
+      A. Canonical — must point to the non-AMP article URL (no /amp/).
+      B. AMP validation errors — captured via console listener + html[amp] check.
+      C. Google Analytics — same GA keyword match used across the suite.
+    All results written to amp_report_store for the dedicated HTML report section.
+    No existing validations are changed.
+    """
+    logger.info("=== START: test_amp_page_validation ===")
+
+    amp_report_store["run"] = True
+    home = HomePage(page)
+
+    # ── Step 1: Resolve the article URL (from shared state) ───────────────────
+    article_url = _shared.get("bollywood_article_url")
+    if not article_url:
+        logger.warning("Bollywood article URL not set — navigating to listing for fallback")
+        home.goto("/entertainment/bollywood")
+        try:
+            page.wait_for_load_state("load", timeout=15000)
+        except Exception:
+            pass
+        _js_selectors_fallback = [
+            "ol.sub-cat-ol li a.right-img-a",
+            "ol.sub-cat-ol li a",
+            "a.right-img-a",
+            "a[href*='/entertainment/bollywood/']",
+        ]
+        for sel in _js_selectors_fallback:
+            try:
+                safe = sel.replace("'", "\\'")
+                href = page.evaluate(f"() => {{ const el = document.querySelector('{safe}'); return el ? el.href : null; }}")
+                if href and "bombaytimes.com" in href:
+                    article_url = href
+                    break
+            except Exception:
+                continue
+    if not article_url:
+        logger.error("Could not resolve article URL for AMP validation")
+        amp_report_store["overall"] = "FAIL"
+        pytest.fail("Could not resolve Bollywood article URL for AMP page validation")
+
+    amp_report_store["article_url"] = article_url
+    logger.info("Article URL: %s", article_url)
+
+    # ── Step 2: Resolve AMP URL ───────────────────────────────────────────────
+    # Priority: use the amphtml href captured directly from the article page.
+    # Fallback: construct it by inserting amp/ before the trailing numeric ID.
+    def _build_amp_url(url: str) -> str:
+        u = url.rstrip("/")
+        m = re.match(r'^(.*)/(\d{10,})$', u)   # numeric ID is typically 13 digits
+        if m:
+            return f"{m.group(1)}/amp/{m.group(2)}"
+        parts = u.rsplit("/", 1)
+        return f"{parts[0]}/amp/{parts[1]}" if len(parts) == 2 else u
+
+    amp_url = _shared.get("bollywood_amp_url") or _build_amp_url(article_url)
+    amp_report_store["amp_url"] = amp_url
+    logger.info("AMP URL:     %s", amp_url)
+
+    # ── Step 3: Navigate to AMP page — listen for GA + console in parallel ────
+    ga_calls: list = []
+    amp_console_errors: list = []
+
+    def _on_response(resp):
+        url = resp.url.lower()
+        if any(kw in url for kw in _GA_KEYWORDS):
+            ga_calls.append({"url": resp.url, "status": resp.status})
+
+    def _on_console(msg):
+        # AMP runtime logs validation errors as console errors/warnings
+        if msg.type in ("error", "warning"):
+            text = msg.text
+            # Capture AMP-specific messages (validation errors, runtime errors)
+            if any(kw in text.upper() for kw in ["AMP", "AMPHTML", "VALIDATION"]):
+                amp_console_errors.append({"type": msg.type, "text": text})
+
+    page.on("response", _on_response)
+    page.on("console", _on_console)
+
+    def _safe_goto_home():
+        """Navigate to homepage robustly even if the current page is stuck."""
+        try:
+            # Stop any in-progress navigation before redirecting
+            page.evaluate("() => { try { window.stop(); } catch(e) {} }")
+        except Exception:
+            pass
+        for _wu in ("commit", "domcontentloaded", "load"):
+            try:
+                page.goto("https://www.bombaytimes.com", timeout=20000, wait_until=_wu)
+                return
+            except Exception:
+                continue
+
+    page_open_ok = False
+    try:
+        logger.info("Navigating to AMP page: %s", amp_url)
+        # AMP pages can be slow — use domcontentloaded (faster than load) with 60 s
+        page.goto(amp_url, timeout=60000, wait_until="domcontentloaded")
+        try:
+            page.wait_for_load_state("networkidle", timeout=10000)
+        except Exception:
+            pass
+        page.wait_for_timeout(3000)   # allow AMP runtime + analytics to initialise
+        page_open_ok = True
+        logger.info("AMP page opened: %s", page.url)
+    except Exception as exc:
+        logger.error("Failed to open AMP page: %s", exc)
+        amp_report_store["page_open"] = False
+        amp_report_store["overall"] = "FAIL"
+    finally:
+        page.remove_listener("response", _on_response)
+        page.remove_listener("console", _on_console)
+
+    amp_report_store["page_open"] = page_open_ok
+    if not page_open_ok:
+        logger.info("Navigating back to homepage (cleanup)")
+        _safe_goto_home()
+        return
+
+    # ── Step A: AMP Canonical Validation ─────────────────────────────────────
+    logger.info("--- AMP Canonical Validation ---")
+    canonical_result = "FAIL"
+    canonical_url   = ""
+    canonical_error = ""
+    try:
+        can_loc = page.locator("link[rel='canonical']")
+        if can_loc.count() > 0:
+            canonical_url = can_loc.first.get_attribute("href") or ""
+            amp_report_store["canonical_url"] = canonical_url
+            if not canonical_url:
+                canonical_error = "Canonical href attribute is empty"
+                logger.warning("FAIL AMP Canonical: href is empty")
+            elif "/amp/" in canonical_url:
+                canonical_error = f"Canonical still contains /amp/: {canonical_url}"
+                logger.warning("FAIL AMP Canonical: URL contains /amp/ — %s", canonical_url)
+            elif canonical_url.rstrip("/") == article_url.rstrip("/"):
+                canonical_result = "PASS"
+                logger.info("PASS AMP Canonical: %s", canonical_url)
+            else:
+                canonical_error = (
+                    f"Canonical '{canonical_url}' does not match article '{article_url}'"
+                )
+                logger.warning("FAIL AMP Canonical: mismatch — %s", canonical_error)
+        else:
+            canonical_error = "No link[rel='canonical'] found on AMP page"
+            logger.warning("FAIL AMP Canonical: %s", canonical_error)
+    except Exception as exc:
+        canonical_error = str(exc)
+        logger.error("AMP Canonical check raised: %s", exc)
+
+    amp_report_store["canonical_result"] = canonical_result
+    amp_report_store["canonical_error"]  = canonical_error
+
+    # ── Step B: AMP Validation Error Check ───────────────────────────────────
+    logger.info("--- AMP Validation Error Check ---")
+    amp_error_status = "PASS"
+    amp_errors_detail: list = []
+    try:
+        # Confirm this is actually an AMP page (html must have amp or ⚡ attribute)
+        is_amp = page.evaluate("""
+            () => {
+                const html = document.documentElement;
+                return html.hasAttribute('amp') || html.hasAttribute('⚡');
+            }
+        """)
+        if not is_amp:
+            amp_error_status = "FAIL"
+            amp_errors_detail.append("Page does not have html[amp] or html[⚡] attribute — not a valid AMP page")
+            logger.warning("FAIL AMP Validation: html[amp] attribute missing")
+        else:
+            logger.info("PASS: html[amp] attribute confirmed — valid AMP page")
+
+        # Report any AMP console errors captured during navigation
+        if amp_console_errors:
+            amp_error_status = "FAIL"
+            for e in amp_console_errors:
+                msg = f"[{e['type'].upper()}] {e['text']}"
+                amp_errors_detail.append(msg)
+                logger.warning("AMP console %s: %s", e["type"], e["text"])
+        else:
+            logger.info("PASS: No AMP validation errors in console")
+
+    except Exception as exc:
+        amp_error_status = "FAIL"
+        amp_errors_detail.append(f"AMP validation check raised: {exc}")
+        logger.error("AMP validation check raised: %s", exc)
+
+    amp_report_store["amp_error_status"]  = amp_error_status
+    amp_report_store["amp_errors"]        = amp_errors_detail
+    if amp_error_status == "PASS":
+        logger.info("PASS AMP Validation: no errors detected")
+    else:
+        logger.warning("FAIL AMP Validation: %d issue(s) found", len(amp_errors_detail))
+
+    # ── Step C: Google Analytics Validation ───────────────────────────────────
+    logger.info("--- AMP GA Validation ---")
+    ga_result = "FAIL"
+    ga_error  = ""
+    amp_report_store["ga_calls"] = ga_calls
+    logger.info("GA calls captured on AMP page: %d", len(ga_calls))
+    for e in ga_calls:
+        logger.info("  GA [%d] %s", e["status"], e["url"])
+    if ga_calls:
+        bad = [e for e in ga_calls if e["status"] not in (200, 204)]
+        if bad:
+            ga_error = f"{len(bad)} GA call(s) returned error status"
+            logger.warning("FAIL AMP GA: %s", ga_error)
+        else:
+            ga_result = "PASS"
+            logger.info("PASS AMP GA: %d call(s) fired, all successful", len(ga_calls))
+    else:
+        ga_error = "No GA network calls captured on AMP page"
+        logger.warning("FAIL AMP GA: %s", ga_error)
+
+    amp_report_store["ga_result"] = ga_result
+    amp_report_store["ga_error"]  = ga_error
+
+    # ── Overall result ────────────────────────────────────────────────────────
+    overall = "PASS" if all([
+        canonical_result == "PASS",
+        amp_error_status == "PASS",
+        ga_result == "PASS",
+    ]) else "FAIL"
+    amp_report_store["overall"] = overall
+    logger.info("AMP Page Validation Overall: %s", overall)
+    logger.info(
+        "  Canonical=%s | AMP Errors=%s | GA=%s",
+        canonical_result, amp_error_status, ga_result,
+    )
+
+    logger.info("Navigating back to homepage (cleanup)")
+    _safe_goto_home()
+    logger.info("URL after return: %s", page.url)
+    assert page.url.startswith("https://www.bombaytimes.com/")
+    logger.info("PASS: Returned to homepage")
+    logger.info("=== END: test_amp_page_validation ===")
 
 
 def test_photo_story_detail_flow(page, category_val_store):

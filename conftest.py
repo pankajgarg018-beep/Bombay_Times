@@ -21,6 +21,7 @@ def _esc(text: str) -> str:
 # ── Session-level data stores ─────────────────────────────────────────────────
 _ga_store_key  = pytest.StashKey()
 _cat_store_key = pytest.StashKey()
+_amp_store_key = pytest.StashKey()
 
 _session: dict = {
     "tests": [],
@@ -75,6 +76,32 @@ def category_val_store(request):
     """
     store = []
     request.session.stash[_cat_store_key] = store
+    return store
+
+
+@pytest.fixture(scope="session")
+def amp_report_store(request):
+    """Session fixture for AMP page validation results.
+
+    Written by test_amp_page_validation; read by conftest to build the
+    dedicated AMP Page Validation HTML report section.
+    """
+    store = {
+        "run": False,
+        "article_url": "",
+        "amp_url": "",
+        "page_open": None,
+        "canonical_result": None,
+        "canonical_url": "",
+        "canonical_error": "",
+        "amp_error_status": None,
+        "amp_errors": [],
+        "ga_calls": [],
+        "ga_result": None,
+        "ga_error": "",
+        "overall": None,
+    }
+    request.session.stash[_amp_store_key] = store
     return store
 
 
@@ -185,6 +212,13 @@ def pytest_sessionfinish(session, exitstatus):
 
     cat_data = session.stash.get(_cat_store_key, [])
 
+    amp_data = session.stash.get(_amp_store_key, {
+        "run": False, "article_url": "", "amp_url": "", "page_open": None,
+        "canonical_result": None, "canonical_url": "", "canonical_error": "",
+        "amp_error_status": None, "amp_errors": [],
+        "ga_calls": [], "ga_result": None, "ga_error": "", "overall": None,
+    })
+
     _write_report(
         tests=tests,
         passed=passed,
@@ -195,13 +229,15 @@ def pytest_sessionfinish(session, exitstatus):
         end_time=end_time,
         ga=ga_data,
         cat_pages=cat_data,
+        amp=amp_data,
     )
 
 
 # ── Custom HTML report generator ──────────────────────────────────────────────
 
-def _write_report(tests, passed, failed, skipped, duration, start_time, end_time, ga, cat_pages=None):
+def _write_report(tests, passed, failed, skipped, duration, start_time, end_time, ga, cat_pages=None, amp=None):
     cat_pages = cat_pages or []
+    amp = amp or {}
     total = len(tests)
     pass_rate = round((passed / total * 100) if total else 0, 1)
     start_str = start_time.strftime("%Y-%m-%d %H:%M:%S")
@@ -297,6 +333,17 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
     .log-blk{background:#1e2029;color:#abb2bf;padding:12px 16px;border-radius:6px;font-family:'Courier New',monospace;font-size:11px;max-height:320px;overflow-y:auto;white-space:pre-wrap;line-height:1.55}
     .err-blk{background:#fff5f5;border:1px solid #f8d7da;border-radius:6px;padding:12px 16px;font-family:'Courier New',monospace;font-size:11px;color:#721c24;white-space:pre-wrap;max-height:260px;overflow-y:auto}
     .ss-img{max-width:100%;border:1px solid #dee2e6;border-radius:6px;margin-top:8px;max-height:480px}
+
+    /* AMP section */
+    .amp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+    .amp-item{background:#f8f9fa;border:1px solid #e9ecef;border-radius:8px;padding:12px 14px}
+    .amp-item-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#6c757d;margin-bottom:4px}
+    .amp-item-val{font-size:12px;font-weight:600;color:#343a40;word-break:break-all}
+    .amp-url{font-family:'Courier New',monospace;font-size:11px;color:#0d6efd;word-break:break-all}
+    .amp-errors{background:#fff5f5;border:1px solid #f8d7da;border-radius:6px;padding:10px 14px;
+                font-family:'Courier New',monospace;font-size:11px;color:#721c24;margin-top:8px}
+    .amp-err-line{padding:2px 0;border-bottom:1px dotted #f8d7da}
+    .amp-err-line:last-child{border-bottom:none}
 
     /* Footer */
     .footer{text-align:center;padding:20px 40px 30px;color:#adb5bd;font-size:12px}
@@ -432,6 +479,110 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
         )
     else:
         cat_section_body = "<div class='no-data'>No category page validations were recorded.</div>"
+
+    # ── AMP page validation section ───────────────────────────────────────────
+    amp_ran          = amp.get("run", False)
+    amp_overall      = amp.get("overall")
+    amp_article_url  = amp.get("article_url", "")
+    amp_url_val      = amp.get("amp_url", "")
+    amp_page_open    = amp.get("page_open")
+    amp_can_result   = amp.get("canonical_result")
+    amp_can_url      = amp.get("canonical_url", "")
+    amp_can_error    = amp.get("canonical_error", "")
+    amp_err_status   = amp.get("amp_error_status")
+    amp_errors_list  = amp.get("amp_errors", [])
+    amp_ga_calls     = amp.get("ga_calls", [])
+    amp_ga_result    = amp.get("ga_result")
+    amp_ga_error     = amp.get("ga_error", "")
+
+    def _amp_badge(val):
+        if val == "PASS":
+            return "<span class='badge b-passed'>&#10003; PASS</span>"
+        if val == "FAIL":
+            return "<span class='badge b-failed'>&#10007; FAIL</span>"
+        return "<span class='badge b-skipped'>&#8212; N/A</span>"
+
+    if not amp_ran:
+        amp_section_body = "<div class='no-data'>AMP validation test was not executed in this run.</div>"
+        amp_overall_badge = _amp_badge(None)
+    else:
+        amp_open_badge = _amp_badge("PASS" if amp_page_open else "FAIL")
+        amp_can_badge  = _amp_badge(amp_can_result)
+        amp_err_badge  = _amp_badge(amp_err_status)
+        amp_ga_badge   = _amp_badge(amp_ga_result)
+        amp_overall_badge = _amp_badge(amp_overall)
+
+        # GA rows for AMP
+        if amp_ga_calls:
+            amp_ga_rows = ""
+            for i, e in enumerate(amp_ga_calls, 1):
+                cls = "http-ok" if e["status"] in (200, 204) else "http-err"
+                amp_ga_rows += (
+                    f"<tr><td class='ga-num'>{i}</td>"
+                    f"<td><span class='http {cls}'>{e['status']}</span></td>"
+                    f"<td class='ga-url'>{_esc(e['url'])}</td></tr>"
+                )
+            amp_ga_html = (
+                "<table class='ga-tbl' style='margin-top:8px'>"
+                "<thead><tr><th>#</th><th>HTTP</th><th>Request URL</th></tr></thead>"
+                f"<tbody>{amp_ga_rows}</tbody></table>"
+            )
+        else:
+            amp_ga_html = f"<div class='no-data'>{_esc(amp_ga_error) if amp_ga_error else 'No GA calls captured.'}</div>"
+
+        # AMP error detail block
+        if amp_errors_list:
+            err_lines = "".join(
+                f"<div class='amp-err-line'>{_esc(e)}</div>" for e in amp_errors_list
+            )
+            amp_errors_html = f"<div class='amp-errors'>{err_lines}</div>"
+        else:
+            amp_errors_html = "<div style='color:#28a745;font-size:12px;margin-top:4px'>No AMP validation errors detected.</div>"
+
+        amp_section_body = f"""
+<div class="amp-grid">
+  <div class="amp-item" style="grid-column:span 2">
+    <div class="amp-item-lbl">Article URL (Normal)</div>
+    <div class="amp-url">{_esc(amp_article_url)}</div>
+  </div>
+  <div class="amp-item" style="grid-column:span 2">
+    <div class="amp-item-lbl">AMP URL Tested</div>
+    <div class="amp-url">{_esc(amp_url_val)}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">AMP Page Opened</div>
+    <div class="amp-item-val">{amp_open_badge}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">Canonical Validation</div>
+    <div class="amp-item-val">{amp_can_badge}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">AMP Error Check</div>
+    <div class="amp-item-val">{amp_err_badge}</div>
+  </div>
+  <div class="amp-item">
+    <div class="amp-item-lbl">GA Tag Validation</div>
+    <div class="amp-item-val">{amp_ga_badge}</div>
+  </div>
+</div>
+
+<div style="margin-bottom:14px">
+  <div class="sub-lbl">Canonical URL (from AMP page)</div>
+  <div class="amp-url" style="margin-top:6px">{_esc(amp_can_url) if amp_can_url else '<em style="color:#6c757d">Not found</em>'}</div>
+  {(f'<div style="color:#dc3545;font-size:11px;margin-top:4px">{_esc(amp_can_error)}</div>') if amp_can_error else ''}
+</div>
+
+<div style="margin-bottom:14px">
+  <div class="sub-lbl">AMP Validation Error Details</div>
+  {amp_errors_html}
+</div>
+
+<div>
+  <div class="sub-lbl">GA Network Requests (AMP Page)</div>
+  {amp_ga_html}
+</div>
+"""
 
     # ── Test result rows ──────────────────────────────────────────────────────
     rows_html = ""
@@ -570,6 +721,15 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
     <div class="chip"><div class="chip-lbl">GA FAIL</div><div class="chip-val" style="color:#dc3545">{cat_ga_fail}</div></div>
   </div>
   {cat_section_body}
+</div>
+
+<!-- ░░ AMP PAGE VALIDATION ░░ -->
+<div class="sec">
+  <div class="sec-title">
+    <span>&#9889; AMP Page Validation</span>
+    {amp_overall_badge}
+  </div>
+  {amp_section_body}
 </div>
 
 <!-- ░░ TEST RESULTS ░░ -->
