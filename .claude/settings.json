@@ -13,7 +13,21 @@
       "Bash(python -m pytest tests/test_bombaytimes_flow.py::test_bollywood_article_detail_flow tests/test_bombaytimes_flow.py::test_amp_page_validation --tb=short -q)",
       "Bash(python -c ' *)",
       "Bash(python -c \"import ast; ast.parse\\(open\\('conftest.py', encoding='utf-8'\\).read\\(\\)\\); print\\('conftest.py OK'\\)\")",
-      "Bash(python -c \"import os; print\\('SMTP_HOST:', os.environ.get\\('EMAIL_SMTP_HOST','\\(not set\\)'\\)\\); print\\('EMAIL_FROM:', os.environ.get\\('EMAIL_FROM','\\(not set\\)'\\)\\); print\\('EMAIL_USER:', os.environ.get\\('EMAIL_USER','\\(not set\\)'\\)\\)\")"
+      "Bash(python -c \"import os; print\\('SMTP_HOST:', os.environ.get\\('EMAIL_SMTP_HOST','\\(not set\\)'\\)\\); print\\('EMAIL_FROM:', os.environ.get\\('EMAIL_FROM','\\(not set\\)'\\)\\); print\\('EMAIL_USER:', os.environ.get\\('EMAIL_USER','\\(not set\\)'\\)\\)\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('tests/test_bombaytimes_flow.py', encoding='utf-8'\\).read\\(\\)\\); print\\('test_bombaytimes_flow.py OK'\\)\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('send_report.py', encoding='utf-8'\\).read\\(\\)\\); print\\('send_report.py OK'\\)\")",
+      "PowerShell($env:EMAIL_PASSWORD = \"sbyb iowh cpso qtlj\"; cd \"c:\\\\Users\\\\pankaj.garg1\\\\OneDrive - BENNETT COLEMAN & CO LTD\\\\Desktop\\\\BT_New\"; python send_report.py)",
+      "PowerShell(Get-ChildItem \"$env:LOCALAPPDATA\\\\ms-playwright\" -Directory | Select-Object Name)",
+      "PowerShell(Get-ChildItem \"$env:USERPROFILE\\\\AppData\\\\Local\\\\ms-playwright\" -Recurse -Filter \"chrome.exe\" 2>$null | Select-Object -First 5 FullName; Get-ChildItem \"$env:USERPROFILE\\\\AppData\\\\Local\\\\ms-playwright\" -Recurse -Filter \"chromium.exe\" 2>$null | Select-Object -First 5 FullName)",
+      "Read(//c/Users/pankaj.garg1/AppData/Local/ms-playwright/**)",
+      "PowerShell(python -c \"from playwright.sync_api import sync_playwright; p=sync_playwright\\(\\).start\\(\\); print\\(p.chromium.executable_path\\); p.stop\\(\\)\")",
+      "PowerShell(Get-ChildItem \"$env:USERPROFILE\\\\AppData\\\\Local\\\\ms-playwright\" -Directory | Select-Object Name, FullName)",
+      "PowerShell(python -c \"from playwright.sync_api import sync_playwright; p=sync_playwright\\(\\).start\\(\\); print\\('chromium exe:', p.chromium.executable_path\\); p.stop\\(\\)\")",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\pankaj.garg1\\\\OneDrive - BENNETT COLEMAN & CO LTD\\\\Desktop\\\\BT_New\" -Recurse -Force)",
+      "Bash(Select-Object FullName, PSIsContainer)",
+      "Bash(Sort-Object FullName)",
+      "Bash(pip show *)",
+      "Bash(python -m pytest tests/test_bombaytimes_flow.py::test_entertainment_and_bollywood_flow --tb=short -q)"
     ]
   }
 }

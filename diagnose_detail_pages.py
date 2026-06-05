@@ -1,8 +1,14 @@
 """
-Diagnostic: inspect bt-picks/electronics and intimate-diaries DOM
-to identify selectors for 'Top Pick From the Editors This Week'
-and 'Tanisha Rao' author section.
+Developer utility — NOT part of the automated test suite.
+
+Run manually to inspect the live DOM on BT Picks / Electronics and
+Intimate Diaries pages, helping identify reliable CSS selectors for
+automation.  Results are printed to stdout.
+
+Usage:
+    python diagnose_detail_pages.py
 """
+
 from playwright.sync_api import sync_playwright
 
 CHROME = r"C:\Program Files\Google\Chrome\Application\chrome.exe"

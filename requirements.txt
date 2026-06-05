@@ -1,2 +1,9 @@
-playwright
-pytest
+# BombayTimes Automation — Python dependencies
+# Install: pip install -r requirements.txt
+# After install run: playwright install chromium
+
+playwright==1.60.0
+pytest==9.0.3
+pytest-html==4.2.0
+pytest-metadata==3.1.1
+pytest-rerunfailures==16.3

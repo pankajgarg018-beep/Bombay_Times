@@ -1,3 +1,16 @@
+"""
+conftest.py — Pytest fixtures, report generation, and email delivery
+for the BombayTimes Playwright automation suite.
+
+Key responsibilities:
+  - Browser / page session fixtures (Playwright + system Chrome)
+  - Per-test data stores (GA, canonical, AMP, author, sitemap)
+  - pytest hooks: session start/finish, item run tracking
+  - HTML report generator (_write_report)
+  - PDF report generator (_generate_pdf_report)
+  - Email sender (_send_report_email)
+"""
+
 import os
 import sys
 import base64
@@ -39,17 +52,18 @@ _EMAIL_CONFIG: dict = {
 }
 
 
-# ── Session-level data stores ─────────────────────────────────────────────────
-_ga_store_key          = pytest.StashKey()
-_cat_store_key         = pytest.StashKey()
-_amp_store_key              = pytest.StashKey()
-_photo_amp_store_key        = pytest.StashKey()
-_bt_picks_amp_store_key     = pytest.StashKey()
+# ── Session-level stash keys (one per report-store fixture) ───────────────────
+_ga_store_key                   = pytest.StashKey()
+_cat_store_key                  = pytest.StashKey()
+_amp_store_key                  = pytest.StashKey()
+_photo_amp_store_key            = pytest.StashKey()
+_bt_picks_amp_store_key         = pytest.StashKey()
 _intimate_diaries_amp_store_key = pytest.StashKey()
 _festival_amp_store_key         = pytest.StashKey()
 _astro_trends_amp_store_key     = pytest.StashKey()
 _sitemap_rss_store_key          = pytest.StashKey()
 _home_amp_store_key             = pytest.StashKey()
+_author_store_key               = pytest.StashKey()
 
 _session: dict = {
     "tests": [],
@@ -177,6 +191,29 @@ def sitemap_rss_report_store(request):
         "summary_message": "",
     }
     request.session.stash[_sitemap_rss_store_key] = store
+    return store
+
+
+@pytest.fixture(scope="session")
+def author_page_report_store(request):
+    """Session fixture for Author Page validation results."""
+    store = {
+        "run": False,
+        "article_url": "",
+        "author_name": "",
+        "author_clickable": None,
+        "author_url": "",
+        "fallback_used": False,
+        "page_open": None,
+        "canonical_result": None,
+        "canonical_url": "",
+        "canonical_error": "",
+        "ga_calls": [],
+        "ga_result": None,
+        "ga_error": "",
+        "overall": None,
+    }
+    request.session.stash[_author_store_key] = store
     return store
 
 
@@ -395,6 +432,13 @@ def pytest_sessionfinish(session, exitstatus):
         "ga_calls": [], "ga_result": None, "ga_error": "", "overall": None,
     })
 
+    author_page_data = session.stash.get(_author_store_key, {
+        "run": False, "article_url": "", "author_name": "", "author_clickable": None,
+        "author_url": "", "fallback_used": False, "page_open": None,
+        "canonical_result": None, "canonical_url": "", "canonical_error": "",
+        "ga_calls": [], "ga_result": None, "ga_error": "", "overall": None,
+    })
+
     _write_report(
         tests=tests,
         passed=passed,
@@ -413,6 +457,7 @@ def pytest_sessionfinish(session, exitstatus):
         astro_trends_amp=astro_trends_amp_data,
         sitemap_rss=sitemap_rss_data,
         home_page_amp=home_amp_data,
+        author_page=author_page_data,
     )
 
     # ── Send email report (additional final step — never blocks execution) ────
@@ -435,7 +480,7 @@ def pytest_sessionfinish(session, exitstatus):
 
 # ── Custom HTML report generator ──────────────────────────────────────────────
 
-def _write_report(tests, passed, failed, skipped, duration, start_time, end_time, ga, cat_pages=None, amp=None, photo_amp=None, bt_picks_amp=None, intimate_diaries_amp=None, festival_amp=None, astro_trends_amp=None, sitemap_rss=None, home_page_amp=None):
+def _write_report(tests, passed, failed, skipped, duration, start_time, end_time, ga, cat_pages=None, amp=None, photo_amp=None, bt_picks_amp=None, intimate_diaries_amp=None, festival_amp=None, astro_trends_amp=None, sitemap_rss=None, home_page_amp=None, author_page=None):
     cat_pages             = cat_pages             or []
     amp                   = amp                   or {}
     photo_amp             = photo_amp             or {}
@@ -445,6 +490,7 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
     astro_trends_amp      = astro_trends_amp      or {}
     sitemap_rss           = sitemap_rss           or {}
     home_page_amp         = home_page_amp         or {}
+    author_page           = author_page           or {}
     total = len(tests)
     pass_rate = round((passed / total * 100) if total else 0, 1)
     start_str = start_time.strftime("%Y-%m-%d %H:%M:%S")
@@ -1373,6 +1419,102 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
 {sm_summary_html}
 """
 
+    # ── Author Page validation section ───────────────────────────────────────
+    au_ran            = author_page.get("run", False)
+    au_overall        = author_page.get("overall")
+    au_article_url    = author_page.get("article_url", "")
+    au_author_name    = author_page.get("author_name", "")
+    au_clickable      = author_page.get("author_clickable")
+    au_author_url     = author_page.get("author_url", "")
+    au_fallback       = author_page.get("fallback_used", False)
+    au_page_open      = author_page.get("page_open")
+    au_can_result     = author_page.get("canonical_result")
+    au_can_url        = author_page.get("canonical_url", "")
+    au_can_error      = author_page.get("canonical_error", "")
+    au_ga_result      = author_page.get("ga_result")
+    au_ga_error       = author_page.get("ga_error", "")
+    au_ga_calls       = author_page.get("ga_calls", [])
+
+    au_overall_badge = _amp_badge(au_overall)
+
+    if not au_ran:
+        au_section_body = "<div class='no-data'>Author Page validation was not executed in this run.</div>"
+    else:
+        def _yn_badge(val):
+            if val is True:
+                return "<span class='badge b-passed'>&#10003; Yes</span>"
+            if val is False:
+                return "<span class='badge b-failed'>&#10007; No</span>"
+            return "<span class='badge b-skipped'>&#8212; N/A</span>"
+
+        au_rows = f"""
+<tr class='trow'>
+  <td class='td-num' style='width:28px'>1</td>
+  <td style='font-weight:600;white-space:nowrap;color:#495057;width:160px'>Article URL</td>
+  <td colspan='2' style='font-family:"Courier New",monospace;font-size:11px;color:#0d6efd;word-break:break-all'>
+    {_esc(au_article_url) if au_article_url else '<em style="color:#adb5bd">Not captured</em>'}
+  </td>
+</tr>
+<tr class='trow'>
+  <td class='td-num'>2</td>
+  <td style='font-weight:600;color:#495057'>Author Name</td>
+  <td colspan='2' style='font-size:13px;font-weight:600;color:#343a40'>
+    {_esc(au_author_name) if au_author_name else '<em style="color:#adb5bd">Not found</em>'}
+  </td>
+</tr>
+<tr class='trow'>
+  <td class='td-num'>3</td>
+  <td style='font-weight:600;color:#495057'>Author Name Clickable</td>
+  <td colspan='2'>{_yn_badge(au_clickable)}</td>
+</tr>
+<tr class='trow'>
+  <td class='td-num'>4</td>
+  <td style='font-weight:600;color:#495057'>Author Page URL</td>
+  <td colspan='2' style='font-family:"Courier New",monospace;font-size:11px;color:#0d6efd;word-break:break-all'>
+    {_esc(au_author_url) if au_author_url else '<em style="color:#adb5bd">Not captured</em>'}
+  </td>
+</tr>
+<tr class='trow'>
+  <td class='td-num'>5</td>
+  <td style='font-weight:600;color:#495057'>Fallback URL Used</td>
+  <td colspan='2'>{_yn_badge(au_fallback)}</td>
+</tr>
+<tr class='trow'>
+  <td class='td-num'>6</td>
+  <td style='font-weight:600;color:#495057'>Author Page Opened</td>
+  <td colspan='2'>{_amp_badge("PASS" if au_page_open else "FAIL")}</td>
+</tr>
+<tr class='trow {"trow-passed" if au_can_result == "PASS" else "trow-failed"}'>
+  <td class='td-num'>7</td>
+  <td style='font-weight:600;color:#495057'>Canonical Validation</td>
+  <td style='width:90px'>{_amp_badge(au_can_result)}</td>
+  <td style='font-family:"Courier New",monospace;font-size:11px;color:#0d6efd;word-break:break-all'>
+    {_esc(au_can_url) if au_can_url else ('<em style="color:#adb5bd">Not found</em>' if au_can_result == "FAIL" else "")}
+    {(f'<div style="color:#dc3545;font-size:11px;margin-top:3px">{_esc(au_can_error)}</div>') if au_can_error else ''}
+  </td>
+</tr>
+<tr class='trow {"trow-passed" if au_ga_result == "PASS" else "trow-failed"}'>
+  <td class='td-num'>8</td>
+  <td style='font-weight:600;color:#495057'>GA Validation</td>
+  <td style='width:90px'>{_amp_badge(au_ga_result)}</td>
+  <td style='font-size:11px;color:#555'>
+    {(f'{len(au_ga_calls)} GA call(s) captured') if au_ga_calls else (_esc(au_ga_error) or 'No GA calls captured')}
+  </td>
+</tr>
+<tr class='trow {"trow-passed" if au_overall == "PASS" else "trow-failed"}' style='background:#f8f9fa'>
+  <td class='td-num'>9</td>
+  <td style='font-weight:700;color:#343a40'>Overall Result</td>
+  <td colspan='2'>{_amp_badge(au_overall)}</td>
+</tr>
+"""
+        au_section_body = (
+            "<table class='res-tbl' style='font-size:12px'>"
+            "<thead><tr>"
+            "<th>#</th><th>Validation Item</th><th>Result</th><th>Details</th>"
+            "</tr></thead>"
+            f"<tbody>{au_rows}</tbody></table>"
+        )
+
     # ── Home Page AMP data extraction ────────────────────────────────────────
     hp_amp_ran         = home_page_amp.get("run", False)
     hp_amp_overall     = home_page_amp.get("overall")
@@ -1559,6 +1701,15 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
   {cat_section_body}
 </div>
 
+<!-- ░░ AUTHOR PAGE VALIDATION ░░ -->
+<div class="sec">
+  <div class="sec-title">
+    <span>&#128100; Author Page Validation</span>
+    {au_overall_badge}
+  </div>
+  {au_section_body}
+</div>
+
 <!-- ░░ AMP PAGE VALIDATION ░░ -->
 <div class="sec">
   <div class="sec-title">
@@ -1618,6 +1769,100 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
         print(f"\n  Custom HTML report: {out.resolve()}")
     except UnicodeEncodeError:
         print(f"\n  Custom HTML report: {str(out.resolve()).encode('ascii', errors='replace').decode()}")
+
+
+# ── PDF report generator ─────────────────────────────────────────────────────
+
+def _find_chromium_exe() -> str:
+    """Return the Chrome/Chromium executable to use for PDF rendering.
+
+    Mirrors the same discovery logic used by the test-suite browser fixture:
+    1. CHROME_PATH environment variable
+    2. Common Windows Google Chrome install locations
+    3. ms-playwright local browser directories (fallback)
+    Returns None if nothing is found — launch will then use Playwright default.
+    """
+    candidates = [
+        os.environ.get("CHROME_PATH", ""),
+        r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+        r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+        r"C:\Program Files\Chromium\Application\chrome.exe",
+        str(pathlib.Path.home() / "AppData" / "Local" / "Google" / "Chrome" / "Application" / "chrome.exe"),
+    ]
+    for c in candidates:
+        if c and pathlib.Path(c).exists():
+            return c
+    # ms-playwright fallback
+    pw_dir = pathlib.Path.home() / "AppData" / "Local" / "ms-playwright"
+    if pw_dir.exists():
+        for item in pw_dir.iterdir():
+            if item.is_dir() and item.name.startswith("chromium-"):
+                for sub in ("chrome-win64", "chrome-win"):
+                    exe = item / sub / "chrome.exe"
+                    if exe.exists():
+                        return str(exe)
+    return None
+
+
+def _generate_pdf_report(html_path: pathlib.Path) -> pathlib.Path:
+    """Convert the HTML report to PDF using Playwright's headless Chromium.
+
+    Playwright is already installed as a project dependency — no extra packages
+    needed.  Returns the PDF path on success, or None on failure.
+    All exceptions are caught; PDF failure never stops or fails the suite.
+    """
+    from playwright.sync_api import sync_playwright
+
+    pdf_path = html_path.with_suffix(".pdf")
+    try:
+        print("\n  [PDF] Generating PDF from HTML report ...")
+        file_uri  = html_path.resolve().as_uri()
+        chrome_exe = _find_chromium_exe()
+
+        # Use headless=False + off-screen window — same mode as test suite browser.
+        # headless=True requires the separate headless-shell binary which may be absent.
+        launch_kwargs = dict(
+            headless=False,
+            args=["--window-position=-10000,-10000", "--window-size=1,1",
+                  "--no-first-run", "--no-default-browser-check",
+                  "--disable-extensions"],
+        )
+        if chrome_exe:
+            launch_kwargs["executable_path"] = chrome_exe
+            print(f"  [PDF] Using Chrome: {chrome_exe}")
+
+        with sync_playwright() as _pw:
+            browser = _pw.chromium.launch(**launch_kwargs)
+            ctx     = browser.new_context()
+            pg      = ctx.new_page()
+
+            # Load the local HTML file; 'load' is reliable for file:// URIs
+            pg.goto(file_uri, wait_until="load", timeout=30000)
+            # Brief pause so fonts/layout settle before capture
+            pg.wait_for_timeout(1500)
+
+            pg.pdf(
+                path=str(pdf_path),
+                format="A4",
+                print_background=True,
+                margin={
+                    "top":    "12mm",
+                    "right":  "10mm",
+                    "bottom": "12mm",
+                    "left":   "10mm",
+                },
+            )
+            browser.close()
+
+        size = pdf_path.stat().st_size
+        print(f"  [PDF] Generated: {pdf_path.name}  ({size:,} bytes)")
+        return pdf_path
+
+    except Exception as exc:
+        safe_msg = str(exc).encode("ascii", errors="replace").decode()
+        print(f"\n  [PDF] PDF generation failed: {safe_msg}")
+        print("  [PDF] Execution continues unaffected.")
+        return None
 
 
 # ── Email report sender ───────────────────────────────────────────────────────
@@ -1716,21 +1961,23 @@ def _send_report_email(report_path, passed, failed, skipped, duration,
         msg["Subject"]   = subject
         msg.attach(MIMEText(body, "plain", "utf-8"))
 
-        # Attach the HTML report
-        rp = pathlib.Path(report_path)
-        if rp.exists():
-            with open(rp, "rb") as fh:
-                part = MIMEBase("application", "octet-stream")
+        # Generate PDF and attach (HTML file is kept internally; NOT attached)
+        html_rp  = pathlib.Path(report_path)
+        pdf_path = _generate_pdf_report(html_rp) if html_rp.exists() else None
+
+        if pdf_path and pdf_path.exists():
+            with open(pdf_path, "rb") as fh:
+                part = MIMEBase("application", "pdf")
                 part.set_payload(fh.read())
             encoders.encode_base64(part)
             part.add_header(
                 "Content-Disposition",
-                f'attachment; filename="{rp.name}"',
+                f'attachment; filename="{pdf_path.name}"',
             )
             msg.attach(part)
-            print(f"\n  [Email] Attaching report: {rp.name}")
+            print(f"\n  [Email] Attaching PDF report: {pdf_path.name}  ({pdf_path.stat().st_size:,} bytes)")
         else:
-            print(f"\n  [Email] Warning: report file not found at {rp} — sending without attachment.")
+            print("\n  [Email] Warning: PDF unavailable — sending email without attachment.")
 
         # ── Connect and send ──────────────────────────────────────────────────
         smtp_port = cfg.get("smtp_port", 587)

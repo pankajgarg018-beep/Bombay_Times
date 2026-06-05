@@ -1191,6 +1191,256 @@ def test_bollywood_article_detail_flow(page, category_val_store):
     logger.info("=== END: test_bollywood_article_detail_flow ===")
 
 
+def test_author_page_validation(page, author_page_report_store):
+    """
+    Runs AFTER test_bollywood_article_detail_flow.
+    1. Re-opens the Bollywood article stored in _shared["bollywood_article_url"].
+    2. Looks for a clickable Author Name link on the article page.
+       - If found  → clicks it and uses the redirected URL as the Author Page URL.
+       - If absent → navigates directly to the fallback Author URL.
+    3. On the Author Page validates:
+       A. Canonical URL — must match the opened Author Page URL exactly.
+       B. Google Analytics — same GA keyword match used across the suite.
+    Results written to author_page_report_store (dedicated report section).
+    No existing validations are changed.
+    """
+    logger.info("=== START: test_author_page_validation ===")
+
+    author_page_report_store["run"] = True
+    home = HomePage(page)
+
+    _FALLBACK_AUTHOR_URL = (
+        "https://www.bombaytimes.com/author/rishika-singh/65d5cbb0fad4e828fedb3ace"
+    )
+
+    # ── Step 1: Navigate to Bollywood article ─────────────────────────────────
+    article_url = _shared.get("bollywood_article_url", "")
+    if not article_url:
+        logger.warning("Bollywood article URL not in _shared — trying listing fallback")
+        home.goto("/entertainment/bollywood")
+        try:
+            page.wait_for_load_state("load", timeout=15000)
+        except Exception:
+            pass
+        try:
+            href = page.evaluate("""
+                () => {
+                    const links = [...document.querySelectorAll('a[href*="/entertainment/bollywood/"]')]
+                        .filter(a => a.href && !a.href.endsWith('/bollywood/') &&
+                                     !a.href.endsWith('/bollywood'));
+                    return links.length ? links[0].href : null;
+                }
+            """)
+            if href:
+                article_url = href
+        except Exception:
+            pass
+
+    author_page_report_store["article_url"] = article_url
+
+    if article_url:
+        logger.info("Navigating to Bollywood article: %s", article_url)
+        try:
+            page.goto(article_url, timeout=30000, wait_until="domcontentloaded")
+            try:
+                page.wait_for_load_state("networkidle", timeout=10000)
+            except Exception:
+                pass
+        except Exception as exc:
+            logger.warning("Could not navigate to article: %s", exc)
+    else:
+        logger.warning("No article URL available — will use fallback author URL directly")
+
+    # ── Step 2: Locate Author Name and check clickability ─────────────────────
+    _AUTHOR_LINK_SELS = [
+        "a[href*='/author/']",
+        ".authorName a",
+        ".author-name a",
+        ".author_name a",
+        ".byline a",
+        "[class*='author'] a",
+        "[itemprop='author'] a",
+        "a[rel='author']",
+    ]
+    _AUTHOR_TEXT_SELS = [
+        ".authorName",
+        ".author-name",
+        ".author_name",
+        "[itemprop='author']",
+        ".byline",
+        "[class*='author']",
+        "span.author",
+    ]
+
+    author_name    = ""
+    author_clickable = False
+    resolved_author_url = ""
+
+    # Priority: find a clickable author <a> link
+    for sel in _AUTHOR_LINK_SELS:
+        try:
+            loc = page.locator(sel).first
+            if loc.count() > 0 and loc.is_visible():
+                author_name = (loc.inner_text() or "").strip()
+                href_val    = loc.get_attribute("href") or ""
+                logger.info(
+                    "Author link found [%s]: name='%s'  href=%s",
+                    sel, author_name, href_val,
+                )
+                author_clickable = True
+                resolved_author_url = href_val if href_val.startswith("http") else (
+                    "https://www.bombaytimes.com" + href_val if href_val.startswith("/") else href_val
+                )
+                break
+        except Exception as exc:
+            logger.debug("Author link selector '%s' raised: %s", sel, exc)
+            continue
+
+    # If no clickable link, try plain text selectors to at least capture the name
+    if not author_clickable:
+        for sel in _AUTHOR_TEXT_SELS:
+            try:
+                loc = page.locator(sel).first
+                if loc.count() > 0:
+                    author_name = (loc.inner_text() or "").strip()
+                    if author_name:
+                        logger.info(
+                            "Author name (non-clickable) found [%s]: '%s'",
+                            sel, author_name,
+                        )
+                        break
+            except Exception:
+                continue
+        logger.info(
+            "Author Name is NOT clickable — using fallback: %s", _FALLBACK_AUTHOR_URL
+        )
+        resolved_author_url = _FALLBACK_AUTHOR_URL
+
+    fallback_used = not author_clickable
+    author_page_report_store["author_name"]      = author_name
+    author_page_report_store["author_clickable"] = author_clickable
+    author_page_report_store["fallback_used"]    = fallback_used
+
+    # ── Step 3: Navigate to Author Page with GA listener ─────────────────────
+    ga_calls:      list = []
+    final_url      = resolved_author_url or _FALLBACK_AUTHOR_URL
+
+    def _on_response_au(resp):
+        u = resp.url.lower()
+        if any(kw in u for kw in _GA_KEYWORDS):
+            ga_calls.append({"url": resp.url, "status": resp.status})
+
+    def _safe_goto_home_au():
+        try:
+            page.evaluate("() => { try { window.stop(); } catch(e) {} }")
+        except Exception:
+            pass
+        for _wu in ("commit", "domcontentloaded", "load"):
+            try:
+                page.goto("https://www.bombaytimes.com", timeout=20000, wait_until=_wu)
+                return
+            except Exception:
+                continue
+
+    page.on("response", _on_response_au)
+
+    author_page_open = False
+    try:
+        logger.info("Navigating to Author Page: %s", final_url)
+        page.goto(final_url, timeout=30000, wait_until="domcontentloaded")
+        try:
+            page.wait_for_load_state("networkidle", timeout=10000)
+        except Exception:
+            pass
+        page.wait_for_timeout(3000)
+        author_page_open = True
+        final_url = page.url
+        logger.info("Author Page opened: %s", final_url)
+    except Exception as exc:
+        logger.error("Failed to open Author Page: %s", exc)
+        author_page_report_store["page_open"] = False
+        author_page_report_store["overall"]   = "FAIL"
+    finally:
+        page.remove_listener("response", _on_response_au)
+
+    author_page_report_store["author_url"] = final_url
+    author_page_report_store["page_open"]  = author_page_open
+
+    if not author_page_open:
+        _safe_goto_home_au()
+        logger.info("=== END: test_author_page_validation ===")
+        return
+
+    # ── Step A: Canonical Validation ──────────────────────────────────────────
+    logger.info("--- Author Page Canonical Validation ---")
+    canonical_result = "FAIL"
+    canonical_url    = ""
+    canonical_error  = ""
+    try:
+        can_loc = page.locator("link[rel='canonical']")
+        if can_loc.count() > 0:
+            canonical_url = can_loc.first.get_attribute("href") or ""
+            author_page_report_store["canonical_url"] = canonical_url
+            if not canonical_url:
+                canonical_error = "Canonical href attribute is empty"
+                logger.warning("FAIL Author Canonical: href empty")
+            elif canonical_url.rstrip("/") == final_url.rstrip("/"):
+                canonical_result = "PASS"
+                logger.info("PASS Author Canonical: %s", canonical_url)
+            else:
+                canonical_error = (
+                    f"Expected: {final_url}  |  Got: {canonical_url}"
+                )
+                logger.warning("FAIL Author Canonical: %s", canonical_error)
+        else:
+            canonical_error = "No link[rel='canonical'] found on Author Page"
+            logger.warning("FAIL Author Canonical: %s", canonical_error)
+    except Exception as exc:
+        canonical_error = str(exc)
+        logger.error("Author Canonical check raised: %s", exc)
+
+    author_page_report_store["canonical_result"] = canonical_result
+    author_page_report_store["canonical_error"]  = canonical_error
+
+    # ── Step B: GA Validation ─────────────────────────────────────────────────
+    logger.info("--- Author Page GA Validation ---")
+    ga_result = "FAIL"
+    ga_error  = ""
+    author_page_report_store["ga_calls"] = ga_calls
+    logger.info("GA calls captured on Author Page: %d", len(ga_calls))
+    for e in ga_calls:
+        logger.info("  GA [%d] %s", e["status"], e["url"])
+    if ga_calls:
+        bad = [e for e in ga_calls if e["status"] not in (200, 204)]
+        if bad:
+            ga_error = f"{len(bad)} GA call(s) returned error status"
+            logger.warning("FAIL Author Page GA: %s", ga_error)
+        else:
+            ga_result = "PASS"
+            logger.info("PASS Author Page GA: %d call(s) fired", len(ga_calls))
+    else:
+        ga_error = "No GA network calls captured on Author Page"
+        logger.warning("FAIL Author Page GA: %s", ga_error)
+
+    author_page_report_store["ga_result"] = ga_result
+    author_page_report_store["ga_error"]  = ga_error
+
+    # ── Overall result ────────────────────────────────────────────────────────
+    overall = "PASS" if canonical_result == "PASS" and ga_result == "PASS" else "FAIL"
+    author_page_report_store["overall"] = overall
+    logger.info(
+        "Author Page Overall: %s  (Canonical=%s | GA=%s)",
+        overall, canonical_result, ga_result,
+    )
+
+    logger.info("Navigating back to homepage (cleanup)")
+    _safe_goto_home_au()
+    logger.info("URL after return: %s", page.url)
+    assert page.url.startswith("https://www.bombaytimes.com/")
+    logger.info("PASS: Returned to homepage")
+    logger.info("=== END: test_author_page_validation ===")
+
+
 def test_amp_page_validation(page, amp_report_store, category_val_store):
     """
     Runs AFTER test_bollywood_article_detail_flow.
