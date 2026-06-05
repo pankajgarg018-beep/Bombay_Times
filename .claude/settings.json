@@ -27,7 +27,8 @@
       "Bash(Select-Object FullName, PSIsContainer)",
       "Bash(Sort-Object FullName)",
       "Bash(pip show *)",
-      "Bash(python -m pytest tests/test_bombaytimes_flow.py::test_entertainment_and_bollywood_flow --tb=short -q)"
+      "Bash(python -m pytest tests/test_bombaytimes_flow.py::test_entertainment_and_bollywood_flow --tb=short -q)",
+      "Bash(EMAIL_PASSWORD=\"sbyb iowh cpso qtlj\" python send_report.py)"
     ]
   }
 }

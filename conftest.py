@@ -1931,12 +1931,29 @@ def _send_report_email(report_path, passed, failed, skipped, duration,
 
         subject = f"Bombay Times Automation Report - {now_str}"
 
-        body = (
+        # ── Colour tokens (Outlook-safe bgcolor attributes used in HTML) ──────
+        status_color  = "#28a745" if exec_ok else "#dc3545"
+        status_bg     = "#d4edda" if exec_ok else "#f8d7da"
+        status_border = "#c3e6cb" if exec_ok else "#f5c6cb"
+        status_label  = "ALL TESTS PASSED" if exec_ok else f"{failed} TEST(S) FAILED"
+        status_icon   = "&#10003;" if exec_ok else "&#10007;"
+        pass_rate     = f"{round(passed / total * 100, 1)}%" if total else "0%"
+
+        amp_ok       = amp_fail == 0 and amp_ran > 0
+        amp_pill_bg  = "#d4edda" if amp_ok else "#f8d7da"
+        amp_pill_fg  = "#155724" if amp_ok else "#721c24"
+        amp_pill_lbl = "&#10003; PASS" if amp_ok else ("&#10007; FAIL" if amp_ran else "&#8212; N/A")
+
+        sm_ok        = sm_failed == 0 and sm_ran
+        sm_pill_bg   = "#d4edda" if sm_ok else "#f8d7da"
+        sm_pill_fg   = "#155724" if sm_ok else "#721c24"
+        sm_pill_lbl  = "&#10003; PASS" if sm_ok else ("&#10007; FAIL" if sm_ran else "&#8212; N/A")
+
+        # ── Plain-text fallback (shown by mail clients that block HTML) ───────
+        plain_body = (
             "Hello,\n\n"
             "Please find attached the latest Bombay Times automation execution report.\n\n"
-            "Execution Summary:\n"
-            "==================\n"
-            f"Execution Status    : {status_str}\n"
+            f"Execution Status    : {'PASS - All Tests Passed' if exec_ok else 'FAIL - ' + str(failed) + ' Test(s) Failed'}\n"
             f"Execution Started   : {start_str}\n"
             f"Execution Completed : {end_str}\n"
             f"Total Duration      : {duration}s\n\n"
@@ -1947,19 +1964,229 @@ def _send_report_email(report_path, passed, failed, skipped, duration,
             f"  Skipped           : {skipped}\n\n"
             f"AMP Validation      : {amp_summary}\n"
             f"Sitemap/RSS         : {sm_summary}\n\n"
-            "Regards,\n"
-            "Automation System\n"
+            "Please open the attached PDF for the full detailed report.\n\n"
+            "Regards,\nAutomation System | BombayTimes QA\n"
         )
 
-        # ── Build MIME message ────────────────────────────────────────────────
+        # ── HTML body (Outlook-safe: bgcolor attrs, table layout, no gradient) ─
+        html_body = f"""<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head><meta charset="UTF-8">
+<style>body,table,td{{font-family:'Segoe UI',Arial,sans-serif;font-size:14px;color:#333;margin:0;padding:0;}}</style>
+</head>
+<body style="margin:0;padding:0;background-color:#f0f2f5;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f0f2f5" style="background-color:#f0f2f5;">
+<tr><td align="center" style="padding:30px 16px;">
+<table width="620" cellpadding="0" cellspacing="0" border="0" style="width:620px;max-width:620px;">
+
+  <!-- HEADER -->
+  <tr>
+    <td bgcolor="#16213e" style="background-color:#16213e;padding:0;">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr><td colspan="2" bgcolor="{status_color}" style="background-color:{status_color};height:5px;line-height:5px;font-size:1px;">&nbsp;</td></tr>
+        <tr>
+          <td style="padding:22px 28px 18px 28px;" valign="top">
+            <table cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;">
+              <tr><td bgcolor="{status_color}" style="background-color:{status_color};padding:5px 16px;border-radius:20px;">
+                <span style="color:#fff;font-size:12px;font-weight:700;">{status_icon}&nbsp; {status_label}</span>
+              </td></tr>
+            </table>
+            <div style="color:#fff;font-size:20px;font-weight:700;margin-bottom:4px;">BombayTimes &mdash; Automation Report</div>
+            <div style="color:#9fa8b5;font-size:12px;">Playwright UI &amp; Network Validation Suite</div>
+          </td>
+          <td style="padding:22px 28px 18px 0;" valign="top" align="right" width="190">
+            <table cellpadding="0" cellspacing="0" border="0" align="right">
+              <tr><td style="color:#9fa8b5;font-size:11px;line-height:1.9;text-align:right;white-space:nowrap;">
+                Generated:<br><strong style="color:#ced4da;">{now_str}</strong><br>
+                Started:<br><strong style="color:#ced4da;">{start_str}</strong><br>
+                Finished:<br><strong style="color:#ced4da;">{end_str}</strong>
+              </td></tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- WHITE BODY -->
+  <tr><td bgcolor="#ffffff" style="background-color:#ffffff;">
+
+    <!-- Greeting -->
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr><td style="padding:22px 28px 10px 28px;">
+        <p style="margin:0 0 8px 0;font-size:15px;font-weight:600;color:#343a40;">Hello,</p>
+        <p style="margin:0;font-size:13px;color:#555;line-height:1.7;">
+          Please find attached the latest <strong>BombayTimes Automation Execution Report</strong>.
+          The report contains detailed results for all UI, Canonical, GA, AMP, and Sitemap/RSS validations.
+        </p>
+      </td></tr>
+    </table>
+
+    <!-- Status banner -->
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr><td style="padding:12px 28px 0 28px;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td width="5" bgcolor="{status_color}" style="background-color:{status_color};"></td>
+            <td bgcolor="{status_bg}" style="background-color:{status_bg};padding:14px 18px;border:1px solid {status_border};border-left:none;">
+              <span style="font-size:18px;font-weight:800;color:{status_color};">{status_icon}&nbsp; {status_label}</span><br>
+              <span style="font-size:12px;color:#555;">Pass Rate: <strong>{pass_rate}</strong> &nbsp;&bull;&nbsp; Duration: <strong>{duration}s</strong></span>
+            </td>
+          </tr>
+        </table>
+      </td></tr>
+    </table>
+
+    <!-- Section title -->
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr><td style="padding:20px 28px 10px 28px;">
+        <span style="font-size:12px;font-weight:700;color:#343a40;text-transform:uppercase;letter-spacing:.6px;">Test Execution Summary</span>
+      </td></tr>
+    </table>
+
+    <!-- Summary cards -->
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr><td style="padding:0 28px 0 28px;">
+        <table width="100%" cellpadding="0" cellspacing="8" border="0"><tr valign="top">
+          <td width="25%" style="padding:4px;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr><td bgcolor="#495057" style="background-color:#495057;height:4px;line-height:4px;font-size:1px;">&nbsp;</td></tr>
+              <tr><td bgcolor="#f8f9fa" style="background-color:#f8f9fa;padding:14px 8px;text-align:center;">
+                <div style="font-size:28px;font-weight:800;color:#495057;line-height:1;">{total}</div>
+                <div style="font-size:10px;color:#6c757d;text-transform:uppercase;letter-spacing:.5px;margin-top:5px;">Total Tests</div>
+              </td></tr>
+            </table>
+          </td>
+          <td width="25%" style="padding:4px;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr><td bgcolor="#28a745" style="background-color:#28a745;height:4px;line-height:4px;font-size:1px;">&nbsp;</td></tr>
+              <tr><td bgcolor="#f8f9fa" style="background-color:#f8f9fa;padding:14px 8px;text-align:center;">
+                <div style="font-size:28px;font-weight:800;color:#28a745;line-height:1;">{passed}</div>
+                <div style="font-size:10px;color:#6c757d;text-transform:uppercase;letter-spacing:.5px;margin-top:5px;">Passed</div>
+              </td></tr>
+            </table>
+          </td>
+          <td width="25%" style="padding:4px;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr><td bgcolor="#dc3545" style="background-color:#dc3545;height:4px;line-height:4px;font-size:1px;">&nbsp;</td></tr>
+              <tr><td bgcolor="#f8f9fa" style="background-color:#f8f9fa;padding:14px 8px;text-align:center;">
+                <div style="font-size:28px;font-weight:800;color:#dc3545;line-height:1;">{failed}</div>
+                <div style="font-size:10px;color:#6c757d;text-transform:uppercase;letter-spacing:.5px;margin-top:5px;">Failed</div>
+              </td></tr>
+            </table>
+          </td>
+          <td width="25%" style="padding:4px;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr><td bgcolor="#0d6efd" style="background-color:#0d6efd;height:4px;line-height:4px;font-size:1px;">&nbsp;</td></tr>
+              <tr><td bgcolor="#f8f9fa" style="background-color:#f8f9fa;padding:14px 8px;text-align:center;">
+                <div style="font-size:22px;font-weight:800;color:#0d6efd;line-height:1;">{pass_rate}</div>
+                <div style="font-size:10px;color:#6c757d;text-transform:uppercase;letter-spacing:.5px;margin-top:5px;">Pass Rate</div>
+              </td></tr>
+            </table>
+          </td>
+        </tr></table>
+      </td></tr>
+    </table>
+
+    <!-- AMP Validation row -->
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr><td style="padding:16px 28px 0 28px;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr valign="middle">
+          <td width="5" bgcolor="#6f42c1" style="background-color:#6f42c1;"></td>
+          <td bgcolor="#f3f0ff" style="background-color:#f3f0ff;padding:14px 16px;border:1px solid #d6ccf5;border-left:none;">
+            <span style="font-size:13px;font-weight:700;color:#343a40;">&#9889; AMP Page Validation</span><br>
+            <span style="font-size:12px;color:#555;margin-top:3px;display:block;">{amp_summary}</span>
+          </td>
+          <td bgcolor="#f3f0ff" style="background-color:#f3f0ff;padding:14px 16px;border:1px solid #d6ccf5;border-left:none;white-space:nowrap;" width="90" align="right">
+            <table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td bgcolor="{amp_pill_bg}" style="background-color:{amp_pill_bg};padding:5px 13px;border-radius:20px;">
+                <span style="font-size:11px;font-weight:700;color:{amp_pill_fg};">{amp_pill_lbl}</span>
+              </td>
+            </tr></table>
+          </td>
+        </tr></table>
+      </td></tr>
+    </table>
+
+    <!-- Sitemap / RSS row -->
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr><td style="padding:10px 28px 0 28px;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr valign="middle">
+          <td width="5" bgcolor="#20c997" style="background-color:#20c997;"></td>
+          <td bgcolor="#f0fdf9" style="background-color:#f0fdf9;padding:14px 16px;border:1px solid #c3f0e0;border-left:none;">
+            <span style="font-size:13px;font-weight:700;color:#343a40;">&#128506; Sitemap &amp; RSS Feed Validation</span><br>
+            <span style="font-size:12px;color:#555;margin-top:3px;display:block;">{sm_summary}</span>
+          </td>
+          <td bgcolor="#f0fdf9" style="background-color:#f0fdf9;padding:14px 16px;border:1px solid #c3f0e0;border-left:none;white-space:nowrap;" width="90" align="right">
+            <table cellpadding="0" cellspacing="0" border="0"><tr>
+              <td bgcolor="{sm_pill_bg}" style="background-color:{sm_pill_bg};padding:5px 13px;border-radius:20px;">
+                <span style="font-size:11px;font-weight:700;color:{sm_pill_fg};">{sm_pill_lbl}</span>
+              </td>
+            </tr></table>
+          </td>
+        </tr></table>
+      </td></tr>
+    </table>
+
+    <!-- Attachment note -->
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr><td style="padding:16px 28px 0 28px;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+          <td bgcolor="#e8f4fd" style="background-color:#e8f4fd;border:1px solid #b8daff;padding:14px 16px;">
+            <span style="font-size:18px;">&#128206;</span>
+            <span style="font-size:13px;color:#004085;font-weight:700;margin-left:6px;">Full Detailed Report Attached</span><br>
+            <span style="font-size:12px;color:#555;margin-left:26px;display:block;margin-top:4px;">
+              Open the attached <strong>bt_report.pdf</strong> in any PDF viewer for complete test logs,
+              screenshots, AMP details, and validation results.
+            </span>
+          </td>
+        </tr></table>
+      </td></tr>
+    </table>
+
+    <!-- Regards -->
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr><td style="padding:22px 28px 26px 28px;">
+        <p style="margin:0;font-size:13px;color:#555;line-height:1.9;">
+          Regards,<br>
+          <strong style="color:#343a40;font-size:14px;">Automation System</strong><br>
+          <span style="color:#6c757d;font-size:12px;">BombayTimes QA &nbsp;&bull;&nbsp; Playwright Automation Suite</span>
+        </p>
+      </td></tr>
+    </table>
+
+  </td></tr><!-- end white body -->
+
+  <!-- FOOTER -->
+  <tr>
+    <td bgcolor="#16213e" style="background-color:#16213e;padding:14px 28px;text-align:center;">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:8px;">
+        <tr><td bgcolor="{status_color}" style="background-color:{status_color};height:2px;line-height:2px;font-size:1px;">&nbsp;</td></tr>
+      </table>
+      <span style="color:#9fa8b5;font-size:11px;">BombayTimes Playwright Automation Suite &nbsp;&bull;&nbsp; Generated on {now_str}</span>
+    </td>
+  </tr>
+
+</table>
+</td></tr></table>
+</body></html>"""
+
+        # ── Build MIME message (mixed outer → alternative body + PDF attachment) ─
         from_addr = cfg.get("from_addr", "").strip()
         to_addrs  = cfg.get("to_addrs", [])
 
-        msg              = MIMEMultipart()
-        msg["From"]      = from_addr or smtp_host          # fallback sender
-        msg["To"]        = ", ".join(to_addrs)
-        msg["Subject"]   = subject
-        msg.attach(MIMEText(body, "plain", "utf-8"))
+        msg_outer            = MIMEMultipart("mixed")
+        msg_outer["From"]    = from_addr or smtp_host
+        msg_outer["To"]      = ", ".join(to_addrs)
+        msg_outer["Subject"] = subject
+
+        msg_alt = MIMEMultipart("alternative")
+        msg_alt.attach(MIMEText(plain_body, "plain", "utf-8"))
+        msg_alt.attach(MIMEText(html_body,  "html",  "utf-8"))
+        msg_outer.attach(msg_alt)
+
+        # Keep local alias so attachment code below still works
+        msg = msg_outer
 
         # Generate PDF and attach (HTML file is kept internally; NOT attached)
         html_rp  = pathlib.Path(report_path)
@@ -1999,7 +2226,7 @@ def _send_report_email(report_path, passed, failed, skipped, duration,
         if username and password:
             server.login(username, password)
 
-        server.sendmail(from_addr or smtp_host, to_addrs, msg.as_string())
+        server.sendmail(from_addr or smtp_host, to_addrs, msg_outer.as_string())
         server.quit()
 
         print(f"  [Email] Report sent successfully to: {', '.join(to_addrs)}")
