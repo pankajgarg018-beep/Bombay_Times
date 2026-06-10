@@ -86,6 +86,20 @@ def _generate_pdf() -> pathlib.Path:
             pg      = ctx.new_page()
             pg.goto(file_uri, wait_until="load", timeout=30000)
             pg.wait_for_timeout(1500)
+
+            # Inject print-fix CSS to prevent blank trailing pages in PDF
+            pg.evaluate("""
+                () => {
+                    const s = document.createElement('style');
+                    s.textContent = [
+                        'html, body { height: auto !important; overflow: visible !important; }',
+                        '.drow { display: none !important; }',
+                        '.log-blk, .err-blk { max-height: none !important; overflow: visible !important; }',
+                    ].join(' ');
+                    document.head.appendChild(s);
+                }
+            """)
+
             pg.pdf(
                 path=str(pdf_path),
                 format="A4",

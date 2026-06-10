@@ -613,6 +613,19 @@ def _write_report(tests, passed, failed, skipped, duration, start_time, end_time
 
     /* Footer */
     .footer{text-align:center;padding:20px 40px 30px;color:#adb5bd;font-size:12px}
+
+    /* ── Print / PDF overrides ── */
+    @media print {
+        html, body { height: auto !important; overflow: visible !important; background: #fff !important; }
+        .hdr { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .log-blk { max-height: none !important; overflow: visible !important; }
+        .err-blk { max-height: none !important; overflow: visible !important; }
+        .drow { display: none !important; }
+        .sec { page-break-inside: avoid; box-shadow: none !important; }
+        .prog-wrap { page-break-inside: avoid; box-shadow: none !important; }
+        .card { page-break-inside: avoid; box-shadow: none !important; }
+        .ss-img { max-height: none !important; }
+    }
     """
 
     # ── JavaScript ────────────────────────────────────────────────────────────
@@ -1840,6 +1853,19 @@ def _generate_pdf_report(html_path: pathlib.Path) -> pathlib.Path:
             pg.goto(file_uri, wait_until="load", timeout=30000)
             # Brief pause so fonts/layout settle before capture
             pg.wait_for_timeout(1500)
+
+            # Inject print-fix CSS to prevent blank trailing pages in PDF
+            pg.evaluate("""
+                () => {
+                    const s = document.createElement('style');
+                    s.textContent = [
+                        'html, body { height: auto !important; overflow: visible !important; }',
+                        '.drow { display: none !important; }',
+                        '.log-blk, .err-blk { max-height: none !important; overflow: visible !important; }',
+                    ].join(' ');
+                    document.head.appendChild(s);
+                }
+            """)
 
             pg.pdf(
                 path=str(pdf_path),
